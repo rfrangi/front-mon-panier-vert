@@ -20,17 +20,18 @@ export class TokenStorageService {
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
-  public getToken(): string {
+  public getToken(): any {
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveUser(user): void {
+  public saveUser(user: User): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): any {
     console.log(sessionStorage.getItem(USER_KEY));
-    return sessionStorage.getItem(USER_KEY) ? new User(JSON.parse(sessionStorage.getItem(USER_KEY))) : new User();
+    // @ts-ignore
+    return sessionStorage.getItem(USER_KEY) ? new User( sessionStorage.getItem(USER_KEY) ? JSON.parse(sessionStorage.getItem(USER_KEY)) : null) : new User();
   }
 }

@@ -1,10 +1,10 @@
 export class Pays {
 
-  code: string;
-  label: string;
-  codePays: string;
-  img: string;
-  indice: string;
+  code!: string;
+  label!: string;
+  codePays!: string;
+  img!: string;
+  indice!: string;
 
   constructor(data: any= {}) {
     Object.assign(this, data);
