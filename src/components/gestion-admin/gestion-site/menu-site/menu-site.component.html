@@ -1,0 +1,13 @@
+<div class="menu">
+  <ul>
+    <li [class.active]="isActive('informations')"
+        (click)="goToUrl(['administration', 'site', idSite, 'informations'])">
+      Informations
+    </li>
+    <li [class.active]="isActive('compagnies')"
+        (click)="goToUrl(['administration', 'site',idSite, 'compagnies'])">
+      Compagnies
+    </li>
+  </ul>
+</div>
+

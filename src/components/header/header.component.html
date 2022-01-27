@@ -1,0 +1,58 @@
+<div class="toolbar" role="banner">
+  <div class="action-icon flex-fill">
+    <a [matMenuTriggerFor]="menu" (click)="checkLogin()">
+      <mat-icon aria-label="Icon identity" class="align-middle me-2">perm_identity</mat-icon>
+      <span class="align-middle">{{labelUsername}}</span>
+    </a>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="goToUrls(['utilisateur', 'mon-compte'])">
+        <mat-icon>dialpad</mat-icon>
+        <span>Mon compte</span>
+      </button>
+      <button mat-menu-item (click)="goToUrls(['administration'])">
+        <mat-icon>voicemail</mat-icon>
+        <span>Administration</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>notifications_off</mat-icon>
+        <span>Déconnexion</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+
+<div class="header-menu">
+
+  <div #blockLogo [routerLink]="['/home']" class="block-logo" role="button">
+    <img class="logo" src="assets/mon-panier-vert-logo.png" alt="logo"/>
+  </div>
+
+  <div class="menu-list" #blockProduit>
+    <mat-icon>menu</mat-icon>
+    <span>Produits</span>
+  </div>
+
+  <div class="menu-list block-search" (click)="displayZoneSearch()" #blockSearch>
+    <mat-icon>search</mat-icon>
+    <span>Recherche</span>
+  </div>
+
+  <form class="form-search" #formSearch>
+    <mat-form-field class="input-search" [floatLabel]="'never'">
+      <input matInput placeholder="Oeufs, Carottes, Oignons" name="input-search" [(ngModel)]="searchTerm">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="action-back-search" (click)="removeZoneSearch()">Annuler</div>
+  </form>
+
+  <div class="menu-list" #blockProducteurs [routerLink]="['/producteurs']">
+    <mat-icon>list</mat-icon>
+    <span>Producteurs</span>
+  </div>
+
+  <div class="block-panier" #blockBasket>
+    <mat-icon>add_shopping_cart</mat-icon>
+    <span class="price">0.00€</span>
+  </div>
+</div>

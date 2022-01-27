@@ -1,0 +1,6 @@
+export enum RoleEnum {
+  CLIENT = 'CLIENT',
+  ADMIN_COMPAGNIE = 'ADMIN_COMPAGNIE',
+  ADMIN_SITE = 'ADMIN_SITE',
+  ADMIN = 'ADMIN'
+}

@@ -1,0 +1,13 @@
+<h2 class="text-primary text-center fs-4">
+  Nos catégories
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary">close</mat-icon>
+</h2>
+
+<ul class="m-0 p-0 text-center overflow-auto">
+  <li *ngFor="let cat of listCategorie" class=" d-inline-block p-3 m-1 border rounded-2">
+    <img *ngIf="cat.img" [src]="cat.img" [alt]="cat.code"/>
+    <span class="d-block mt-4 fs-5">{{ cat.label }}</span>
+  </li>
+</ul>

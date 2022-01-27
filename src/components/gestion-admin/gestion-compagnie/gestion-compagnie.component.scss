@@ -1,0 +1,29 @@
+
+@media only screen and (min-width: 951px) {
+
+  app-menu-compagnie {
+    display: inline-block;
+    vertical-align: top;
+    width: 20em;
+    margin: 1em 0 0 1em;
+  }
+  .content {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 20em - 3em);
+    margin: 1em 1em 0 1em;
+  }
+}
+
+@media only screen and (min-width: 0) and (max-width: 950px) {
+
+  app-menu-compagnie {
+    display: none;
+  }
+
+  .content {
+    display: inline-block;
+    width: calc(100% - 2em);
+    margin: 1em 1em 0 1em;
+  }
+}

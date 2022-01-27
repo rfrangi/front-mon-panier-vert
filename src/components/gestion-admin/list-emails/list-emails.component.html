@@ -1,0 +1,56 @@
+<div class="block-search m-2 d-block bg-white py-2 text-center rounded-2">
+  <button class="d-inline-block text-white"
+          mat-raised-button color="accent"
+          name="btn-add-compagnie" type="button" (click)="testEmailText()">
+    Email Texte Simple
+  </button>
+</div>
+<div class="block-search m-2 d-block bg-white pt-2 text-center rounded-2">
+  <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
+    <mat-form-field class="flex-grow-1 mx-2" disabled>
+      <input matInput
+             placeholder="Tapez un mot"
+             type="text"
+             formControlName="searchTerm">
+      <mat-icon matSuffix color="primary">search</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            name="btn-submit"
+            class="mx-2 my-auto"
+            type="submit">
+      Rechercher
+    </button>
+  </form>
+</div>
+
+<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="emails.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th>Destinataire</th>
+      <th>Type</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mail of emails">
+      <td>{{ mail?.dest }}</td>
+      <td>{{ mail?.type }}</td>
+      <td>
+         {{ mail.status.label }}
+      </td>
+      <td>
+        <mat-icon aria-label="Delete"
+                  class="mx-2"
+                  (click)="removeEmail(mail.id)"
+                  matTooltip="Supprimer"
+                  color="accent">
+          delete
+        </mat-icon>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

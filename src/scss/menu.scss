@@ -1,0 +1,21 @@
+div.menu {
+  background: white;
+  padding: 1em;
+  border-radius: 5px;
+  text-align: center;
+
+  ul {
+    text-align: left;
+    list-style:none;
+
+    li {
+      padding: 10px 0;
+      color: #2b3336;
+      cursor: pointer;
+
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<div class="d-block h-100 w-100 text-center overflow-auto">
+  <ng-container *ngFor="let item of items">
+    <div class="d-inline-block m-3 p-4 text-center fs-2 item shadow rounded" matRipple (click)="goToUrl(item.urls)">
+      <i class="material-icons text-secondary align-middle me-2 d-block fs-1 mb-1">{{ item.icon }}</i>
+      <h1 class="mb-1 d-block">{{ item.name }}</h1>
+    </div>
+  </ng-container>
+</div>

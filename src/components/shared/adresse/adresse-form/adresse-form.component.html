@@ -1,0 +1,86 @@
+<div [formGroup]="adresseform">
+<mat-form-field class="mat-form-field-adresse d-block mx-4">
+  <input matInput
+         placeholder="Adresse"
+         maxlength="100"
+         minlength="10"
+         type="text"
+         formControlName="adresse"
+         required>
+  <mat-error *ngIf="hasError(adresseform, 'adresse', 'required')">
+    Veuillez saisir votre adresse
+  </mat-error>
+  <mat-error *ngIf="hasError(adresseform, 'adresse', 'minlength')
+          || hasError(adresseform, 'adresse', 'maxlength')">
+    Votre adresse doit contenir entre 10  et 100 caractères
+  </mat-error>
+</mat-form-field>
+
+<mat-form-field class="mat-form-field-compl-adresse d-block mx-4">
+  <input matInput
+         placeholder="Complément d'adresse"
+         maxlength="100"
+         type="text"
+         formControlName="complement">
+  <mat-error *ngIf="hasError(adresseform, 'complement', 'maxlength')">
+    Votre complément d'adresse doit contenir au maximum 100 caractères
+  </mat-error>
+</mat-form-field>
+
+<mat-form-field class="mat-form-field-cp d-block mx-4">
+  <input matInput
+         placeholder="Code postal"
+         maxlength="6"
+         minlength="5"
+         size="5"
+         type="text"
+         formControlName="codePostal"
+         required>
+  <mat-error *ngIf="hasError(adresseform, 'codePostal', 'required')">
+    Veuillez saisir votre code postal
+  </mat-error>
+  <mat-error *ngIf="hasError(adresseform, 'codePostal', 'minlength')
+          || hasError(adresseform, 'codePostal', 'maxlength')">
+    Votre code postal doit contenir 5 caractères
+  </mat-error>
+</mat-form-field>
+
+<mat-form-field class="mat-form-field-ville d-block mx-4">
+  <input matInput
+         placeholder="Ville"
+         maxlength="40"
+         minlength="3"
+         type="text"
+         formControlName="ville"
+         required>
+  <mat-error *ngIf="hasError(adresseform, 'ville', 'required')">
+    Veuillez saisir votre ville
+  </mat-error>
+  <mat-error *ngIf="hasError(adresseform, 'ville', 'minlength')
+          || hasError(adresseform, 'ville', 'maxlength')">
+    Votre ville doit contenir entre 3  et 40 caractères
+  </mat-error>
+</mat-form-field>
+
+<mat-form-field class="mat-form-field-pays d-block mx-4">
+  <mat-label>Pays</mat-label>
+  <mat-select formControlName="pays" [disabled]="disabled">
+    <ng-container *ngFor="let pays of listPays">
+      <mat-option [value]="pays.code">{{ pays.label }}</mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field class="mx-4 mat-form-field-instruction">
+<mat-label>Instructions de livraison</mat-label>
+<textarea matInput
+          rows="3"
+          formControlName="description"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5">
+              </textarea>
+<mat-error *ngIf="hasError(adresseform, 'description', 'maxlength')">
+  Vos instructions doit contenir au maximum 100 caractères
+</mat-error>
+</mat-form-field>
+</div>

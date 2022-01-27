@@ -1,0 +1,22 @@
+mat-expansion-panel {
+  margin: 1em;
+
+  &.active .title-icon {
+    color: darkgreen;
+  }
+  mat-icon.title-icon {
+    margin-right: 1em;
+  }
+
+  mat-icon {
+    color: lightgrey;
+
+    &.active {
+      color: darkgreen;
+    }
+  }
+
+  mat-form-field {
+    display: block;
+  }
+}

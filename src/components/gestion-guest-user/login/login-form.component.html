@@ -1,0 +1,45 @@
+ <div class="fond d-flex flex-column">
+    <div class="bloc-mx-35 shadow text-center bg-white mx-auto px-2 py-4 p-sm-4 my-2 mx-auto rounded">
+      <h1>Je me connecte</h1>
+      <form [formGroup]="loginForm"
+            autocomplete="off"
+            novalidate
+            class="d-flex flex-column text-start" (ngSubmit)="submit(loginForm.value)">
+        <mat-form-field class="mat-form-field-email mx-2 mb-2">
+          <input matInput placeholder="Email" formControlName="email" required>
+          <mat-icon matSuffix color="accent">email</mat-icon>
+          <mat-error *ngIf="hasError('email', 'required')">Veuillez saisir une adresse mail</mat-error>
+          <mat-error *ngIf="hasError('email', 'email')">Veuillez saisir une adresse mail valide</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mx-2">
+          <input matInput
+                 placeholder="Mot de passe"
+                 [type]="hide ? 'password' : 'text'"
+                 formControlName="password"
+                 name="password"
+                 autocomplete="on"
+                 required>
+            <mat-icon matSuffix color="accent" (click)="hide = !hide">
+                {{hide ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+          <mat-error *ngIf="hasError('password', 'required')">Veuillez saisir un mot de passe</mat-error>
+        </mat-form-field>
+        <mat-checkbox class="m-2" color="accent">Se souvenir de moi</mat-checkbox>
+        <span class="link mb-3 mt-1 text-center italic"
+              [routerLink]="['auth/forgot-password']">Oups! J'ai oublié mon mot de passe</span>
+        <button
+          mat-raised-button color="primary"
+          name="btn-valider" type="submit">Connexion</button>
+      </form>
+    </div>
+    <div class="bloc-mx-35 shadow text-center bg-white mx-auto px-2 py-4 p-sm-4 my-2 mx-auto rounded">
+      <h1>Nouvel utilisateur ?</h1>
+      <button mat-raised-button
+              color="primary"
+              name="btn-add-user"
+              type="button"
+              [routerLink]="['/auth/signup']">
+        Inscription
+      </button>
+    </div>
+  </div>

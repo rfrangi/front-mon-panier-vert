@@ -1,0 +1,11 @@
+.link {
+  color: darkgrey;
+  font-style: italic;
+  &:hover {
+    color: lightgrey;
+  }
+}
+
+a.back:hover {
+  color: darkgreen;
+}

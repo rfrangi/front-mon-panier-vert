@@ -11,7 +11,7 @@ export class Pays {
   }
 }
 
-export const LIST_PAYS = {
+export const LIST_PAYS: any = {
   FRANCE: new Pays({
     code: 'FRANCE',
     label : 'France',

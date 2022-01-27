@@ -1,0 +1,14 @@
+div.menu {
+  .active {
+    font-weight: 600;
+  }
+
+  li:hover {
+    color: #7cb342;
+  }
+
+  li:last-child {
+    padding-bottom: 2em;
+  }
+}
+

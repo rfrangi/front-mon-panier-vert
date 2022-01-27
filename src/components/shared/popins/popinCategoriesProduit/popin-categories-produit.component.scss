@@ -1,0 +1,24 @@
+ul {
+  height: 30em;
+
+  li {
+    max-width: 14rem;
+    min-width: 14rem;
+    max-height: 12rem;
+    min-height: 12rem;
+    vertical-align: middle;
+
+    &:hover {
+      background: #f5f5f5;
+
+      img {
+        filter: invert(0.04);
+      }
+    }
+  }
+}
+
+h2 mat-icon {
+  float: right;
+  vertical-align: middle;
+}

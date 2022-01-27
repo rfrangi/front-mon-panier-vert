@@ -1,0 +1,66 @@
+
+
+<form [formGroup]="siteForm" novalidate  (ngSubmit)="submitForm()" *ngIf="siteForm">
+  <mat-accordion class="example-headers-align" [multi]="!site.id">
+    <mat-expansion-panel [expanded]="step === 0 || !site.id" (opened)="step =0 "  [class.mx-3]="!site.id">
+      <!-- [class.active]="step === 0"-->
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="title-icon my-auto" color="primary">account_circle</mat-icon>
+          <h3 class="my-auto">Informations</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="d-flex flex-row text-center">
+        <mat-form-field class="mat-form-field-name w-auto d-block mx-3 flex-grow-1" disabled>
+          <input matInput
+                 placeholder="name"
+                 maxlength="51"
+                 minlength="6"
+                 type="text"
+                 formControlName="name"
+                 required>
+          <mat-error *ngIf="hasError(siteForm, 'name', 'required')">Veuillez saisir une nom</mat-error>
+          <mat-error *ngIf="(hasError(siteForm, 'name', 'minlength') || hasError(siteForm, 'name', 'maxlength'))">
+            Votre nom doit contenir entre 6  et 50 caractères
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mat-form-field-status w-25">
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="status">
+            <ng-container *ngFor="let status of listStatus">
+              <mat-option [value]="status.code">{{ status.label }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 1 ||!site.id" (opened)="step =1"  [class.mx-3]="!site.id">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="title-icon my-auto" color="primary">map</mat-icon>
+          <h3 class="my-auto">Adresse</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-adresse-form [form]="siteForm" [adresse]="site.adresse"></app-adresse-form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0">
+    <button mat-stroked-button
+            color="accent"
+            type="button"
+            class="mx-2"
+            (click)="goToListSite()">
+      Retour
+    </button>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="siteForm.invalid"
+            type="submit">
+      Enregistrer
+    </button>
+  </div>
+</form>
+

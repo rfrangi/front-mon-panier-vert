@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+
+  th {
+    padding: 1em 0.5em;
+    color: white;
+    font-weight: 500;
+    background-color: #313238fc;
+    font-size: 1em;
+  }
+
+  tr {
+    &:nth-child(even) {
+      background-color: rgba(242, 242, 242, 0.79);
+    }
+    td {
+      padding: 10px  0;
+    }
+  }
+}

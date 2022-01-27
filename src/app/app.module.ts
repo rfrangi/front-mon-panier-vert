@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 
 import { AppComponent } from '../components/app/app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -18,7 +18,6 @@ import {AuthInterceptor} from "../interceptors/auth.interceptor";
   declarations: [
     AppComponent,
     HomeComponent,
-    HeaderComponent
   ],
   imports: [
     SharedModule,
@@ -29,6 +28,8 @@ import {AuthInterceptor} from "../interceptors/auth.interceptor";
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [ AuthInterceptor ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule { }

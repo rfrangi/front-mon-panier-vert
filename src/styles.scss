@@ -1,4 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import "scss/table";
+@import "scss/link";
+@import "scss/title";
+@import "scss/form";
+/* import only the necessary Bootstrap files */
+$primary: #388e3c;
+$secondary:#7cb342;
+$danger: #d6180b;
+$success: lime;
+$warning: orange;
+$info: darkgray;
+$dark: #2b3336;
 
-html, body { height: 100%; }
+$body-bg: #f3f3f0;
+
+@import "bootstrap";
+html, body { height: 100%; background: #e9ebf1;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html:not([data-scroll='0']) {
+  .header-menu {
+    top: 0;
+  }
+}
+
+main {
+  margin-top: 55px;
+}
+
+.logo {
+  width: 30px;
+  filter: contrast(135%);
+}
+
+.bloc-mx-35 {
+  width: calc(100% - 2em);
+  max-width: 35em;
+}

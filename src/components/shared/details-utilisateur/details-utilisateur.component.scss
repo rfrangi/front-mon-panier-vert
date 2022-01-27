@@ -1,0 +1,26 @@
+div {
+  margin: 0 auto;
+  text-align: center;
+
+  button {
+    display: block;
+    margin: 0.5em auto;
+  }
+
+  mat-radio-button:first-child {
+    margin-right: 3em;
+  }
+}
+
+.reset-form {
+  display: inline-block;
+  margin-right: 1em;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  & + button {
+    display: inline-block;
+  }
+}

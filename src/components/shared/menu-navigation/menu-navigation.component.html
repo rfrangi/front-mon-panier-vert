@@ -1,0 +1,12 @@
+<div class="menu bg-white rounded w-100">
+  <ul class="list-unstyled d-flex flex-column">
+    <ng-container *ngFor="let item of items">
+      <li class="px-4 pt-4"
+          (click)="goToUrl(item.urls)"
+          [class.active]="isActive(item.active)"
+          role="button">
+        {{ item.label }}
+      </li>
+    </ng-container>
+  </ul>
+</div>
