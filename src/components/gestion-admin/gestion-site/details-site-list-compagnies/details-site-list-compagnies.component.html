@@ -1,0 +1,58 @@
+<div class="block-search mb-2 d-block bg-white py-2 text-center rounded-2 shadow">
+  <button class="d-inline-block text-white"
+          mat-raised-button color="accent"
+          name="btn-add-compagnie" type="button" (click)="addCompagnie()">
+    Ajouter une compagnie
+  </button>
+</div>
+
+
+<div class="block-search my-3 d-block bg-white pt-2 text-center rounded-2 shadow">
+  <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
+    <mat-form-field class="flex-grow-1 mx-2" disabled>
+      <input matInput
+             placeholder="Tapez un mot"
+             type="text"
+             formControlName="searchTerm">
+      <mat-icon matSuffix color="primary">search</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            name="btn-submit"
+            class="mx-2 my-auto"
+            type="submit">
+      Rechercher
+    </button>
+  </form>
+</div>
+
+<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="site && site.compagnies && site.compagnies.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Statut</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let compagnie of site.compagnies">
+      <td>{{ compagnie?.name }}</td>
+      <td>
+        <i class='material-icons text-{{compagnie.status.color}}'
+           matTooltip="{{ compagnie.status.label}}">{{compagnie.status.icon}}
+        </i>
+      </td>
+      <td>
+        <mat-icon aria-label="Delete"
+                  class="mx-2"
+                  (click)="removeCompagnie(compagnie)"
+                  matTooltip="Supprimer du site"
+                  color="accent">
+          delete
+        </mat-icon>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

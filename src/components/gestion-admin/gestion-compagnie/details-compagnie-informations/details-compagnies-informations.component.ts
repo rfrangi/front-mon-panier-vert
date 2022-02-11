@@ -89,7 +89,6 @@ export class DetailsCompagniesComponent implements OnInit {
     }
     const data = this.compagnieForm.value;
     Object.assign(data, {id: this.compagnie.id ? this.compagnie.id : undefined })
-    console.log(data);
     this.popinService.showLoader();
     this.compagnieService.save(data, true).subscribe({
       next: (compagnie: Compagnie) => {

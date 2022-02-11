@@ -11,11 +11,11 @@ import {Site} from "../../../../models/site.model";
 import {LIST_SITE_STATUS, SiteStatus} from "../../../../models/site-status.model";
 
 @Component({
-  selector:  'app-gestion-admin-details-site-compagnies',
-  templateUrl: `./details-site-compagnies.component.html`,
-  styleUrls: ['./details-site-compagnies.component.scss']
+  selector:  'app-details-site-commandes',
+  templateUrl: `./details-site-commandes.component.html`,
+  styleUrls: ['./details-site-commandes.component.scss']
 })
-export class DetailsSiteCompagniesComponent implements OnInit {
+export class DetailsSiteCommandesComponent implements OnInit {
 
   public site!: Site;
   public siteForm!: FormGroup;
