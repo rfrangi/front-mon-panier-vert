@@ -1,21 +1,30 @@
-div.menu {
-  background: white;
-  padding: 1em;
-  border-radius: 5px;
-  text-align: center;
+app-menu-navigation {
+  margin: 1em 0 0 1em;
+  width: calc(20% - 1em);
+  display: inline-block;
+}
 
-  ul {
-    text-align: left;
-    list-style:none;
+.content-menu-nav {
+  margin: 1em;
+  width: calc(80% - 2em);
+}
 
-    li {
-      padding: 10px 0;
-      color: #2b3336;
-      cursor: pointer;
+.content-menu-nav,
+app-menu-navigation {
+  display: inline-block;
+  vertical-align: top;
+}
 
-      &.active {
-        font-weight: bold;
-      }
-    }
+@media only screen and (min-width: 0) and (max-width: 993px) {
+
+  app-menu-navigation {
+    margin: 0 ;
+    width: calc(100%);
+  }
+  .content-menu-nav {
+    margin: 1em ;
+    width: calc(100% - 2em);
+    display: block;
   }
 }
+

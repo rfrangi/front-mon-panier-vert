@@ -12,3 +12,32 @@ div.menu {
   }
 }
 
+
+.onglet-selected {
+  width: calc(100% - 2em);
+  display: inline-block;
+  padding-left: 1em;
+  font-size: 1.1em;
+}
+
+::ng-deep .mat-expansion-indicator::after,
+.mat-expansion-panel-header-description {
+  color: white;
+}
+/*
+mat-accordion .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+   background: #7cb342;
+}*/
+
+
+@media only screen and (min-width: 0) and (max-width: 993px) {
+  li {
+    display: inline-block;
+  }
+
+  mat-form-field.mat-form-field {
+    width: calc(100% - 2em);
+    margin: 0 1em;
+    background: white;
+  }
+}

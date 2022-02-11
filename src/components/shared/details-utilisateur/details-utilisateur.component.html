@@ -221,7 +221,9 @@
         <app-adresse-form #adresseFormComponent
                           [form]="adresseForm"
                           [adresse]="user.adresse"
-                          [disabled]="!isUpdateAdresse"></app-adresse-form>
+                          [disabled]="!isUpdateAdresse">
+
+        </app-adresse-form>
         <button *ngIf="!isUpdateAdresse"
                 mat-raised-button
                 color="primary"

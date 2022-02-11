@@ -16,7 +16,7 @@ export class Site {
     Object.assign(this, data);
     this.adresse = data.adresse ? new Adresse(data.adresse) : new Adresse();
     this.status = data.status ? LIST_SITE_STATUS[data.status] : LIST_SITE_STATUS.ACTIF;
-    this.compagnies = data.Compagnie ? data.Compagnie.map((c: any) => new Compagnie(c)) : [];
+    this.compagnies = data.compagnies ? data.compagnies.map((c: any) => new Compagnie(c)) : [];
   }
 
   serialize(): any {

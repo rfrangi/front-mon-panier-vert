@@ -1,6 +1,7 @@
-  <form [formGroup]="compagnieForm" novalidate  (ngSubmit)="submitForm()" *ngIf="compagnieForm" class="pt-2">
+
+<form [formGroup]="compagnieForm" novalidate  (ngSubmit)="submitForm()" *ngIf="compagnieForm" [class.pt-2]="isCreated">
     <mat-accordion class="example-headers-align" [multi]="!compagnie.id">
-      <mat-expansion-panel [expanded]="step === 0 || !compagnie.id" (opened)="step =0 " [class.active]="step === 0" [class.mx-3]="!compagnie.id">
+      <mat-expansion-panel [expanded]="step === 0 || !compagnie.id" (opened)="step =0 " [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon class="title-icon my-auto me-2" color="primary">account_circle</mat-icon>
@@ -45,9 +46,28 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="text-center" *ngIf="!isCreated">
+        <button *ngIf="!updateInfo"
+                mat-raised-button
+                color="primary"
+                type="button"
+                (click)="onUpdateInfo()">
+          Modifier
+        </button>
+        <ng-container *ngIf="updateInfo">
+          <a class="reset-form me-3" (click)="resetForm()">
+            Annuler
+          </a>
+          <button mat-raised-button
+                  color="primary"
+                  type="submit">
+            Enregistrer
+          </button>
+        </ng-container>
+      </div>
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="step === 1 || !compagnie.id" (opened)="step = 1" [class.active]="step === 1" [class.mx-3]="!compagnie.id">
+      <mat-expansion-panel [expanded]="step === 1 || !compagnie.id" (opened)="step = 1" [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon class="title-icon my-auto me-2" color="primary">map</mat-icon>
@@ -85,10 +105,28 @@
             <mat-error *ngIf="hasError(compagnieForm, 'telephone', 'required')">Veuillez saisir un numéro</mat-error>
           </mat-form-field>
         </div>
+        <div class="text-center" *ngIf="!isCreated">
+          <button *ngIf="!updateCoordonnee"
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="onUpdateCoordonnee()">
+            Modifier
+          </button>
+          <ng-container *ngIf="updateCoordonnee">
+            <a class="reset-form me-3" (click)="resetForm()">
+              Annuler
+            </a>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit">
+              Enregistrer
+            </button>
+          </ng-container>
+        </div>
       </mat-expansion-panel>
       <mat-expansion-panel [expanded]="step === 3 || !compagnie.id"
                            (opened)="step = 3"
-                           [class.active]="step === 3"
                            [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -96,10 +134,32 @@
             <h3 class="my-auto"> Adresse</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-adresse-form [form]="compagnieForm" [adresse]="compagnie.adresse"></app-adresse-form>
+        <app-adresse-form #adresseFormComponent
+                          [form]="compagnieForm"
+                          [adresse]="compagnie.adresse"
+                          [disabled]="!updateAdresse">
+        </app-adresse-form>
+        <div class="text-center" *ngIf="!isCreated">
+          <button *ngIf="!updateAdresse"
+                  mat-raised-button
+                  color="primary"
+                  type="button" (click)="onUpdateAdresse()">
+            Modifier
+          </button>
+          <ng-container *ngIf="updateAdresse">
+            <a class="reset-form me-3" (click)="resetFormAdresse()">
+              Annuler
+            </a>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit">
+              Enregistrer
+            </button>
+          </ng-container>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
-    <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0">
+    <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0" *ngIf="isCreated">
       <button mat-stroked-button
               color="accent"
               type="button"

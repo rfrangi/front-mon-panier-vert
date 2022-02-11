@@ -1,64 +1,65 @@
-<div class="block-search m-2 d-block bg-white py-2 text-center rounded-2">
-  <button class="d-inline-block text-white"
-          mat-raised-button color="accent"
-          name="btn-add-compagnie" type="button" (click)="goToAddSite()">
-    Ajouter un site
-  </button>
-</div>
-<div class="block-search m-2 d-block bg-white pt-2 text-center rounded-2">
-  <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
-    <mat-form-field class="flex-grow-1 mx-2" disabled>
-      <input matInput
-             placeholder="Tapez un mot"
-             type="text"
-             formControlName="searchTerm">
-      <mat-icon matSuffix color="primary">search</mat-icon>
-    </mat-form-field>
-    <button mat-raised-button
-            color="primary"
-            name="btn-submit"
-            class="mx-2 my-auto"
-            type="submit">
-      Rechercher
+<div class="pt-1">
+  <div class="block-search m-2 d-block bg-white py-2 text-center rounded-2">
+    <button class="d-inline-block text-white"
+            mat-raised-button color="accent"
+            name="btn-add-compagnie" type="button" (click)="goToAddSite()">
+      Ajouter un site
     </button>
-  </form>
-</div>
+  </div>
+  <div class="block-search m-2 d-block bg-white pt-2 text-center rounded-2">
+    <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
+      <mat-form-field class="flex-grow-1 mx-2" disabled>
+        <input matInput
+               placeholder="Tapez un mot"
+               type="text"
+               formControlName="searchTerm">
+        <mat-icon matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button
+              color="primary"
+              name="btn-submit"
+              class="mx-2 my-auto"
+              type="submit">
+        Rechercher
+      </button>
+    </form>
+  </div>
 
-<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="sites.length > 0">
-  <table>
-    <thead>
-    <tr>
-      <th scope="col">Nom</th>
-      <th scope="col">Statut</th>
-      <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let site of sites">
-      <td>{{ site?.name }}</td>
-      <td>
-        <mat-icon [color]="site.status.color"
-                  matTooltip="{{site.modificationDate  | date:'DD-MM-YYYY'}}">
-          {{ site.status.icon }}
-        </mat-icon>
-      </td>
-      <td>
-        <mat-icon aria-label="Edit"
-                  class="mx-2"
-                  matTooltip="Modifier"
-                  (click)="goToEditSite(site)"
-                  color="primary">
-          edit
-        </mat-icon>
-        <mat-icon aria-label="Delete"
-                  class="mx-2"
-                  (click)="removeSite(site.id)"
-                  matTooltip="Supprimer"
-                  color="accent">
-          delete
-        </mat-icon>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="m-2 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="sites.length > 0">
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Statut</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let site of sites">
+        <td>{{ site?.name }}</td>
+        <td>
+          <i class='material-icons text-{{site.status.color}}'
+             matTooltip="{{ site.status.label}}">{{site.status.icon}}
+          </i>
+        </td>
+        <td>
+          <mat-icon aria-label="Edit"
+                    class="mx-2"
+                    matTooltip="Modifier"
+                    (click)="goToEditSite(site)"
+                    color="primary">
+            edit
+          </mat-icon>
+          <mat-icon aria-label="Delete"
+                    class="mx-2"
+                    (click)="removeSite(site.id)"
+                    matTooltip="Supprimer"
+                    color="accent">
+            delete
+          </mat-icon>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -7,11 +7,11 @@ import {ToastService} from "../../../../services/toast.service";
 import {Compagnie} from "../../../../models/compagnie.model";
 
 @Component({
-  selector:  'app-commandes-compagnie',
-  templateUrl: `./list-commandes-compagnie.component.html`,
-  styleUrls: ['./list-commandes-compagnie.component.scss']
+  selector:  'app-details-compagnie-list-commandes',
+  templateUrl: `./details-compagnie-list-commandes.component.html`,
+  styleUrls: ['./details-compagnie-list-commandes.component.scss']
 })
-export class ListCommandesCompagnieComponent implements OnInit {
+export class DetailsCompagnieListCommandesComponent implements OnInit {
 
   public compagnie!: Compagnie;
 

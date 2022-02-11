@@ -42,7 +42,12 @@ export class CompagnieService {
 
   update(compagnie: any, isModeAdmin = false, file?: File): Observable<any> {
     const url = (isModeAdmin ?  `admin/compagnies/${compagnie.id}` : `compagnies/${compagnie.id}`);
-    return this.http.put(environment.urlAPI + url, compagnie, HTTP_OPTIONS);
+    const formData = new FormData();
+    if(file) {
+      formData.append('files', file);
+    }
+    formData.append('compagnie', JSON.stringify(compagnie));
+    return this.http.put(environment.urlAPI + url, formData);
   }
 
   delete(id: string): Observable<any> {

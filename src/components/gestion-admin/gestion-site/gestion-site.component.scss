@@ -1,28 +1,32 @@
-@media only screen and (min-width: 951px) {
+app-menu-navigation {
+  margin: 1em 0 0 1em;
+  width: calc(20% - 1em);
+  display: inline-block;
 
-  app-menu-site {
-    display: inline-block;
-    vertical-align: top;
-    width: 20em;
-    margin: 1em 0 0 1em;
-  }
-  .content {
-    display: inline-block;
-    vertical-align: top;
-    width: calc(100% - 20em - 3em);
-    margin: 1em 1em 0 1em;
-  }
 }
 
-@media only screen and (min-width: 0) and (max-width: 950px) {
+.content-menu-nav {
+  margin: 1em;
+  width: calc(80% - 2em);
+}
 
-  app-menu-site {
-    display: none;
+.content-menu-nav,
+app-menu-navigation {
+  display: inline-block;
+  vertical-align: top;
+}
+
+
+@media only screen and (min-width: 0) and (max-width: 993px) {
+
+  app-menu-navigation {
+    margin: 0 0 1em 0;
+    width: calc(100%);
   }
-
-  .content {
-    display: inline-block;
+  .content-menu-nav {
+    margin: 0 1em 1em 1em;
     width: calc(100% - 2em);
-    margin: 1em 1em 0 1em;
+    display: block;
   }
 }
+

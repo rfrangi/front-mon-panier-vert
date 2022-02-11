@@ -11,23 +11,28 @@ import {ListUsersComponent} from "../../components/gestion-admin/list-users/list
 import {ListEmailsComponent} from "../../components/gestion-admin/list-emails/list-emails.component";
 import {ListCompagniesComponent} from "../../components/gestion-admin/list-compagnies/list-compagnies.component";
 import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
-import { DetailsSiteCompagniesComponent } from "../../components/gestion-admin/gestion-site/details-site-compagnies/details-site-compagnies.component";
-import { DetailsCompagniesComponent } from "../../components/gestion-admin/gestion-compagnie/details-compagnie/details-compagnies.component";
+import { DetailsSiteListCompagniesComponent } from "../../components/gestion-admin/gestion-site/details-site-list-compagnies/details-site-list-compagnies.component";
+import { DetailsCompagniesInformationsComponent } from "../../components/gestion-admin/gestion-compagnie/details-compagnie-informations/details-compagnies-informations.component";
 import {
   DetailsSiteInformationsComponent
 } from "../../components/gestion-admin/gestion-site/details-site-informations/details-site-informations.component";
 import {GestionSiteComponent} from "../../components/gestion-admin/gestion-site/gestion-site.component";
-import {MenuSiteComponent} from "../../components/gestion-admin/gestion-site/menu-site/menu-site.component";
 import {GestionCompagnieComponent} from "../../components/gestion-admin/gestion-compagnie/gestion-compagnie.component";
 import {
-  MenuCompagnieComponent
-} from "../../components/gestion-admin/gestion-compagnie/menu-compagnie/menu-compagnie.component";
+  DetailsCompagnieListCommandesComponent
+} from "../../components/gestion-admin/gestion-compagnie/details-compagnie-list-commandes/details-compagnie-list-commandes.component";
 import {
-  ListCommandesCompagnieComponent
-} from "../../components/gestion-admin/gestion-compagnie/list-commandes-compagnie/list-commandes-compagnie.component";
+  DetailsCompagnieListProduitsComponent
+} from "../../components/gestion-admin/gestion-compagnie/details-compagnie-list-produits/details-compagnie-list-produits.component";
 import {
-  ListProduitsCompagnieComponent
-} from "../../components/gestion-admin/gestion-compagnie/list-produits-compagnie/list-produits-compagnie.component";
+  DetailsSiteProduitsComponent
+} from "../../components/gestion-admin/gestion-site/details-site-produits/details-site-produits.component";
+import {
+  DetailsSiteListCommandesComponent
+} from "../../components/gestion-admin/gestion-site/details-site-list-commandes/details-site-list-commandes.component";
+import {
+  PopinAddCompagnieOnSiteComponent
+} from "../../components/gestion-admin/gestion-site/popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
 
 @NgModule({
   declarations: [
@@ -42,15 +47,17 @@ import {
     DetailsUsersComponent,
 
     GestionSiteComponent,
-    MenuSiteComponent,
     DetailsSiteInformationsComponent,
+    DetailsSiteListCompagniesComponent,
+    DetailsSiteProduitsComponent,
+    DetailsSiteListCommandesComponent,
+    PopinAddCompagnieOnSiteComponent,
 
     GestionCompagnieComponent,
-    DetailsCompagniesComponent,
-    MenuCompagnieComponent,
-    ListProduitsCompagnieComponent,
-    ListCommandesCompagnieComponent,
-    DetailsSiteCompagniesComponent,
+    DetailsCompagniesInformationsComponent,
+    DetailsCompagnieListProduitsComponent,
+    DetailsCompagnieListCommandesComponent,
+
 
 
   ],

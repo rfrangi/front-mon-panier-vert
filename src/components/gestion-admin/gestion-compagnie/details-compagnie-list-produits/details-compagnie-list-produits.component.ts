@@ -8,10 +8,10 @@ import {Compagnie} from "../../../../models/compagnie.model";
 
 @Component({
   selector:  'app-produits-compagnie',
-  templateUrl: `./list-produits-compagnie.component.html`,
-  styleUrls: ['./list-produits-compagnie.component.scss']
+  templateUrl: `./details-compagnie-list-produits.component.html`,
+  styleUrls: ['./details-compagnie-list-produits.component.scss']
 })
-export class ListProduitsCompagnieComponent implements OnInit {
+export class DetailsCompagnieListProduitsComponent implements OnInit {
 
   public compagnie!: Compagnie;
 

@@ -1,6 +1,6 @@
-<main class="main-header-menu">
-  <app-menu-site></app-menu-site>
-  <div class="content">
+<div class="main-header-menu">
+  <app-menu-navigation [items]="items"></app-menu-navigation>
+  <div class="content-menu-nav">
     <router-outlet #outlet="outlet"></router-outlet>
   </div>
-</main>
+</div>

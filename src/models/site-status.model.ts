@@ -11,6 +11,6 @@ export class SiteStatus {
 }
 
 export const LIST_SITE_STATUS: any = {
-  BLOQUE: new SiteStatus({code: 'BLOQUE', label: 'Bloqué', img: '', icon: 'highlight_off', color: 'warn' }),
-  ACTIF: new SiteStatus({code: 'ACTIF', label: 'Actif', img: '', icon: 'check_circle_outline', color: 'primary' }),
+  BLOQUE: new SiteStatus({code: 'BLOQUE', label: 'Bloqué', img: '', icon: 'pause_circle_filled', color: 'danger' }),
+  ACTIF: new SiteStatus({code: 'ACTIF', label: 'Actif', img: '', icon: 'check_circle', color: 'primary' }),
 }

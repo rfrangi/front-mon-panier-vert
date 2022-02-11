@@ -5,6 +5,15 @@ import { Subscription } from 'rxjs';
 import {AuthUserService} from "../../services/auth-user.service";
 
 import {UserToken} from "../../models/user-token.model";
+import {
+  PopinAddCompagnieOnSiteComponent
+} from "../gestion-admin/gestion-site/popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
+import {Compagnie} from "../../models/compagnie.model";
+import {Site} from "../../models/site.model";
+import {
+  PopinCategoriesProduitComponent
+} from "../shared/popins/popinCategoriesProduit/popin-categories-produit.component";
+import {PopinService} from "../../services/popin.service";
 
 @Component({
   selector: 'app-header',
@@ -25,7 +34,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('blockProducteurs') blockProducteurs!: ElementRef;
   @ViewChild('blockBasket') blockBasket!: ElementRef;
 
-  constructor(private router: Router, private authUserService: AuthUserService) {}
+  constructor(private router: Router,
+              private popinService: PopinService,
+              private authUserService: AuthUserService
+  ) {}
 
   public ngOnInit(): void {
     this.authUser$ = this.authUserService.userTokenSubject.subscribe({
@@ -71,5 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public goToUrls(urls: Array<string> = []): void {
     this.router.navigate(urls);
+  }
+
+  public showPopinCategorie(): void {
+    this.popinService.openPopin(PopinCategoriesProduitComponent, {})
   }
 }

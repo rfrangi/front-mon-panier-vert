@@ -1,1 +1,51 @@
-List des produits
+<h2 class="text-primary text-center fs-4 mx-4">
+  <span class="align-middle">Ajouter des compagnies</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class=" ps-4 border-primary align-middle">close</mat-icon>
+</h2>
+
+<div class="m-4 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="compagniesSearch.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Nom</th>
+      <th scope="col">Adresse</th>
+      <th scope="col">Statut</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let compagnie of compagniesSearch">
+      <td>
+        <mat-checkbox class="px-2"
+                      (change)="changeListSelected($event, compagnie)"
+                      [checked]="check(compagnie)">
+
+        </mat-checkbox>
+      </td>
+      <td>{{ compagnie?.name }}</td>
+      <td>{{compagnie.adresse.codePostal}}<br/>{{compagnie.adresse.ville}}</td>
+      <td>
+        <i class='material-icons text-{{compagnie.status.color}}'
+           matTooltip="{{ compagnie.status.label}}">{{compagnie.status.icon}}
+        </i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="actions mt-3">
+  <a class="reset-form me-3"
+     (click)="cancel()">
+    Annuler
+  </a>
+  <button mat-raised-button
+          color="primary"
+          (click)="valider()"
+          type="submit">
+    Enregistrer
+  </button>
+</div>
+

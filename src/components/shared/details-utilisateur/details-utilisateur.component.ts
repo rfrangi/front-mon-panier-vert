@@ -235,7 +235,6 @@ export class DetailsUtilisateurComponent implements OnInit {
   }
 
   public submitFormAdresse(): void {
-    console.log(this.adresseFormComponent.adresseform)
     if(this.adresseFormComponent.adresseform.invalid) {
       this.toast.warning('Votre formulaire comporte des erreurs.')
       return;

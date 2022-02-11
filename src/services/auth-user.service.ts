@@ -29,7 +29,6 @@ export class AuthUserService {
       username: credentials.email,
       password: credentials.password
     }, httpOptions).pipe(map((data: any) => {
-      console.log(data);
       const userToken = new UserToken({ user: data.user, token: data.token})
       this.userTokenSubject.next(userToken);
       this.saveInfo(data);

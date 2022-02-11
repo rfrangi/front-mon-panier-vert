@@ -45,6 +45,10 @@ import {
 } from "../../components/shared/popins/popin-message-during/popin-message-during.component";
 import {HeaderComponent} from "../../components/header/header.component";
 import {MenuNavigationComponent} from "../../components/shared/menu-navigation/menu-navigation.component";
+import {PopinConfirmComponent} from "../../components/shared/popins/popin-confirm/popin-confirm.component";
+import {
+  PopinCategoriesProduitComponent
+} from "../../components/shared/popins/popinCategoriesProduit/popin-categories-produit.component";
 
 const materialModules = [
   MatDialogModule,
@@ -88,7 +92,9 @@ const components = [
   DetailsUtilisateurComponent,
   PopinMessageDuringComponent,
   HeaderComponent,
-  MenuNavigationComponent
+  MenuNavigationComponent,
+  PopinConfirmComponent,
+  PopinCategoriesProduitComponent
 ];
 @NgModule({
   declarations: [

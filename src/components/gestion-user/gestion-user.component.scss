@@ -7,23 +7,5 @@ div.fond {
   background-position: center;
   padding-top: 55px;
 
-  app-menu-navigation {
-    margin: 1em 0 0 1em;
-    width: calc(20% - 1em);
-    display: inline-block;
-
-  }
-
-  .content {
-    margin: 1em;
-    width: calc(80% - 2em);
-  }
-
-  .content,
-  app-menu-navigation {
-    display: inline-block;
-    vertical-align: top;
-  }
-
 }
 

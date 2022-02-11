@@ -1,11 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Observable} from 'rxjs';
-import {finalize, tap} from "rxjs/operators";
-import {ToastService} from "../../../../services/toast.service";
-import {DialogData} from "../popinMessageDuring/popin-message-during.component";
-import {LIST_PRODUIT_CATEGORIE, ProduitCategorie} from "../../../../models/produit-categorie.model";
 
+import {ToastService} from "../../../../services/toast.service";
+import {LIST_PRODUIT_CATEGORIE, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {Site} from "../../../../models/site.model";
+export interface DialogData {
+  site: Site;
+}
 @Component({
   selector:  'app-popin-message-during',
   templateUrl: `./popin-categories-produit.component.html`,

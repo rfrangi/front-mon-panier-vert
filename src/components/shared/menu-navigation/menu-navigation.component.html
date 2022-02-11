@@ -1,8 +1,8 @@
-<div class="menu bg-white rounded w-100">
-  <ul class="list-unstyled d-flex flex-column">
+<div class="menu bg-white rounded w-100 shadow">
+  <ul class="list-unstyled d-none d-lg-flex flex-row flex-lg-column">
     <ng-container *ngFor="let item of items">
       <li class="px-4 pt-4"
-          (click)="goToUrl(item.urls)"
+          (click)="goToUrl(item)"
           [class.active]="isActive(item.active)"
           role="button">
         {{ item.label }}
@@ -10,3 +10,19 @@
     </ng-container>
   </ul>
 </div>
+
+<mat-accordion class="border-0 d-inline-block d-lg-none w-100">
+  <mat-expansion-panel #panel class="bg-secondary text-white border-0 chevron-white specific-class">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-white">
+        <mat-icon class="align-middle">menu</mat-icon>
+        <h3 class="my-auto ms-2">{{ ongletSelected }}</h3>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="text-white" *ngFor="let item of items">
+      <button mat-menu-item (click)="goToUrl(item);panel.close()" class="text-white">
+        <span>{{ item. label }}</span>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

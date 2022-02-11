@@ -11,15 +11,26 @@ import {ListEmailsComponent} from "../../components/gestion-admin/list-emails/li
 import { DetailsSiteInformationsComponent } from "../../components/gestion-admin/gestion-site/details-site-informations/details-site-informations.component";
 import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
 import {
-  DetailsCompagniesComponent
-} from "../../components/gestion-admin/gestion-compagnie/details-compagnie/details-compagnies.component";
+  DetailsCompagniesInformationsComponent
+} from "../../components/gestion-admin/gestion-compagnie/details-compagnie-informations/details-compagnies-informations.component";
 import {GestionCompagnieComponent} from "../../components/gestion-admin/gestion-compagnie/gestion-compagnie.component";
 import {
-  ListCommandesCompagnieComponent
-} from "../../components/gestion-admin/gestion-compagnie/list-commandes-compagnie/list-commandes-compagnie.component";
+  DetailsCompagnieListCommandesComponent
+} from "../../components/gestion-admin/gestion-compagnie/details-compagnie-list-commandes/details-compagnie-list-commandes.component";
 import {
-  ListProduitsCompagnieComponent
-} from "../../components/gestion-admin/gestion-compagnie/list-produits-compagnie/list-produits-compagnie.component";
+  DetailsCompagnieListProduitsComponent
+} from "../../components/gestion-admin/gestion-compagnie/details-compagnie-list-produits/details-compagnie-list-produits.component";
+import {GestionSiteComponent} from "../../components/gestion-admin/gestion-site/gestion-site.component";
+import {
+  DetailsSiteListCompagniesComponent
+} from "../../components/gestion-admin/gestion-site/details-site-list-compagnies/details-site-list-compagnies.component";
+import {
+  DetailsSiteProduitsComponent
+} from "../../components/gestion-admin/gestion-site/details-site-produits/details-site-produits.component";
+import {
+  DetailsSiteListCommandesComponent
+} from "../../components/gestion-admin/gestion-site/details-site-list-commandes/details-site-list-commandes.component";
+import {SiteResolver} from "../../components/resolvers/site.resolver";
 
 export const routes: Routes = [
   { path: '', component: GestionAdminComponent, children: [
@@ -31,22 +42,25 @@ export const routes: Routes = [
         ], },
       { path: 'compagnies', component: ListCompagniesComponent },
       { path: 'compagnie', children: [
-          { path: '', component: DetailsCompagniesComponent },
+          { path: '', component: DetailsCompagniesInformationsComponent },
           { path: ':id',  component: GestionCompagnieComponent, children: [
               { path: '',  redirectTo: 'informations', pathMatch: 'full' },
-              { path: 'informations', component: DetailsCompagniesComponent },
-              { path: 'commandes', component: ListCommandesCompagnieComponent },
-              { path: 'produits', component: ListProduitsCompagnieComponent },
+              { path: 'informations', component: DetailsCompagniesInformationsComponent },
+              { path: 'commandes', component: DetailsCompagnieListCommandesComponent },
+              { path: 'produits', component: DetailsCompagnieListProduitsComponent },
             ]
           },
         ]
       },
       { path: 'sites', component: ListSitesComponent },
-      { path: 'site', children: [
+      { path: 'site',  children: [
           { path: '', component: DetailsSiteInformationsComponent },
-          { path: ':id', children: [
+          { path: ':id',  resolve: { idSite: SiteResolver }, component: GestionSiteComponent, children: [
               { path: '',  redirectTo: 'informations', pathMatch: 'full' },
               { path: 'informations',  component: DetailsSiteInformationsComponent  },
+              { path: 'commandes',  component: DetailsSiteListCommandesComponent  },
+              { path: 'produits',  component: DetailsSiteProduitsComponent  },
+              { path: 'compagnies',  component: DetailsSiteListCompagniesComponent  },
             ],},
 
         ]

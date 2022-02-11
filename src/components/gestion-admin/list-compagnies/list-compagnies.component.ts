@@ -9,6 +9,7 @@ import {PopinService} from "../../../services/popin.service";
 
 import {Compagnie} from "../../../models/compagnie.model";
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
+import {LIST_COMPAGNIE_STATUS} from "../../../models/compagnie-status.model";
 
 @Component({
   selector:  'app-list-compagnies',
@@ -38,7 +39,13 @@ export class ListCompagniesComponent implements OnInit {
   search(): void {
     const params = Object.assign({
       page: this.pagination.currentPage,
-      searchTerm: this.searchForm.value.searchTerm
+      searchTerm: this.searchForm.value.searchTerm,
+      status: [
+        LIST_COMPAGNIE_STATUS.VALIDE.code,
+        LIST_COMPAGNIE_STATUS.BLOQUE.code,
+        LIST_COMPAGNIE_STATUS.EN_ATTENTE_VALIDATION.code,
+        LIST_COMPAGNIE_STATUS.NON_VALIDE.code,
+      ]
     });
 
     this.popinService.showLoader();

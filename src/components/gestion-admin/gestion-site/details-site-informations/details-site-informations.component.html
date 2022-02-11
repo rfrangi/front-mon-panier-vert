@@ -1,13 +1,15 @@
 
 
-<form [formGroup]="siteForm" novalidate  (ngSubmit)="submitForm()" *ngIf="siteForm">
+
+
+<form [formGroup]="siteForm" novalidate  (ngSubmit)="submitForm()" *ngIf="siteForm" [class.pt-2]="isCreated">
   <mat-accordion class="example-headers-align" [multi]="!site.id">
     <mat-expansion-panel [expanded]="step === 0 || !site.id" (opened)="step =0 "  [class.mx-3]="!site.id">
       <!-- [class.active]="step === 0"-->
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon class="title-icon my-auto" color="primary">account_circle</mat-icon>
-          <h3 class="my-auto">Informations</h3>
+          <h3 class="my-auto ms-2">Informations</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="d-flex flex-row text-center">
@@ -29,10 +31,35 @@
           <mat-label>Statut</mat-label>
           <mat-select formControlName="status">
             <ng-container *ngFor="let status of listStatus">
-              <mat-option [value]="status.code">{{ status.label }}</mat-option>
+              <mat-option [value]="status.code">
+               <!-- <i class='material-icons text-{{status.color}}'
+                   matTooltip="{{ status.label}}">
+                  {{status.icon}}
+                </i>-->
+                {{ status.label }}
+              </mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
+      </div>
+
+      <div class="text-center" *ngIf="!isCreated">
+        <button *ngIf="!updateInfo"
+                mat-raised-button
+                color="primary"
+                type="button" (click)="onUpdateInfo()">
+          Modifier
+        </button>
+        <ng-container *ngIf="updateInfo">
+          <a class="reset-form me-3" (click)="resetForm()">
+            Annuler
+          </a>
+          <button mat-raised-button
+                  color="primary"
+                  type="submit">
+            Enregistrer
+          </button>
+        </ng-container>
       </div>
     </mat-expansion-panel>
 
@@ -40,14 +67,38 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon class="title-icon my-auto" color="primary">map</mat-icon>
-          <h3 class="my-auto">Adresse</h3>
+          <h3 class="my-auto ms-2">Adresse</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-adresse-form [form]="siteForm" [adresse]="site.adresse"></app-adresse-form>
+        <app-adresse-form #adresseFormComponent
+                          [form]="siteForm"
+                          [adresse]="site.adresse"
+                          [disabled]="!updateAdresse">
+
+        </app-adresse-form>
+
+      <div class="text-center" *ngIf="!isCreated">
+        <button *ngIf="!updateAdresse"
+                mat-raised-button
+                color="primary"
+                type="button" (click)="onUpdateAdresse()">
+          Modifier
+        </button>
+        <ng-container *ngIf="updateAdresse">
+          <a class="reset-form me-3" (click)="resetFormAdresse()">
+            Annuler
+          </a>
+          <button mat-raised-button
+                  color="primary"
+                  type="submit">
+            Enregistrer
+          </button>
+        </ng-container>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
 
-  <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0">
+  <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0" *ngIf="isCreated">
     <button mat-stroked-button
             color="accent"
             type="button"

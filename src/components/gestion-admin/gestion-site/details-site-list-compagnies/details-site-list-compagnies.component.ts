@@ -17,11 +17,11 @@ import {PopinAddCompagnieOnSiteComponent} from "../popin-add-compagnie-on-site/p
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector:  'app-gestion-admin-details-site-compagnies',
-  templateUrl: `./details-site-compagnies.component.html`,
-  styleUrls: ['./details-site-compagnies.component.scss']
+  selector:  'app-gestion-admin-details-site-list-compagnies',
+  templateUrl: `./details-site-list-compagnies.component.html`,
+  styleUrls: ['./details-site-list-compagnies.component.scss']
 })
-export class DetailsSiteCompagniesComponent implements OnInit {
+export class DetailsSiteListCompagniesComponent implements OnInit {
 
 
   public searchForm!: FormGroup;
