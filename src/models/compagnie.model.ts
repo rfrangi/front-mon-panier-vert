@@ -32,6 +32,7 @@ export class Compagnie {
       status: this.status ? this.status.code : LIST_COMPAGNIE_STATUS.EN_ATTENTE_VALIDATION.code,
       creationDate: this.creationDate,
       modificationDate: this.modificationDate,
+      adresse: this.adresse.serialize()
     };
   }
 }

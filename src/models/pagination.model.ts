@@ -1,10 +1,12 @@
 
-export class PaginationService {
+export class Pagination {
 
-  currentPage = 0;
-  nbPages!: number;
-  nbItems!: number;
-  nbItemsPerPage!: number;
+  public currentPage = 0;
+  public nbPages!: number;
+  public nbItems!: number;
+  public nbItemsPerPage!: number;
+
+  public arraypage: Array<number> = [];
 
   constructor(paginationData: any = {}) {
     if (paginationData) {

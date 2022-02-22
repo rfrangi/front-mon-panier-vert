@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../services/user.service";
+import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "../../../services/toast.service";
-import {PaginationService} from "../../../services/pagination.service";
-import {Site} from "../../../models/site.model";
 import {PopinService} from "../../../services/popin.service";
 import {EmailService} from "../../../services/email.service";
 import {Email} from "../../../models/email.model";
+import {Pagination} from "../../../models/pagination.model";
 
 
 @Component({
@@ -19,7 +17,7 @@ export class ListEmailsComponent implements OnInit {
 
   public searchForm!: FormGroup;
   public emails: Array<Email> = [];
-  public pagination: PaginationService = new PaginationService({});
+  public pagination: Pagination = new Pagination({});
 
   constructor(private toast: ToastService,
               private emailService: EmailService,

@@ -11,6 +11,8 @@ import {Site} from "../../../../models/site.model";
 import {LIST_SITE_STATUS, SiteStatus} from "../../../../models/site-status.model";
 
 import {AdresseFormComponent} from "../../../shared/adresse/adresse-form/adresse-form.component";
+import {Adresse} from "../../../../models/adresse.model";
+import {AdresseService} from "../../../../services/adresse.service";
 
 @Component({
   selector:  'app-gestion-admin-details-site-informations',
@@ -35,6 +37,7 @@ export class DetailsSiteInformationsComponent implements OnInit {
   constructor(private toast: ToastService,
               private route: ActivatedRoute,
               private siteService: SiteService,
+              private adresseService: AdresseService,
               private router: Router,
               private popinService: PopinService) {}
 
@@ -89,7 +92,6 @@ export class DetailsSiteInformationsComponent implements OnInit {
       return;
     }
     const data = this.siteForm.value;
-    console.log(this.siteForm.value);
     Object.assign(data, {id: this.site.id ? this.site.id : undefined })
     this.popinService.showLoader();
     this.siteService.save(data, true).subscribe({
@@ -105,6 +107,41 @@ export class DetailsSiteInformationsComponent implements OnInit {
       },
       complete: () => this.popinService.closeLoader()
     })
+  }
+
+  public saveInfo(): void {
+    if (this.siteForm.invalid) {
+      this.toast.warning('Votre formulaire comporte des erreurs');
+    }
+    this.site.name = this.siteForm.value.name;
+    this.site.status = LIST_SITE_STATUS[this.siteForm.value.status];
+    this.siteService.save(this.site.serialize(), true).subscribe({
+      next: (site: Site) => {
+        this.toast.success('Les informations sont à jours');
+        this.site = site;
+        this.resetForm();
+      },
+      error: (err: any) => this.toast.genericError(err)
+    });
+  }
+
+  public saveAdresse(): void {
+    if (this.siteForm.invalid) {
+      this.toast.warning('Votre formulaire comporte des erreurs');
+    }
+    const adresse = this.adresseFormComponent.adresseform.value
+    adresse.idAdresse = this.site.adresse.idAdresse;
+
+    this.adresseService.update(new Adresse(adresse), true).subscribe({
+       next: (adr: Adresse) => {
+         this.toast.success( 'Les informations sont à jours');
+         this.site.adresse = adr;
+         this.adresseFormComponent.adresse = adr;
+         this.resetFormAdresse();
+       },
+       error: (err: any) => this.toast.genericError(err)
+
+     });
   }
 
   public hasError = (form: any, controlName: string, errorName: string) => {

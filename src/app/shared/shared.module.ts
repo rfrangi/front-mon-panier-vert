@@ -48,9 +48,11 @@ import {MenuNavigationComponent} from "../../components/shared/menu-navigation/m
 import {PopinConfirmComponent} from "../../components/shared/popins/popin-confirm/popin-confirm.component";
 import {
   PopinCategoriesProduitComponent
-} from "../../components/shared/popins/popinCategoriesProduit/popin-categories-produit.component";
+} from "../../components/shared/popins/popin-categories-produit/popin-categories-produit.component";
+import {PaginationComponent} from "../../components/shared/pagination/pagination.component";
 
 const materialModules = [
+  MatBadgeModule,
   MatDialogModule,
   MatSlideToggleModule,
   CdkTreeModule,
@@ -94,7 +96,8 @@ const components = [
   HeaderComponent,
   MenuNavigationComponent,
   PopinConfirmComponent,
-  PopinCategoriesProduitComponent
+  PopinCategoriesProduitComponent,
+  PaginationComponent
 ];
 @NgModule({
   declarations: [

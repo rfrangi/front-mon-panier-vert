@@ -1,5 +1,5 @@
 
-<form [formGroup]="compagnieForm" novalidate  (ngSubmit)="submitForm()" *ngIf="compagnieForm" [class.pt-2]="isCreated">
+<form [formGroup]="compagnieForm" novalidate *ngIf="compagnieForm" [class.pt-2]="isCreated" class="mx-2">
     <mat-accordion class="example-headers-align" [multi]="!compagnie.id">
       <mat-expansion-panel [expanded]="step === 0 || !compagnie.id" (opened)="step =0 " [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
@@ -39,7 +39,7 @@
 
         <mat-form-field class="mat-form-field-status w-auto d-block mx-3">
           <mat-label>Statut</mat-label>
-          <mat-select formControlName="status">
+          <mat-select formControlName="status" [disabled]="!updateInfo">
             <ng-container *ngFor="let status of listStatus">
               <mat-option [value]="status.code">{{ status.label }}</mat-option>
             </ng-container>
@@ -60,6 +60,7 @@
           </a>
           <button mat-raised-button
                   color="primary"
+                  (click)="saveCompagnieInfo()"
                   type="submit">
             Enregistrer
           </button>
@@ -119,6 +120,7 @@
             </a>
             <button mat-raised-button
                     color="primary"
+                    (click)="saveCoordonnee()"
                     type="submit">
               Enregistrer
             </button>
@@ -152,6 +154,7 @@
             </a>
             <button mat-raised-button
                     color="primary"
+                    (click)="saveAdresse()"
                     type="submit">
               Enregistrer
             </button>
@@ -169,6 +172,7 @@
       </button>
       <button mat-raised-button
               color="primary"
+              (click)="submitForm()"
               type="submit">
         Enregistrer
       </button>

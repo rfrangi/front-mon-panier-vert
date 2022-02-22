@@ -33,6 +33,7 @@ import {
 import {
   PopinAddCompagnieOnSiteComponent
 } from "../../components/gestion-admin/gestion-site/popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
+import {PopinProduitComponent} from "../../components/shared/popins/popin-produit/popin-produit.component";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import {
     DetailsCompagnieListProduitsComponent,
     DetailsCompagnieListCommandesComponent,
 
-
+    PopinProduitComponent
 
   ],
   imports: [

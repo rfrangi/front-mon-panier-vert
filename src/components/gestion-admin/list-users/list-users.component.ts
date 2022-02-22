@@ -4,12 +4,12 @@ import {FormControl, FormGroup} from "@angular/forms";
 
 import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";
-import {PaginationService} from "../../../services/pagination.service";
 import {PopinService} from "../../../services/popin.service";
 
 import {User} from "../../../models/user.model";
 
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
+import {Pagination} from "../../../models/pagination.model";
 
 @Component({
   selector:  'app-list-user',
@@ -20,7 +20,7 @@ export class ListUsersComponent implements OnInit {
 
   public searchForm!: FormGroup;
   public users: Array<User> = [];
-  public pagination: PaginationService = new PaginationService({});
+  public pagination: Pagination = new Pagination({});
 
   constructor(private toast: ToastService,
               private userService: UserService,

@@ -1,0 +1,82 @@
+<h2 class="text-primary text-center fs-4">
+  Ajouter un produit
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary">close</mat-icon>
+</h2>
+
+
+<form [formGroup]="produitForm" novalidate *ngIf="produitForm">
+
+  <div class="d-flex text-start flex-column flex-lg-row w-100">
+
+    <mat-form-field class="mat-form-field-status w-auto d-block mx-3">
+      <mat-label>Catégorie</mat-label>
+      <mat-select formControlName="categorie">
+        <ng-container *ngFor="let cat of listCategorie">
+          <mat-option [value]="cat.code">{{ cat.label }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field class="mat-form-field-name mx-4 flex-md-grow-1 flex-lg-grow-1">
+      <input matInput
+             placeholder="name"
+             maxlength="51"
+             minlength="6"
+             type="text"
+             formControlName="name"
+             required>
+      <mat-error *ngIf="hasError(produitForm, 'name', 'required')">Veuillez saisir une nom</mat-error>
+      <mat-error *ngIf="(hasError(produitForm, 'name', 'minlength') || hasError(produitForm, 'name', 'maxlength'))">
+        Votre nom doit contenir entre 6  et 50 caractères
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field-name mx-4 flex-md-grow-1 flex-lg-grow-1">
+      <input matInput
+             placeholder="Quantité"
+             type="number"
+             formControlName="quantite"
+             required>
+      <mat-error *ngIf="hasError(produitForm, 'quantite', 'required')">Veuillez saisir une quantité</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field-name mx-4 flex-md-grow-1 flex-lg-grow-1">
+      <input matInput
+             placeholder="Prix"
+             type="number"
+             formControlName="tarif"
+             required>
+      <mat-error *ngIf="hasError(produitForm, 'tarif', 'required')">Veuillez saisir une prix</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field-status w-auto d-block mx-3">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="typeTarif">
+        <ng-container *ngFor="let cat of listCategorie">
+          <mat-option [value]="cat.code">{{ cat.label }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+  <div class="text-center">
+    <button mat-stroked-button
+            color="accent"
+            type="button"
+            class="me-2"
+            (click)="cancel()">
+      Annuler
+    </button>
+    <button mat-raised-button
+            type="submit"
+            color="primary"
+            (click)="submit()">
+      Valider
+    </button>
+  </div>
+</form>
+

@@ -9,6 +9,7 @@ import {LIST_PAYS, Pays} from "../../../../models/pays.model";
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "../../../../models/compagnie-status.model";
 import {PopinService} from "../../../../services/popin.service";
 import {AdresseFormComponent} from "../../../shared/adresse/adresse-form/adresse-form.component";
+import {Adresse} from "../../../../models/adresse.model";
 
 @Component({
   selector:  'app-details-compagnies-informations',
@@ -67,7 +68,57 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
 
   public onUpdateInfo(): void {
     this.updateInfo = !this.updateInfo;
+
     this.initForm()
+  }
+
+  public saveCompagnieInfo(): void {
+    this.compagnie.name = this.compagnieForm.value.name;
+    this.compagnie.siret = this.compagnieForm.value.siret;
+    this.compagnie.status = LIST_COMPAGNIE_STATUS[this.compagnieForm.value.status];
+    console.log(this.compagnie);
+    this.compagnieService.save(this.compagnie.serialize(), true).subscribe({
+      next: (compagnie: Compagnie) => {
+        this.toast.success('Les informations sont à jours');
+        this.compagnie = compagnie;
+        console.log(this.compagnie);
+        this.resetForm();
+      },
+      error: (err: any) =>  this.toast.genericError(err),
+    })
+  }
+
+  public saveCoordonnee(): void {
+    this.compagnie.telephone = this.compagnieForm.value.telephone;
+    this.compagnie.email = this.compagnieForm.value.email;
+    this.compagnieService.save(this.compagnie.serialize(), true).subscribe({
+      next: (compagnie: Compagnie) => {
+        this.toast.success('Les informations sont à jours');
+        this.compagnie = compagnie;
+        this.resetForm();
+      },
+      error: (err: any) =>  this.toast.genericError(err),
+    })
+  }
+
+  public saveAdresse(): void {
+    if (this.compagnieForm.invalid) {
+      this.toast.warning('Votre formulaire comporte des erreurs');
+    }
+
+    const adr = this.adresseFormComponent.adresseform.value;
+    adr.idAdresse = this.compagnie.adresse.idAdresse;
+    this.compagnie.adresse = new Adresse(adr);
+
+    this.compagnieService.update(this.compagnie.serialize(), true).subscribe({
+      next: (comp: Compagnie) => {
+        this.toast.success( 'Les informations sont à jours');
+        this.compagnie = comp;
+        this.resetFormAdresse();
+      },
+      error: (err: any) => this.toast.genericError(err)
+
+    });
   }
 
   public onUpdateCoordonnee(): void {
@@ -131,7 +182,7 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     const data = this.compagnieForm.value;
     Object.assign(data, {id: this.compagnie.id ? this.compagnie.id : undefined })
     console.log(data);
-  /*  this.popinService.showLoader();
+    this.popinService.showLoader();
     this.compagnieService.save(data, true).subscribe({
       next: (compagnie: Compagnie) => {
         this.toast.success(this.compagnie.id ? 'Les informations sont à jours' : `Votre entreprise est ajoutée`);
@@ -144,7 +195,7 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
         this.popinService.closeLoader();
       },
       complete: () => this.popinService.closeLoader()
-    })*/
+    })
   }
 
   public hasError = (form: any, controlName: string, errorName: string) => {

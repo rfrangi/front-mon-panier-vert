@@ -3,13 +3,13 @@ import { Router} from '@angular/router';
 import {FormControl, FormGroup} from "@angular/forms";
 
 import {ToastService} from "../../../services/toast.service";
-import {PaginationService} from "../../../services/pagination.service";
 import {CompagnieService} from "../../../services/compagnie.service";
 import {PopinService} from "../../../services/popin.service";
 
 import {Compagnie} from "../../../models/compagnie.model";
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
 import {LIST_COMPAGNIE_STATUS} from "../../../models/compagnie-status.model";
+import {Pagination} from "../../../models/pagination.model";
 
 @Component({
   selector:  'app-list-compagnies',
@@ -21,7 +21,7 @@ export class ListCompagniesComponent implements OnInit {
   public searchForm!: FormGroup;
 
   public compagnies: Array<Compagnie> = [];
-  public pagination: PaginationService = new PaginationService({});
+  public pagination!: Pagination;
 
 
   constructor(private toast: ToastService,
@@ -37,8 +37,9 @@ export class ListCompagniesComponent implements OnInit {
   }
 
   search(): void {
+
     const params = Object.assign({
-      page: this.pagination.currentPage,
+      page: this.pagination?.currentPage || 1,
       searchTerm: this.searchForm.value.searchTerm,
       status: [
         LIST_COMPAGNIE_STATUS.VALIDE.code,
@@ -47,12 +48,13 @@ export class ListCompagniesComponent implements OnInit {
         LIST_COMPAGNIE_STATUS.NON_VALIDE.code,
       ]
     });
-
+    console.log(params)
     this.popinService.showLoader();
     this.compagnieService.getAllByParams(params).subscribe({
       next: (data: any) => {
         this.compagnies = data.result;
         this.pagination = data.pagination;
+        console.log(this.pagination)
       },
       error: (err: any) => this.toast.genericError(err),
       complete: () => this.popinService.closeLoader()

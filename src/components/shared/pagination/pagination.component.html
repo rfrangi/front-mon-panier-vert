@@ -1,0 +1,18 @@
+<div class="shadow m-2 d-block bg-white text-center rounded-2 py-2 mb-2">
+
+  <button mat-stroked-button color="accent" type="button" (click)="goToFirstPage()" class="mx-lg-1" [disabled]="pagination.isFirstPage">
+    <mat-icon>first_page</mat-icon>
+  </button>
+  <button mat-stroked-button color="accent" type="button" (click)="previous()" class="mx-lg-1" [disabled]="pagination.isFirstPage">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-button color="accent" type="button" class="mx-lg-1">
+    {{pagination.currentPage}}
+  </button>
+  <button mat-stroked-button color="accent" type="button" (click)="next()" class="mx-lg-1" [disabled]="pagination.isLastPage">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+  <button mat-stroked-button color="accent" type="button" (click)="goToLastPage()" class="mx-lg-1" [disabled]="pagination.isLastPage">
+    <mat-icon>last_page</mat-icon>
+  </button>
+</div>

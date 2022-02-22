@@ -4,11 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import {PaginationService} from './pagination.service';
 
 import { User } from '../models/user.model';
 import {environment} from "../environments/environment";
 import {Compagnie} from "../models/compagnie.model";
+import {Pagination} from "../models/pagination.model";
 
 const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
@@ -18,11 +18,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllByParams(params: any): Observable<any> {
-    return this.http.post(environment.urlAPI + `admin/users/paginated`, params, HTTP_OPTIONS)
+    return this.http.post(environment.urlAPI + `admin/users/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
           result: (response.content || []).map((p: any) => new User(p)),
-          pagination: new PaginationService(response)
+          pagination: new Pagination(response)
         };
       }));
   }
@@ -69,7 +69,7 @@ export class UserService {
       .pipe(map((response: any) =>  {
         return {
           result: (response.content || []).map((p: any) => new User(p)),
-          pagination: new PaginationService(response)
+          pagination: new Pagination(response)
         };
       }));
   }

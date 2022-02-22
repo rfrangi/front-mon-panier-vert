@@ -8,10 +8,7 @@ import {SiteService} from "../../../../services/site.service";
 
 import {LIST_PAYS, Pays} from "../../../../models/pays.model";
 import {Site} from "../../../../models/site.model";
-import {LIST_SITE_STATUS, SiteStatus} from "../../../../models/site-status.model";
 import {Compagnie} from "../../../../models/compagnie.model";
-import {PaginationService} from "../../../../services/pagination.service";
-import {CompagnieService} from "../../../../services/compagnie.service";
 import {PopinConfirmComponent} from "../../../shared/popins/popin-confirm/popin-confirm.component";
 import {PopinAddCompagnieOnSiteComponent} from "../popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
 import { forkJoin } from 'rxjs';

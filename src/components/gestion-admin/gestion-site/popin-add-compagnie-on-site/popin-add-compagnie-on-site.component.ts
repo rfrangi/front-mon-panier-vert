@@ -2,13 +2,13 @@
 import {Component, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
 import {Compagnie} from "../../../../models/compagnie.model";
-import {PaginationService} from "../../../../services/pagination.service";
 import {ToastService} from "../../../../services/toast.service";
 import {PopinService} from "../../../../services/popin.service";
 import {CompagnieService} from "../../../../services/compagnie.service";
 import {FormControl, FormGroup } from '@angular/forms';
 import {Site} from "../../../../models/site.model";
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "../../../../models/compagnie-status.model";
+import {Pagination} from "../../../../models/pagination.model";
 
 export interface DialogData {
   site: Site;
@@ -26,7 +26,7 @@ export class PopinAddCompagnieOnSiteComponent {
 
   public searchForm!: FormGroup;
 
-  public pagination: PaginationService = new PaginationService({});
+  public pagination: Pagination = new Pagination();
 
   constructor(public dialog: MatDialog,
               public dialogRef: MatDialogRef<PopinAddCompagnieOnSiteComponent>,

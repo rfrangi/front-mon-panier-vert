@@ -12,7 +12,7 @@ import {Compagnie} from "../../models/compagnie.model";
 import {Site} from "../../models/site.model";
 import {
   PopinCategoriesProduitComponent
-} from "../shared/popins/popinCategoriesProduit/popin-categories-produit.component";
+} from "../shared/popins/popin-categories-produit/popin-categories-produit.component";
 import {PopinService} from "../../services/popin.service";
 
 @Component({

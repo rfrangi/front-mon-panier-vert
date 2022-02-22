@@ -2,9 +2,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import {PaginationService} from "./pagination.service";
 import {environment} from "../environments/environment";
 import {Compagnie} from "../models/compagnie.model";
+import {Pagination} from "../models/pagination.model";
 
 const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
@@ -16,11 +16,11 @@ export class CompagnieService {
   constructor(private http: HttpClient) {}
 
   getAllByParams(params: any): Observable<any> {
-    return this.http.post(environment.urlAPI + `admin/compagnies/paginated`, params, HTTP_OPTIONS)
+    return this.http.post(environment.urlAPI + `admin/compagnies/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
           result: (response.content || []).map((p: any) => new Compagnie(p)),
-          pagination: new PaginationService(response)
+          pagination: new Pagination(response)
         };
       }));
   }
@@ -47,7 +47,7 @@ export class CompagnieService {
       formData.append('files', file);
     }
     formData.append('compagnie', JSON.stringify(compagnie));
-    return this.http.put(environment.urlAPI + url, formData);
+    return this.http.put(environment.urlAPI + url, formData).pipe(map((x: any) => new Compagnie(x)));
   }
 
   delete(id: string): Observable<any> {

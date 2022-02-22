@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "../../../services/toast.service";
-import {PaginationService} from "../../../services/pagination.service";
 import {SiteService} from "../../../services/site.service";
 import {Site} from "../../../models/site.model";
 import {PopinService} from "../../../services/popin.service";
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
+import {Pagination} from "../../../models/pagination.model";
 
 
 @Component({
@@ -18,7 +18,7 @@ export class ListSitesComponent implements OnInit {
 
   public searchForm!: FormGroup;
   public sites: Array<Site> = [];
-  public pagination: PaginationService = new PaginationService({});
+  public pagination: Pagination = new Pagination({});
 
   constructor(private toast: ToastService,
               private siteService: SiteService,
@@ -32,7 +32,7 @@ export class ListSitesComponent implements OnInit {
     this.search();
   }
 
-  search(): void {
+  public search(): void {
     const params = Object.assign({
       page: this.pagination.currentPage,
       searchTerm: this.searchForm.value.searchTerm
@@ -48,11 +48,11 @@ export class ListSitesComponent implements OnInit {
     })
   }
 
-  goToEditSite(site: Site): void {
+  public goToEditSite(site: Site): void {
     this.router.navigate(['administration', 'site', site.id]);
   }
 
-  removeSite(id: string): void {
+  public removeSite(id: string): void {
     this.popinService.openPopin(PopinConfirmComponent, {
       data: {
         description: `Voulez-vous supprimer ce site`,
@@ -75,7 +75,7 @@ export class ListSitesComponent implements OnInit {
     });
   }
 
-  goToAddSite(): void {
+  public goToAddSite(): void {
     this.router.navigate(['administration', 'site',]);
   }
 }

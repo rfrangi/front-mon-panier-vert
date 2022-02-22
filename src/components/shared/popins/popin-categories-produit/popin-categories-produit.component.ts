@@ -8,7 +8,7 @@ export interface DialogData {
   site: Site;
 }
 @Component({
-  selector:  'app-popin-message-during',
+  selector:  'app-popin-categories-produit',
   templateUrl: `./popin-categories-produit.component.html`,
   styleUrls: ['./popin-categories-produit.component.scss']
 

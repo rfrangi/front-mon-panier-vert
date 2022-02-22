@@ -26,7 +26,8 @@ export class Site {
       status: this.status.code,
       creationDate: this.creationDate,
       modificationDate: this.modificationDate,
-      compagnie: this.compagnies.map((c: Compagnie) => c.serialize())
+      compagnies: this.compagnies && this.compagnies.length > 0 ? this.compagnies.map((c: Compagnie) => c.serialize()) : null,
+      adresse: this.adresse.serialize()
     };
   }
 }

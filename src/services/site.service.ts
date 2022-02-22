@@ -2,10 +2,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import {PaginationService} from "./pagination.service";
 import {environment} from "../environments/environment";
 import {Site} from "../models/site.model";
 import {Compagnie} from "../models/compagnie.model";
+import {Pagination} from "../models/pagination.model";
 
 const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
@@ -17,11 +17,11 @@ export class SiteService {
   constructor(private http: HttpClient) { }
 
   public getAllByParams(params: any): Observable<any> {
-    return this.http.post(environment.urlAPI + `admin/sites/paginated`, params, HTTP_OPTIONS)
+    return this.http.post(environment.urlAPI + `admin/sites/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
           result: (response.content || []).map((p: any) => new Site(p)),
-          pagination: new PaginationService(response)
+          pagination: new Pagination(response)
         };
       }));
   }
@@ -51,12 +51,12 @@ export class SiteService {
   public update(site: any, isModeAdmin = false, file?: File): Observable<any> {
     const url = (isModeAdmin ?  `admin/sites/${site.id}` : `sites/${site.id}`);
     const formData = new FormData();
-    if(file) {
+    if (file) {
       formData.append('files', file);
     }
     formData.append('site', JSON.stringify(site));
-    console.log(formData)
-    return this.http.put(environment.urlAPI + url, formData);
+    console.log(formData, site)
+    return this.http.put(environment.urlAPI + url, formData).pipe(map((x: any) => new Site(x)));
   }
 
   public delete(id: string): Observable<any> {

@@ -2,7 +2,7 @@
 
 
 
-<form [formGroup]="siteForm" novalidate  (ngSubmit)="submitForm()" *ngIf="siteForm" [class.pt-2]="isCreated">
+<form [formGroup]="siteForm" novalidate *ngIf="siteForm" [class.pt-2]="isCreated">
   <mat-accordion class="example-headers-align" [multi]="!site.id">
     <mat-expansion-panel [expanded]="step === 0 || !site.id" (opened)="step =0 "  [class.mx-3]="!site.id">
       <!-- [class.active]="step === 0"-->
@@ -29,7 +29,7 @@
 
         <mat-form-field class="mat-form-field-status w-25">
           <mat-label>Statut</mat-label>
-          <mat-select formControlName="status">
+          <mat-select formControlName="status" [disabled]="!updateInfo">
             <ng-container *ngFor="let status of listStatus">
               <mat-option [value]="status.code">
                <!-- <i class='material-icons text-{{status.color}}'
@@ -56,7 +56,8 @@
           </a>
           <button mat-raised-button
                   color="primary"
-                  type="submit">
+                  type="button"
+                  (click)="saveInfo()">
             Enregistrer
           </button>
         </ng-container>
@@ -90,7 +91,7 @@
           </a>
           <button mat-raised-button
                   color="primary"
-                  type="submit">
+                  (click)="saveAdresse()">
             Enregistrer
           </button>
         </ng-container>
@@ -108,6 +109,7 @@
     </button>
     <button mat-raised-button
             color="primary"
+            (click)="submitForm()"
             [disabled]="siteForm.invalid"
             type="submit">
       Enregistrer
