@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 import {ToastService} from "../../../../services/toast.service";
-import {LIST_PRODUIT_CATEGORIE, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
 import {Site} from "../../../../models/site.model";
 export interface DialogData {
   site: Site;
@@ -16,7 +16,7 @@ export interface DialogData {
 export class PopinCategoriesProduitComponent {
 
 
-  public listCategorie: Array<ProduitCategorie> = Object.values(LIST_PRODUIT_CATEGORIE);
+  public listCategorie: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
 
   constructor(public dialog: MatDialog,
               private toast: ToastService,

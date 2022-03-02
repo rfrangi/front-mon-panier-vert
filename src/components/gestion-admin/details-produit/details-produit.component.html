@@ -1,13 +1,9 @@
-<h2 class="text-primary text-center fs-4">
-  <span class="align-middle">Ajouter un produit</span>
-  <mat-icon color="primary"
-            (click)="cancel()"
-            class="border-primary align-middle mt-1 ms-2">close</mat-icon>
-</h2>
-<form class="d-inline-block align-top" [formGroup]="produitForm" novalidate *ngIf="produitForm">
+<div class="pb-2">
+  <div class="shadow mb-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2">
+    <form class="d-inline-block align-top bg-white" [formGroup]="produitForm" novalidate *ngIf="produitForm">
   <div class="d-inline-block w-50 align-top block-img text-center">
     <app-upload-file></app-upload-file>
-    <img src="assets/add-photo.jpg" alt="img_produit"/>
+   <!-- <img src="assets/add-photo.jpg" alt="img_produit"/> -->
   </div>
   <div class="d-inline-block w-50 align-top block-img text-center">
     <div class="text-start">
@@ -67,7 +63,7 @@
                  formControlName="tarif"
                  required>
           <mat-error *ngIf="hasError(produitForm, 'tarif', 'required')">Veuillez saisir une prix</mat-error>
-      </mat-form-field>
+        </mat-form-field>
       </div>
       <h3 class="text-secondary">Informations sur l'article</h3>
       <div class="d-flex flex-row">
@@ -84,40 +80,39 @@
                  formControlName="poidsMax">
         </mat-form-field>
       </div>
-        <mat-form-field class="mat-form-field-name me-4 w-100">
-          <input matInput
-                 placeholder="Nombre de pièce par article"
-                 type="number"
-                 formControlName="nbPieceLot"
-                 required>
-        </mat-form-field>
+      <mat-form-field class="mat-form-field-name me-4 w-100">
+        <input matInput
+               placeholder="Nombre de pièce par article"
+               type="number"
+               formControlName="nbPieceLot"
+               required>
+      </mat-form-field>
 
-     <!-- <mat-form-field class="mat-form-field-status me-4">
-        <mat-label>Type</mat-label>
-        <mat-select formControlName="typeTarif">
-          <ng-container *ngFor="let type of listTypeTarif">
-            <mat-option [value]="type.code">{{ type.label }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>-->
-     <!-- <h3 class="text-secondary">Description du produit</h3>
-      <mat-form-field class="d-block w-100">
-        <mat-label>Description</mat-label>
-        <textarea matInput
-                  formControlName="description"
-                  rows="4"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5">
-          </textarea>
-      </mat-form-field>-->
+      <!-- <mat-form-field class="mat-form-field-status me-4">
+         <mat-label>Type</mat-label>
+         <mat-select formControlName="typeTarif">
+           <ng-container *ngFor="let type of listTypeTarif">
+             <mat-option [value]="type.code">{{ type.label }}</mat-option>
+           </ng-container>
+         </mat-select>
+       </mat-form-field>-->
+      <!-- <h3 class="text-secondary">Description du produit</h3>
+       <mat-form-field class="d-block w-100">
+         <mat-label>Description</mat-label>
+         <textarea matInput
+                   formControlName="description"
+                   rows="4"
+                   cdkAutosizeMinRows="1"
+                   cdkAutosizeMaxRows="5">
+           </textarea>
+       </mat-form-field>-->
     </div>
   </div>
   <div class="text-center w-100 mt-3">
     <button mat-stroked-button
             color="accent"
             type="button"
-            class="me-2"
-            (click)="cancel()">
+            class="me-2">
       Annuler
     </button>
     <button mat-raised-button
@@ -128,5 +123,5 @@
     </button>
   </div>
 </form>
-
-
+  </div>
+</div>

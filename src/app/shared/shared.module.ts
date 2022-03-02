@@ -50,6 +50,7 @@ import {
   PopinCategoriesProduitComponent
 } from "../../components/shared/popins/popin-categories-produit/popin-categories-produit.component";
 import {PaginationComponent} from "../../components/shared/pagination/pagination.component";
+import {UploadFileComponent} from "../../components/shared/core/upload-file/upload-file.component";
 
 const materialModules = [
   MatBadgeModule,
@@ -97,7 +98,8 @@ const components = [
   MenuNavigationComponent,
   PopinConfirmComponent,
   PopinCategoriesProduitComponent,
-  PaginationComponent
+  PaginationComponent,
+  UploadFileComponent
 ];
 @NgModule({
   declarations: [

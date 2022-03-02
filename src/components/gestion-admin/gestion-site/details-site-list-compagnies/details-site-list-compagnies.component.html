@@ -26,33 +26,47 @@
   </form>
 </div>
 
-<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="site && site.compagnies && site.compagnies.length > 0">
-  <table>
+<div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto py-2 px-2"
+     *ngIf="site && site.compagnies && site.compagnies.length > 0">
+  <h2 class="mx-2 my-2 text-start prim" ><span matBadge="{{site.compagnies.length}}" matBadgeOverlap="false">Compagnies</span> </h2>
+  <table class="rounded-2 p-3">
     <thead>
-    <tr>
-      <th scope="col">Nom</th>
-      <th scope="col">Statut</th>
-      <th scope="col">Actions</th>
-    </tr>
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Adresse</th>
+        <th scope="col">Statut</th>
+        <th scope="col"></th>
+      </tr>
     </thead>
     <tbody>
     <tr *ngFor="let compagnie of site.compagnies">
       <td>{{ compagnie?.name }}</td>
+      <td>{{ compagnie?.adresse?.ville }}</td>
       <td>
         <i class='material-icons text-{{compagnie.status.color}}'
            matTooltip="{{ compagnie.status.label}}">{{compagnie.status.icon}}
         </i>
       </td>
       <td>
-        <mat-icon aria-label="Delete"
-                  class="mx-2"
-                  (click)="removeCompagnie(compagnie)"
-                  matTooltip="Supprimer du site"
-                  color="accent">
-          delete
-        </mat-icon>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <i class='material-icons'>more_vert
+          </i>
+        </button>
+        <mat-menu #menu="matMenu" class="text-center">
+          <mat-icon aria-label="Delete"
+                    class="mx-2"
+                    (click)="removeCompagnie(compagnie)"
+                    matTooltip="Supprimer du site"
+                    color="accent">
+            delete
+          </mat-icon>
+        </mat-menu>
       </td>
     </tr>
-    </tbody>
+  </tbody>
   </table>
+</div>
+<div class="shadow d-block bg-white text-center rounded-2 overflow-auto py-2"
+     *ngIf="site && site.compagnies && site.compagnies.length === 0">
+  <p class="mb-0">Aucune compagnie</p>
 </div>

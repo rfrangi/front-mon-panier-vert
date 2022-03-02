@@ -17,6 +17,13 @@ ul {
     }
   }
 }
+img {
+ // filter: invert(0.04);
+  max-width: 7rem;
+  min-width: 7rem;
+  max-height: 6rem;
+  min-height: 6rem;
+}
 
 h2 mat-icon {
   float: right;

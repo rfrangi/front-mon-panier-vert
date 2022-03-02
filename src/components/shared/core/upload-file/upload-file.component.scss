@@ -1,0 +1,25 @@
+
+.upload {
+  width: calc(100% - 2em);
+  margin: 1em;
+
+  .mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+
+    button {
+      width: 200px;
+    }
+  }
+}
+
+#uploadFile {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}

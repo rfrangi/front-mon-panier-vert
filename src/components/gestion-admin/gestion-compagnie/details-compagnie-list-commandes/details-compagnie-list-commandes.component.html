@@ -1,1 +1,51 @@
-<h2>Commandes</h2>
+<div class="pb-2">
+  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="commandes.length > 0">
+    <h2 class="mx-2 my-2 text-start prim" >
+      <span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false">Commandes</span>
+    </h2>
+    <table class="rounded-2 p-3">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let commande of commandes">
+        <td>{{ commande?.id }}</td>
+        <td>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <i class='material-icons'>more_vert
+            </i>
+          </button>
+          <mat-menu #menu="matMenu" class="text-center">
+            <button mat-menu-item class="text-center">
+              <mat-icon aria-label="Edit"
+                        class="me-2 align-middle"
+                        matTooltip="Modifier"
+                        color="accent">
+                edit
+              </mat-icon><span class="align-middle">Modifier</span>
+            </button>
+            <button mat-menu-item class="text-center">
+              <mat-icon aria-label="Delete"
+                        class="me-2 align-middle"
+                        matTooltip="Supprimer"
+                        color="accent">
+                delete
+              </mat-icon><span class="align-middle">Supprimer</span>
+            </button>
+          </mat-menu>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="commandes.length === 0">
+    <p class="mb-0">Aucune commandes ne correspond à votre recherche</p>
+  </div>
+  <app-pagination *ngIf="pagination && commandes.length > 0"
+                  [pagination]="pagination" (change)="search()" class="pb-2 mb-2"></app-pagination>
+</div>

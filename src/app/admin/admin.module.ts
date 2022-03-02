@@ -10,7 +10,7 @@ import {ListSitesComponent} from "../../components/gestion-admin/list-sites/list
 import {ListUsersComponent} from "../../components/gestion-admin/list-users/list-users.component";
 import {ListEmailsComponent} from "../../components/gestion-admin/list-emails/list-emails.component";
 import {ListCompagniesComponent} from "../../components/gestion-admin/list-compagnies/list-compagnies.component";
-import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
+import {DetailsProduitComponent} from "../../components/gestion-admin/details-produit/details-produit.component";
 import { DetailsSiteListCompagniesComponent } from "../../components/gestion-admin/gestion-site/details-site-list-compagnies/details-site-list-compagnies.component";
 import { DetailsCompagniesInformationsComponent } from "../../components/gestion-admin/gestion-compagnie/details-compagnie-informations/details-compagnies-informations.component";
 import {
@@ -34,6 +34,7 @@ import {
   PopinAddCompagnieOnSiteComponent
 } from "../../components/gestion-admin/gestion-site/popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
 import {PopinProduitComponent} from "../../components/shared/popins/popin-produit/popin-produit.component";
+import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import {PopinProduitComponent} from "../../components/shared/popins/popin-produi
     ListEmailsComponent,
     ListCompagniesComponent,
 
-    DetailsUsersComponent,
+    DetailsProduitComponent,
 
     GestionSiteComponent,
     DetailsSiteInformationsComponent,
@@ -59,8 +60,8 @@ import {PopinProduitComponent} from "../../components/shared/popins/popin-produi
     DetailsCompagnieListProduitsComponent,
     DetailsCompagnieListCommandesComponent,
 
-    PopinProduitComponent
-
+    PopinProduitComponent,
+    DetailsUsersComponent
   ],
   imports: [
     CommonModule,

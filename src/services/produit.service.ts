@@ -27,28 +27,12 @@ export class ProduitService {
       }));
   }
 
-  public add(idCompagnie: string): Observable<Produit> {
-    const produit = {
-      name: 'test',
-      tarif: 30.99,
-      categorie: 'FRUIT',
-      typeTarif: 'POID',
-      quantite: 3000,
-      idCompagnie: idCompagnie
-    }
-    const formData = new FormData();
-    formData.append('produit', JSON.stringify(produit));
-
-    return this.http.post<Produit>(environment.urlAPI + `admin/produit`, formData)
-      .pipe(map((x: any) => new Produit(x)));
-  }
-
   public save(produit: any, isModeAdmin = false, file?: File): Observable<Produit> {
     return produit.id ? this.update(produit, isModeAdmin, file) : this.create(produit, isModeAdmin, file);
   }
 
   public create(produit: any, isModeAdmin = false, file?: File): Observable<Produit> {
-    const url = isModeAdmin ?  `admin/produit` : 'produit';
+    const url = `admin/produit`;
     const formData = new FormData();
     if(file) {
       formData.append('files', file);
@@ -59,7 +43,7 @@ export class ProduitService {
   }
 
   public update(produit: any, isModeAdmin = false, file?: File): Observable<Produit> {
-    const url = (isModeAdmin ?  `admin/produit/${produit.id}` : `produit/${produit.id}`);
+    const url = `admin/produit/${produit.id}`;
     const formData = new FormData();
     if(file) {
       formData.append('files', file);

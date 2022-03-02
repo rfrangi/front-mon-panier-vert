@@ -1,13 +1,20 @@
-<div class="pb-2 ">
+<div class="pb-2">
   <div class="block-search mb-2 d-block bg-white py-2 mx-2 text-center rounded-2 shadow">
     <button class="d-inline-block text-white"
             mat-raised-button color="accent"
-            name="btn-add-compagnie" type="button" (click)="showPopinAddProduit()">
-      Ajouter un produit
+            name="btn-add-compagnie" type="button" (click)="showPopinAddProduit(null)">
+      Ajouter un produit (popin)
+    </button>
+
+    <button class="d-inline-block text-white"
+            mat-raised-button color="accent"
+            name="btn-add-compagnie" type="button" (click)="goToUrl(['administration', 'compagnie', compagnie.id, 'produit'])">
+      Ajouter
     </button>
   </div>
 
-  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2" *ngIf="produits.length > 0">
+  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="produits.length > 0">
     <h2 class="mx-2 my-2 text-start prim" ><span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false">Produits</span> </h2>
     <table class="rounded-2 p-3">
       <thead>
@@ -33,7 +40,7 @@
             </i>
           </button>
           <mat-menu #menu="matMenu" class="text-center">
-            <button mat-menu-item class="text-center">
+            <button mat-menu-item class="text-center" (click)="showPopinAddProduit(produit)">
               <mat-icon aria-label="Edit"
                         class="me-2 align-middle"
                         matTooltip="Modifier"
@@ -50,11 +57,16 @@
               </mat-icon><span class="align-middle">Supprimer</span>
             </button>
           </mat-menu>
-
         </td>
       </tr>
       </tbody>
     </table>
+
   </div>
-  <app-pagination *ngIf="pagination" [pagination]="pagination" (change)="search()" class="pb-2 mb-2"></app-pagination>
+  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="produits.length === 0">
+    <p class="mb-0">Aucun résultat ne correspond à votre recherche</p>
+  </div>
+  <app-pagination *ngIf="pagination && produits.length > 0"
+                  [pagination]="pagination" (change)="search()" class="pb-2 mb-2"></app-pagination>
 </div>

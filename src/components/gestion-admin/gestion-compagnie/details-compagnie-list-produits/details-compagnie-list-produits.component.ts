@@ -11,7 +11,7 @@ import {PopinProduitComponent} from "../../../shared/popins/popin-produit/popin-
 import {Pagination} from "../../../../models/pagination.model";
 import {Produit} from "../../../../models/produit.model";
 import {Compagnie} from "../../../../models/compagnie.model";
-import {LIST_PRODUIT_CATEGORIE, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
 
 @Component({
   selector:  'app-produits-compagnie',
@@ -23,7 +23,7 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
   public compagnie!: Compagnie;
   public produits: Array<Produit> = [];
   public pagination!: Pagination;
-  public listCategorie: Array<ProduitCategorie> = Object.values(LIST_PRODUIT_CATEGORIE);
+  public listCategorie: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
 
   constructor(private toast: ToastService,
               private route: ActivatedRoute,
@@ -66,11 +66,15 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
     })
   }
 
-  public showPopinAddProduit(): void {
+  public showPopinAddProduit(produit: Produit | null): void {
     this.popinService.openPopin(PopinProduitComponent, { data: {
         compagnie: this.compagnie,
-        produit: new Produit()
+        produit: produit ? produit : new Produit()
       }})
+  }
+
+  goToUrl(urls: Array<string>): void {
+    this.router.navigate(urls);
   }
 }
 

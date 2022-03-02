@@ -9,7 +9,7 @@ import {ListCompagniesComponent} from "../../components/gestion-admin/list-compa
 import {ListSitesComponent} from "../../components/gestion-admin/list-sites/list-sites.component";
 import {ListEmailsComponent} from "../../components/gestion-admin/list-emails/list-emails.component";
 import { DetailsSiteInformationsComponent } from "../../components/gestion-admin/gestion-site/details-site-informations/details-site-informations.component";
-import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
+import {DetailsProduitComponent} from "../../components/gestion-admin/details-produit/details-produit.component";
 import {
   DetailsCompagniesInformationsComponent
 } from "../../components/gestion-admin/gestion-compagnie/details-compagnie-informations/details-compagnies-informations.component";
@@ -37,7 +37,7 @@ export const routes: Routes = [
       { path: '', component: MenuAdminComponent },
       { path: 'utilisateurs', children: [
           { path: '', component: ListUsersComponent },
-          { path: ':id', component: DetailsUsersComponent },
+          { path: ':id', component: DetailsProduitComponent },
 
         ], },
       { path: 'compagnies', component: ListCompagniesComponent },
@@ -48,6 +48,11 @@ export const routes: Routes = [
               { path: 'informations', component: DetailsCompagniesInformationsComponent },
               { path: 'commandes', component: DetailsCompagnieListCommandesComponent },
               { path: 'produits', component: DetailsCompagnieListProduitsComponent },
+              { path: 'produit', children: [
+                  { path: '',  component: DetailsProduitComponent },
+                  { path: ':idProduit',  component: DetailsProduitComponent }
+                ]
+              },
             ]
           },
         ]

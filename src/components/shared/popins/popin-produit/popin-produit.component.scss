@@ -1,8 +1,12 @@
-form {
-  width: 22em;
-}
 
 h2 mat-icon {
   float: right;
   vertical-align: middle;
+}
+
+.block-img {
+  padding: 0 1em;
+  img {
+    max-width: calc(100% - 2em);
+  }
 }

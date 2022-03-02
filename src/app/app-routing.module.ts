@@ -1,6 +1,6 @@
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import {HomeComponent} from '../components/home/home.component';
 import {ForgotPasswordComponent} from "../components/gestion-guest-user/forgot-password/forgot-password.component";
 import {LoginFormComponent} from "../components/gestion-guest-user/login/login-form.component";
@@ -17,12 +17,14 @@ export const routes: Routes = [
   { path: 'administration', loadChildren: () => import('./admin/admin.module').then(p => p.AdminModule)},
 
 ];
-export const routing = RouterModule.forRoot(routes, {
+export const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always',
   useHash: true
-});
+};
+
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { useHash: true }) ],
+  imports: [ RouterModule.forRoot(routes, routingConfiguration) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }
