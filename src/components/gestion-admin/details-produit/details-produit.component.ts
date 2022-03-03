@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";
@@ -30,9 +30,11 @@ export class DetailsProduitComponent implements OnInit {
 
   public produit!: Produit;
   public compagnie!: Compagnie;
+  private file!: File;
 
   constructor(private toast: ToastService,
               private route: ActivatedRoute,
+              private router: Router,
               private compagnieService: CompagnieService,
               private produitService: ProduitService) {
 
@@ -90,21 +92,32 @@ export class DetailsProduitComponent implements OnInit {
       if (this.listSSCategories.length > 0) {
         this.produitForm?.get("ssCategorie")?.setValue(this.listSSCategories[0].code, {emitEvent: false});
       }
-
-      console.log(this.listSSCategories);
     }));
   }
 
   public submit(): void {
     const produit = this.produitForm.value;
     produit.idCompagnie = this.compagnie.id;
-    this.produitService.save(produit).subscribe({
-      next: () => { console.log('save produit')}
+    produit.id = this.produit.id;
+    produit.img = this.produit.img;
+    this.produitService.save(produit, true, this.file).subscribe({
+      next: () => {
+        this.toast.success('Le produit est enregistré.')
+        this.goToUrl(['administration', 'compagnie', this.compagnie.id, 'produits'])
+      }
     })
   }
 
   public hasError = (form: any, controlName: string, errorName: string) => {
     return form.controls[controlName].hasError(errorName);
+  }
+
+  public changeImg($event: any): void {
+    this.file = $event;
+  }
+
+  goToUrl(urls: Array<string>): void {
+    this.router.navigate(urls);
   }
 }
 

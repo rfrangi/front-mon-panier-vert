@@ -13,10 +13,12 @@ export class Produit {
   public ssCategorie!: SousCategorie;
   public tarif!: string;
   public typeTarif!: TypeTarif;
-  public img!: string;
+  public img!: string | undefined;
   public nbPieceLot!: string;
   public poidsMin!: string;
   public poidsMax!: string;
+  public isPromo!: boolean;
+  public isBio!: boolean;
 
   constructor(data: any = {}) {
     Object.assign(this, data);
@@ -41,7 +43,9 @@ export class Produit {
       nbPieceLot: this.nbPieceLot,
       poidsMin: this.poidsMin,
       poidsMax: this.poidsMax,
-      reference: this.reference
+      reference: this.reference,
+      isPromo: this.isPromo,
+      isBio: this.isBio
     }
   }
 }

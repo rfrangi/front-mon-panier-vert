@@ -1,25 +1,10 @@
-
-.upload {
-  width: calc(100% - 2em);
-  margin: 1em;
-
-  .mat-toolbar-single-row {
-    height: auto !important;
-    background: transparent;
-
-    button {
-      width: 200px;
-    }
-  }
-}
-
-#uploadFile {
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9;
-  opacity: 0;
-  height: 100%;
+.img-add-photo {
+  width: 20em;
+  height: 25em;
+  max-width: 30em;
+  max-height: 25em;
   cursor: pointer;
-  position: absolute;
+}
+input {
+  display: none;
 }

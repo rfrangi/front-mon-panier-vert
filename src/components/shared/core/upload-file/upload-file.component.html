@@ -1,25 +1,4 @@
-<!-- <mat-form-field class="upload">
-  <div>
-    <mat-toolbar>
-      <input matInput [(ngModel)]="fileAttr" readonly name="name" />
-      <button mat-flat-button color="primary">Browse File</button>
-    </mat-toolbar>
-    <input
-      style="display: none;"
-      type="file"
-      #fileInput
-      id="uploadFile"
-      (change)="uploadFileEvt($event)"
-      name="uploadFile"
-      multiple="multiple"
-      accept="image/*"
-    />
-  </div>
-</mat-form-field>-->
-
-
 <input
-  style="display: none;"
   type="file"
   #fileInput
   id="uploadFile"
@@ -29,4 +8,9 @@
   accept="image/*"
 />
 
-<img src="assets/add-photo.jpg" alt="add_photo" (click)="showPopinUplad()"/>
+<img
+     src="{{ !src ? 'assets/add-photo.jpg' : src}}"
+     alt="add_photo"
+     matTooltip="Ajouter une photo"
+     class="img-add-photo"
+     (click)="showPopinUplad()"/>

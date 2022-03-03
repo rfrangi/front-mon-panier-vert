@@ -2,45 +2,47 @@
   <div class="block-search mb-2 d-block bg-white py-2 mx-2 text-center rounded-2 shadow">
     <button class="d-inline-block text-white"
             mat-raised-button color="accent"
-            name="btn-add-compagnie" type="button" (click)="showPopinAddProduit(null)">
-      Ajouter un produit (popin)
-    </button>
-
-    <button class="d-inline-block text-white"
-            mat-raised-button color="accent"
             name="btn-add-compagnie" type="button" (click)="goToUrl(['administration', 'compagnie', compagnie.id, 'produit'])">
-      Ajouter
+      Ajouter un produit
     </button>
   </div>
 
-  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+  <div class="shadow my-2 d-block bg-white rounded-2 overflow-auto p-2 mx-2"
        *ngIf="produits.length > 0">
     <h2 class="mx-2 my-2 text-start prim" ><span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false">Produits</span> </h2>
     <table class="rounded-2 p-3">
       <thead>
       <tr>
-        <th scope="col">Nom</th>
-        <th scope="col">Quantite</th>
-        <th scope="col">Catégorie</th>
-        <th scope="col">Tarif</th>
+        <th scope="col" class="text-center">Titre</th>
+        <th scope="col" class="text-center">Quantité Dispo.</th>
+        <th scope="col" class="text-center">Tarif</th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let produit of produits">
-        <td>{{ produit?.name }}</td>
         <td>
+          <img [src]="getSrc(produit.img)" [alt]="produit.name" class="img-produit align-middle d-inline-block mx-3"/>
+          <span class="align-middle d-inline-block">
+            <span class="fs-5">{{ produit?.name }}</span>
+            <br/>
+            <span class="">{{produit.categorie.label}}
+              <span *ngIf="produit.ssCategorie">({{produit.ssCategorie.label}})</span>
+            </span>
+          </span>
+
+        </td>
+        <td class="text-center">
           {{ produit.quantite }}
         </td>
-        <td>{{produit.categorie.label}}</td>
-        <td>{{produit.tarif}}</td>
+        <td class="text-center">{{produit.tarif}}</td>
         <td>
           <button mat-button [matMenuTriggerFor]="menu">
             <i class='material-icons'>more_vert
             </i>
           </button>
           <mat-menu #menu="matMenu" class="text-center">
-            <button mat-menu-item class="text-center" (click)="showPopinAddProduit(produit)">
+            <button mat-menu-item class="text-center" (click)="goToUrl(['administration', 'compagnie', compagnie.id, 'produit', produit.id ])">
               <mat-icon aria-label="Edit"
                         class="me-2 align-middle"
                         matTooltip="Modifier"
@@ -48,7 +50,7 @@
                 edit
               </mat-icon><span class="align-middle">Modifier</span>
             </button>
-            <button mat-menu-item class="text-center">
+            <button mat-menu-item class="text-center"  (click)="removeProduit(produit)">
               <mat-icon aria-label="Delete"
                         class="me-2 align-middle"
                         matTooltip="Supprimer"
