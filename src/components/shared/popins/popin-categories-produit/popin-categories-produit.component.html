@@ -4,9 +4,12 @@
             (click)="cancel()"
             class="border-primary">close</mat-icon>
 </h2>
-
+<div class="description">
+  <p>Voici les catégories proposées par le {{ data?.site?.name }}.</p>
+  <p>Pour modifier le site de rattachement, <strong (click)="showPopinSelectedSite()">cliquez ici</strong></p>
+</div>
 <ul class="m-0 p-0 text-center overflow-auto">
-  <li *ngFor="let cat of listCategorie" class=" d-inline-block p-3 m-1 border rounded-2">
+  <li *ngFor="let cat of data?.categories" class=" d-inline-block p-3 m-1 border rounded-2" (click)="goToCategorieProduit(cat)">
     <img *ngIf="cat.img" [src]="cat.img" [alt]="cat.code"/>
     <span class="d-block mt-4 fs-5">{{ cat.label }}</span>
   </li>

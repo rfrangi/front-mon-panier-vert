@@ -77,7 +77,6 @@
     text-align: center;
 
     span {
-      color: #d6180b;
       font-family: Sana Sans Black,Helvetica,Arial,sans-serif;
       margin-left: -10px;
       font-size: 1.3em;
@@ -101,14 +100,24 @@
 
     mat-icon, span {
       color: black;
-      margin-right: 10px;
     }
   }
 
-  .block-panier span {
-    color: #d6180b;
-    text-align: center;
-    font-family: Sana Sans Black,Helvetica,Arial,sans-serif;
+  .block-panier {
+
+    position: relative;
+
+    span.price {
+      color: #388e3c;
+      text-align: center;
+      font-family: Sana Sans Black, Helvetica, Arial, sans-serif;
+    }
+
+    span.badge {
+      margin: auto;
+      color: white;
+      width: 40px;
+    }
   }
 
   .block-panier,
@@ -173,6 +182,9 @@ span {
     width: 22%;
   }
 }
+@media only screen and (max-width: 950px) {
+
+}
 
 @media only screen and (min-width: 750px) and (max-width: 950px) {
 
@@ -180,4 +192,8 @@ span {
 
 @media only screen and (min-width: 951px) {
 
+  span.price,
+  span.title-menu {
+    margin-left: 10px;
+  }
 }

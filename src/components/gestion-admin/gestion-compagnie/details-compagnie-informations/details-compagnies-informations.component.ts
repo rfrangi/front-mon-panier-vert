@@ -4,12 +4,13 @@ import {ToastService} from "../../../../services/toast.service";
 import {CompagnieService} from "../../../../services/compagnie.service";
 import {Compagnie} from "../../../../models/compagnie.model";
 
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators, FormArray} from "@angular/forms";
 import {LIST_PAYS, Pays} from "../../../../models/pays.model";
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "../../../../models/compagnie-status.model";
 import {PopinService} from "../../../../services/popin.service";
 import {AdresseFormComponent} from "../../../shared/adresse/adresse-form/adresse-form.component";
 import {Adresse} from "../../../../models/adresse.model";
+import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
 
 @Component({
   selector:  'app-details-compagnies-informations',
@@ -22,11 +23,13 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
   public compagnieForm!: FormGroup;
   public listPays: Array<Pays> = Object.values(LIST_PAYS);
   public listStatus: Array<CompagnieStatus> = Object.values(LIST_COMPAGNIE_STATUS);
+  public listCategories: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
 
   public step: number = 0;
   public isCreated: boolean = false;
 
   public updateInfo: boolean = false;
+  public updateCategories: boolean = false;
   public updateCoordonnee: boolean = false;
   public updateAdresse: boolean = false;
 
@@ -59,6 +62,7 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     } else {
       this.isCreated = true;
       this.updateInfo = true;
+      this.updateCategories = true;
       this.updateCoordonnee = true;
       this.updateAdresse = true;
       this.compagnie = new Compagnie();
@@ -66,22 +70,24 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     }
   }
 
+
   public onUpdateInfo(): void {
     this.updateInfo = !this.updateInfo;
-
-    this.initForm()
+    this.initForm();
   }
 
+  public onUpdateCategories(): void {
+    this.updateCategories = !this.updateCategories;
+    this.initForm();
+  }
   public saveCompagnieInfo(): void {
     this.compagnie.name = this.compagnieForm.value.name;
     this.compagnie.siret = this.compagnieForm.value.siret;
     this.compagnie.status = LIST_COMPAGNIE_STATUS[this.compagnieForm.value.status];
-    console.log(this.compagnie);
     this.compagnieService.save(this.compagnie.serialize(), true).subscribe({
       next: (compagnie: Compagnie) => {
         this.toast.success('Les informations sont à jours');
         this.compagnie = compagnie;
-        console.log(this.compagnie);
         this.resetForm();
       },
       error: (err: any) =>  this.toast.genericError(err),
@@ -99,6 +105,21 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
       },
       error: (err: any) =>  this.toast.genericError(err),
     })
+  }
+
+  public saveCategories(): void {
+    const objCompagnie = this.compagnie.serialize() ;
+    const list = (this.compagnieForm.controls['categories'] as FormArray).value;
+    Object.assign(objCompagnie, { categories: list })
+     this.compagnieService.save(objCompagnie, true).subscribe({
+       next: (compagnie: Compagnie) => {
+         this.toast.success('Les informations sont à jours');
+         this.compagnie = compagnie;
+         this.updateCategories = false;
+         this.resetForm();
+       },
+       error: (err: any) =>  this.toast.genericError(err),
+     })
   }
 
   public saveAdresse(): void {
@@ -149,6 +170,8 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
         Validators.minLength(14),
         Validators.maxLength(14),
       ]),
+      categories: new FormControl({value: this.compagnie.categories.map((cat: ProduitCategorie) => cat.code), disabled: !this.updateCategories}, [
+      ]),
       email: new FormControl({value: this.compagnie.email, disabled: !this.updateCoordonnee }, [
         Validators.required,
         Validators.email,
@@ -167,6 +190,21 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     })
   }
 
+  onCheckboxChange(event: any) {
+   const list = this.compagnieForm.controls['categories'] as FormArray;
+    if (list.value.includes(event)) {
+      const index = list.value.indexOf(event);
+      list.value.splice(index, 1);
+    } else {
+      list.value.push(event);
+    }
+  }
+
+  public checkCategorie(cat: string): boolean {
+    return (this.compagnieForm.controls['categories'] as FormArray).value.includes(cat);
+  }
+
+
   public resetForm(): void {
     this.updateAdresse = false;
     this.updateInfo = false;
@@ -181,7 +219,6 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     }
     const data = this.compagnieForm.value;
     Object.assign(data, {id: this.compagnie.id ? this.compagnie.id : undefined })
-    console.log(data);
     this.popinService.showLoader();
     this.compagnieService.save(data, true).subscribe({
       next: (compagnie: Compagnie) => {

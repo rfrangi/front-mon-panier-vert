@@ -14,6 +14,7 @@ export class SousCategorie {
   code!: string;
   img!: string;
   label!: string;
+  nbArticle: number = 0;
 
   constructor(data: any = {}) {
     Object.assign(this, data);
@@ -58,9 +59,9 @@ export const LIST_SOUS_CATEGORIES: any = {
   VIENNOISERIE: new SousCategorie({ code: 'VIENNOISERIE', label: 'Viennoiserie', img: '' }),
 
   /** PATISSERIE **/
-  GATEAUX: new SousCategorie({ code: 'POULET', label: 'Poulet', img: '' }),
-  TARTES: new SousCategorie({ code: 'LAPIN', label: 'Lapin', img: '' }),
-  MIGNARDISES: new SousCategorie({ code: 'DINDE', label: 'Dinde', img: '' }),
+  GATEAUX: new SousCategorie({ code: 'GATEAUX', label: 'Gâteaux', img: '' }),
+  TARTES: new SousCategorie({ code: 'TARTES', label: 'Tartes', img: '' }),
+  MIGNARDISES: new SousCategorie({ code: 'MIGNARDISES', label: 'Mignardises', img: '' }),
 
   /** TRAITEUR_ROTISERIE **/
   SALADE: new SousCategorie({ code: 'SALADE', label: 'Salade', img: '' }),

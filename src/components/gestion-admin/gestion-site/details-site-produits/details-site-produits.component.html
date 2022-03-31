@@ -1,1 +1,59 @@
-List des produits
+<div class="pb-2">
+  <div class="shadow my-2 d-block bg-white rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="produits.length > 0">
+    <h2 class="mx-2 my-2 text-start prim" ><span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false">Produits</span> </h2>
+    <table class="rounded-2 p-3">
+      <thead>
+      <tr>
+        <th scope="col" class="text-center">Titre</th>
+        <th scope="col" class="text-center">Compagnie</th>
+        <th scope="col" class="text-center">Quantité Dispo.</th>
+        <th scope="col" class="text-center">Tarif</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let produit of produits">
+        <td>
+          <img [src]="getSrc(produit.img)" [alt]="produit.name" class="img-produit align-middle d-inline-block mx-3"/>
+          <span class="align-middle d-inline-block">
+            <span class="fs-5">{{ produit?.name }}</span>
+            <br/>
+            <span class="">{{produit.categorie.label}}
+              <span *ngIf="produit.ssCategorie">({{produit.ssCategorie.label}})</span>
+            </span>
+          </span>
+        </td>
+        <td>{{ produit.compagnieName }}</td>
+        <td class="text-center">
+          {{ produit.quantite }}
+        </td>
+        <td class="text-center">{{produit.tarif}}</td>
+        <td>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <i class='material-icons'>more_vert
+            </i>
+          </button>
+          <mat-menu #menu="matMenu" class="text-center">
+            <button mat-menu-item class="text-center">
+              <mat-icon aria-label="Edit"
+                        class="me-2 align-middle"
+                        matTooltip="Modifier"
+                        color="accent">
+                edit
+              </mat-icon><span class="align-middle">Modifier</span>
+            </button>
+          </mat-menu>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="shadow my-2 d-block bg-white text-center rounded-2 overflow-auto p-2 mx-2"
+       *ngIf="produits.length === 0">
+    <p class="mb-0">Aucun résultat ne correspond à votre recherche</p>
+  </div>
+  <app-pagination *ngIf="pagination && produits.length > 0"
+                  [pagination]="pagination" (change)="search()" class="pb-2 mb-2"></app-pagination>
+</div>

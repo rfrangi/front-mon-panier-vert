@@ -1,5 +1,6 @@
 import {Adresse} from './adresse.model';
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "./compagnie-status.model";
+import {LIST_CATEGORIES, ProduitCategorie} from "./produit-categorie.model";
 
 export class Compagnie {
 
@@ -14,11 +15,13 @@ export class Compagnie {
   adresse!: Adresse;
   creationDate!: Date;
   modificationDate!: Date;
+  categories: Array<ProduitCategorie> = [];
 
   constructor(data: any= {}) {
     Object.assign(this, data);
     this.adresse = data.adresse ? new Adresse(data.adresse) : new Adresse();
     this.status = data.status != undefined ? LIST_COMPAGNIE_STATUS[data.status] : LIST_COMPAGNIE_STATUS.EN_ATTENTE_VALIDATION;
+    this.categories = data.categories ? data.categories.map((cat: string) => LIST_CATEGORIES[cat]) : [];
   }
 
   serialize(): any {
@@ -32,7 +35,8 @@ export class Compagnie {
       status: this.status ? this.status.code : LIST_COMPAGNIE_STATUS.EN_ATTENTE_VALIDATION.code,
       creationDate: this.creationDate,
       modificationDate: this.modificationDate,
-      adresse: this.adresse.serialize()
+      adresse: this.adresse.serialize(),
+      categories: this.categories?.length > 0 ? this.categories.map(cat => cat.code) : []
     };
   }
 }

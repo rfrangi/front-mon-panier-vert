@@ -1,1 +1,48 @@
-<h2>Produits</h2>
+<div class="d-flex flex-column flex-sm-row flex-wrap text-sm-center mx-auto">
+  <div *ngFor="let produit of produits" class="produit align-middle mb-2 mx-0 mx-sm-2 p-0 bg-white shadow d-flex flex-column flex-wrap">
+    <img class="mx-auto" [src]="produit.srcImg" [alt]="produit.name">
+    <div class="">
+      <div class="content m-2 px-2">
+        <p class="produit-title text-center mb-0">{{ produit.name }}</p>
+        <p class="title-compagnie text-center font-italic text-black-50">{{ produit.compagnieName }}</p>
+        <div class="description d-flex flex-row mb-2">
+              <span class="flex-grow-1 sous-description text-black-50">{{ getlabelPoids(produit) }}
+                <br/>
+                <ng-container *ngIf="produit.nbPieceLot >= 1">{{ produit.nbPieceLot }} pièces </ng-container>
+              </span>
+          <span class="price text-end fs-3 text-primary">{{ produit.tarif }} €</span>
+        </div>
+      </div>
+      <div class="action text-center py-2 px-2 block-action-produit-commande">
+        <button *ngIf="!getIdProduitCommande().includes(produit.id)"
+                mat-raised-button
+                type="submit"
+                class="w-100"
+                (click)="addBasket(produit)"
+                color="primary">
+          Ajouter au panier
+        </button>
+
+        <ng-container *ngIf="getIdProduitCommande().includes(produit.id)">
+          <button
+                  mat-raised-button
+                  type="submit"
+                  class="d-inline-block"
+                  (click)="removeQuantiteBasket(produit)"
+                  color="primary">
+            -
+          </button>
+          <span class="d-inline-block">{{ getQuantiteCommade(produit) }}</span>
+          <button
+            mat-raised-button
+            type="submit"
+            class="d-inline-block"
+            (click)="addQuantiteBasket(produit)"
+            color="primary">
+            +
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

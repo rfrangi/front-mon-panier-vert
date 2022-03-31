@@ -48,13 +48,11 @@ export class ListCompagniesComponent implements OnInit {
         LIST_COMPAGNIE_STATUS.NON_VALIDE.code,
       ]
     });
-    console.log(params)
     this.popinService.showLoader();
     this.compagnieService.getAllByParams(params).subscribe({
       next: (data: any) => {
         this.compagnies = data.result;
         this.pagination = data.pagination;
-        console.log(this.pagination)
       },
       error: (err: any) => this.toast.genericError(err),
       complete: () => this.popinService.closeLoader()

@@ -51,6 +51,13 @@ import {
 } from "../../components/shared/popins/popin-categories-produit/popin-categories-produit.component";
 import {PaginationComponent} from "../../components/shared/pagination/pagination.component";
 import {UploadFileComponent} from "../../components/shared/core/upload-file/upload-file.component";
+import {PopinSelectSiteComponent} from "../../components/shared/popins/popin-select-site/popin-select-site.component";
+import {FilArianeComponent} from "../../components/shared/fil-ariane/fil-ariane.component";
+import {ListProduitComponent} from "../../components/shared/list-produit/list-produit.component";
+import {
+  PopinRemoveProduitComponent
+} from "../../components/shared/popins/popin-remove-produit/popin-remove-produit.component";
+import {MatStepperModule} from '@angular/material/stepper';
 
 const materialModules = [
   MatBadgeModule,
@@ -87,7 +94,8 @@ const materialModules = [
   MatGridListModule,
   MatRadioModule,
   MatDatepickerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatStepperModule
 ];
 
 const components = [
@@ -97,9 +105,13 @@ const components = [
   HeaderComponent,
   MenuNavigationComponent,
   PopinConfirmComponent,
+  PopinSelectSiteComponent,
   PopinCategoriesProduitComponent,
+  PopinRemoveProduitComponent,
   PaginationComponent,
-  UploadFileComponent
+  UploadFileComponent,
+  FilArianeComponent,
+  ListProduitComponent
 ];
 @NgModule({
   declarations: [

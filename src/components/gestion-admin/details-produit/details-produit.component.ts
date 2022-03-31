@@ -6,15 +6,19 @@ import {ToastService} from "../../../services/toast.service";
 import {PopinService} from "../../../services/popin.service";
 
 import {User} from "../../../models/user.model";
-import {LIST_CATEGORIES, LIST_SOUS_CATEGORIES, ProduitCategorie} from "../../../models/produit-categorie.model";
+import {
+  LIST_CATEGORIES,
+  LIST_SOUS_CATEGORIES,
+  ProduitCategorie,
+  SousCategorie
+} from "../../../models/produit-categorie.model";
 import {LIST_TYPE_TARIF, TypeTarif} from "../../../models/type-tarif.model";
 import {ProduitService} from "../../../services/produit.service";
-import {DialogData} from "../../shared/popins/popin-produit/popin-produit.component";
 import {FormControl, FormGroup, Validators } from '@angular/forms';
 import { Compagnie } from 'src/models/compagnie.model';
 import { Produit } from 'src/models/produit.model';
 import {CompagnieService} from "../../../services/compagnie.service";
-import {expand, forkJoin, merge, of, pluck, reduce, takeWhile } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector:  'app-gestion-admin-details-produit',
@@ -46,13 +50,12 @@ export class DetailsProduitComponent implements OnInit {
   }
 
   private onParamsChange(params: any): any {
-    console.log(params);
     if (params.id && params.idProduit) {
       forkJoin(this.compagnieService.getById(params.id), this.produitService.getById(params.idProduit)).subscribe(
         (result: any) => {
           this.compagnie = result[0];
+          this.listCategories = this.compagnie.categories;
           this.produit = result[1];
-          console.log(this.compagnie, this.produit);
           this.initForm();
         },
         err => this.toast.genericError(err)
@@ -61,8 +64,11 @@ export class DetailsProduitComponent implements OnInit {
       this.compagnieService.getById(params.id).subscribe(
         (compagnie: Compagnie) => {
           this.compagnie = compagnie;
-          this.produit = new Produit({ idCompagnie: this.compagnie.id });
-          console.log(this.compagnie, this.produit);
+          this.listCategories = this.compagnie.categories;
+          this.produit = new Produit({
+            idCompagnie: this.compagnie.id,
+            categorie: this.listCategories[0].code,
+            ssCategorie: this.listCategories[0].ssCategories.map((cat : SousCategorie) => cat.code)[0]});
           this.initForm();
         },
         err => this.toast.genericError(err)
@@ -87,7 +93,6 @@ export class DetailsProduitComponent implements OnInit {
     });
 
     this.produitForm?.get('categorie')?.valueChanges.subscribe((val => {
-      console.log(val, LIST_CATEGORIES[val]);
       this.listSSCategories = LIST_CATEGORIES[val].ssCategories;
       if (this.listSSCategories.length > 0) {
         this.produitForm?.get("ssCategorie")?.setValue(this.listSSCategories[0].code, {emitEvent: false});

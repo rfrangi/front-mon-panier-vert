@@ -1,0 +1,137 @@
+<app-header></app-header>
+<main>
+ <!-- <div class="m-2 d-block bg-white text-center rounded-2 overflow-auto p-2" *ngIf="produits.length > 0">
+    <h2 class="mx-2 my-2 text-start"><span matBadge="{{produits.length}}" matBadgeOverlap="false">Mon Panier</span></h2>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">Article</th>
+        <th scope="col">Prix unitaire</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let produit of produits">
+        <td class="text-start">
+          <img class="mx-auto align-top d-inline-block" width="80" [src]="produit.srcImg" [alt]="produit.name">
+          <div class="d-inline-block ms-3">
+            <strong class="d-block align-top fs-6">{{ produit?.name }}</strong>
+            <span class="d-block text-black-50 mt-4">{{ getlabelPoids(produit) }}</span>
+          </div>
+        </td>
+        <td>{{ produit?.tarif}} €</td>
+        <td>
+          <button
+          mat-raised-button
+          type="submit"
+          class="d-inline-block"
+          (click)="removeQuantiteBasket(produit)"
+          color="primary">
+          -
+        </button>
+          <span class="d-inline-block w-25">{{ getQuantiteCommade(produit) }}</span>
+          <button
+            mat-raised-button
+            type="submit"
+            class="d-inline-block"
+            (click)="addQuantiteBasket(produit)"
+            color="primary">
+            +
+          </button>
+          <a class="mt-2 d-block" (click)="showPopinRemoveProduit(produit)">supprimer</a>
+        </td>
+        <td class="text-danger fs-5"><strong>{{ getTotalPrixByProduit(produit) | number:'1.0-2' }} €</strong></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>-->
+
+  <mat-stepper [linear]="true" #stepper class="m-2 d-block bg-white text-center rounded-2 overflow-auto p-0 p-lg-2">
+    <mat-step label="Mon panier">
+      <div *ngIf="produits.length > 0" class="mt-3">
+        <h2 class="my-2 text-start"><span matBadge="{{produits.length}}" matBadgeOverlap="false">Mes articles</span></h2>
+        <table>
+          <thead class="">
+            <tr>
+              <th scope="col">Article</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let produit of produits">
+              <td class="text-start">
+                <img class="mx-auto align-top d-inline-block" width="80" [src]="produit.srcImg" [alt]="produit.name">
+                <div class="d-inline-block ms-sm-3">
+                  <strong class="d-block align-top fs-6">{{ produit?.name }}</strong>
+                  <span class="d-block text-black-50 mt-1 mt-sm-4">{{ getlabelPoids(produit) }}</span>
+                </div>
+              </td>
+              <td>{{ produit?.tarif}} €</td>
+              <td>
+                <button
+                  mat-raised-button
+                  type="submit"
+                  class="d-md-inline-block d-block"
+                  (click)="removeQuantiteBasket(produit)"
+                  color="primary">
+                  -
+                </button>
+                <span class="d-lg-inline-block d-sm-block w-25 text-center mx-auto">{{ getQuantiteCommade(produit) }}</span>
+                <button
+                  mat-raised-button
+                  type="submit"
+                  class="d-md-inline-block d-block"
+                  (click)="addQuantiteBasket(produit)"
+                  color="primary">
+                  +
+                </button>
+                <a class="mt-2 d-block" (click)="showPopinRemoveProduit(produit)">supprimer</a>
+              </td>
+              <td class="text-danger fs-6"><strong class="mx-0 mx-lg-3">{{ getTotalPrixByProduit(produit) | number:'1.0-2' }} €</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="block-end-panier m-3 text-end">
+          <span class="fs-4 me-4">Montant Total TTC</span>
+          &nbsp;&nbsp;
+          <strong class="text-danger fs-3">{{ panier.montantTotal()  | number:'1.0-2'}} €</strong>
+        </div>
+      </div>
+      <div class="text-end mt-3">
+        <button matStepperNext
+                class="d-inline-block text-white"
+                mat-raised-button
+                color="accent"
+                name="btn-add-compagnie"
+                type="button">
+          Etape suivante
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="Retrait">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Paiement</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</main>

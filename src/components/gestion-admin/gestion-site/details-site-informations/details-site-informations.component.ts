@@ -13,6 +13,7 @@ import {LIST_SITE_STATUS, SiteStatus} from "../../../../models/site-status.model
 import {AdresseFormComponent} from "../../../shared/adresse/adresse-form/adresse-form.component";
 import {Adresse} from "../../../../models/adresse.model";
 import {AdresseService} from "../../../../services/adresse.service";
+import {Compagnie} from "../../../../models/compagnie.model";
 
 @Component({
   selector:  'app-gestion-admin-details-site-informations',
@@ -30,6 +31,7 @@ export class DetailsSiteInformationsComponent implements OnInit {
   public isCreated: boolean = false;
   public updateInfo: boolean = false;
   public updateAdresse: boolean = false;
+  public updateCoordonnee: boolean = false;
 
   @ViewChild('adresseFormComponent')
   public adresseFormComponent!: AdresseFormComponent;
@@ -67,7 +69,25 @@ export class DetailsSiteInformationsComponent implements OnInit {
     }
   }
 
-  initForm(disabled: boolean = false): void {
+  public onUpdateCoordonnee(): void {
+    this.updateCoordonnee = !this.updateCoordonnee;
+    this.initForm();
+  }
+
+  public saveCoordonnee(): void {
+    this.site.telephone = this.siteForm.value.telephone;
+    this.site.email = this.siteForm.value.email;
+    this.siteService.save(this.site.serialize(), true).subscribe({
+      next: (site: Site) => {
+        this.toast.success('Les informations sont à jours');
+        this.site = site;
+        this.resetForm();
+      },
+      error: (err: any) =>  this.toast.genericError(err),
+    })
+  }
+
+  public initForm(disabled: boolean = false): void {
     this.siteForm = new FormGroup({
       name: new FormControl({value: this.site.name ? this.site.name : '', disabled: disabled}, [
         Validators.required,
@@ -77,6 +97,17 @@ export class DetailsSiteInformationsComponent implements OnInit {
       status: new FormControl({value: this.site.status.code, disabled: disabled}, [
         Validators.required,
         Validators.maxLength(30)
+      ]),
+      email: new FormControl({value: this.site.email, disabled: !this.updateCoordonnee }, [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(6),
+        Validators.maxLength(50),
+      ]),
+      telephone: new FormControl({value: this.site.telephone, disabled: !this.updateCoordonnee }, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(15),
       ])
     });
   }
@@ -151,6 +182,7 @@ export class DetailsSiteInformationsComponent implements OnInit {
   public resetForm(): void {
     this.updateAdresse = false;
     this.updateInfo = false;
+    this.updateCoordonnee = false;
     this.initForm(true);
   }
 

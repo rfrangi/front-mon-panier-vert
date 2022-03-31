@@ -28,9 +28,9 @@
     <img class="logo" src="assets/mon-panier-vert-logo.png" alt="logo"/>
   </div>
 
-  <div class="menu-list" #blockProduit (click)="showPopinCategorie()">
+  <div class="menu-list" #blockProduit (click)="initPopinCategorie()">
     <mat-icon>menu</mat-icon>
-    <span>Produits</span>
+    <span class="title-menu">Produits</span>
   </div>
 
   <div class="menu-list block-search" (click)="displayZoneSearch()" #blockSearch>
@@ -48,11 +48,26 @@
 
   <div class="menu-list" #blockProducteurs [routerLink]="['/producteurs']">
     <mat-icon>list</mat-icon>
-    <span>Producteurs</span>
+    <span class="title-menu">Producteurs</span>
   </div>
 
   <div class="block-panier" #blockBasket>
-    <mat-icon>add_shopping_cart</mat-icon>
-    <span class="price">0.00€</span>
+
+  <div *ngIf="getBadge() !== 0" [routerLink]="['/mon-panier']">
+     <span *ngIf="getBadge() !== 0"
+           class="text-white badge"
+           color="white"
+           [matBadge]="getBadge()"
+           matBadgeColor="accent"
+           matBadgePosition="after"
+           matBadgeOverlap="true">
+      <mat-icon>add_shopping_cart</mat-icon>
+    </span>
+    <span class="price" *ngIf="getBadge() !== 0">{{ panier?.montantTotal() | number:'1.0-2' }} €</span>
+  </div>
+    <ng-container *ngIf="getBadge() === 0">
+      <mat-icon>add_shopping_cart</mat-icon>
+      <span class="price"> 0.00 €</span>
+    </ng-container>
   </div>
 </div>

@@ -4,12 +4,12 @@
       <mat-expansion-panel [expanded]="step === 0 || !compagnie.id" (opened)="step =0 " [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon class="title-icon my-auto me-2" color="primary">account_circle</mat-icon>
-            <h3 class="my-auto">Informations</h3>
+            <i class="material-icons text-primary align-middle me-2 d-block mb-1 align-middle d-inline-block">home</i>
+            <h3 class="my-auto align-middle d-inline-block">Informations</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="d-flex text-start flex-column flex-md-row flex-lg-row">
-          <mat-form-field class="mat-form-field-name mx-4 flex-md-grow-1 flex-lg-grow-1">
+          <mat-form-field class="mat-form-field-name mx-3 flex-md-grow-1 flex-lg-grow-1">
           <input matInput
                  placeholder="name"
                  maxlength="51"
@@ -71,7 +71,48 @@
       <mat-expansion-panel [expanded]="step === 1 || !compagnie.id" (opened)="step = 1" [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon class="title-icon my-auto me-2" color="primary">map</mat-icon>
+            <i class="material-icons text-primary align-middle me-2 d-block mb-1">category</i>
+            <h3 class="my-auto">Catégories</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="d-flex text-start flex-column flex-md-row flex-lg-row">
+          <ul>
+            <li *ngFor="let cat of listCategories" class="d-block d-sm-inline-block w-25 mx-2">
+              <mat-checkbox formArrayName="categories" [value]="cat.code"
+                            [disabled]="!updateCategories"
+                            (change)="onCheckboxChange(cat.code)"
+                            [checked]="checkCategorie(cat.code)">
+                {{ cat.label }}
+              </mat-checkbox>
+            </li>
+          </ul>
+        </div>
+        <div class="text-center" *ngIf="!isCreated">
+          <button *ngIf="!updateCategories"
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="onUpdateCategories()">
+            Modifier
+          </button>
+          <ng-container *ngIf="updateCategories">
+            <a class="reset-form me-3" (click)="resetForm()">
+              Annuler
+            </a>
+            <button mat-raised-button
+                    color="primary"
+                    (click)="saveCategories()"
+                    type="submit">
+              Enregistrer
+            </button>
+          </ng-container>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 2 || !compagnie.id" (opened)="step = 2" [class.mx-3]="!compagnie.id">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i class="material-icons text-primary align-middle me-2 d-block mb-1">library_books</i>
             <h3 class="my-auto">Coordonnées</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -132,7 +173,7 @@
                            [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon class="title-icon my-auto me-2" color="primary">map</mat-icon>
+            <i class="material-icons text-primary align-middle me-2 d-block mb-1">location_on</i>
             <h3 class="my-auto"> Adresse</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>

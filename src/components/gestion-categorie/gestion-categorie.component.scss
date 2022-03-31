@@ -1,0 +1,63 @@
+
+
+main {
+  margin-top: 55px;
+
+  ul {
+    list-style: none;
+
+    li {
+      border: 1px solid lightgrey;
+      cursor: pointer;
+
+      &:hover {
+        color: #388e3c;
+      }
+
+      &.name-cat {
+        color: #2a2121;
+        font-style: italic;
+        font-weight: 700;
+        background: #f3f3f3;
+      }
+
+      span.name-ss-cat {
+        font-style: italic;
+        font-weight: 700;
+        color: #777;
+      }
+
+      .nb-article-by-ss-cat {
+        color: #777777;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 770px) {
+  main {
+    margin-top: 55px;
+
+    .block-produits {
+      margin-top: 1em;
+      width: 100%;
+    }
+    .block-categorie {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 771px) {
+  main {
+    margin-top: 55px;
+
+    .block-produits {
+      width: 75%;
+    }
+    .block-categorie {
+      width: 25%;
+    }
+  }
+}

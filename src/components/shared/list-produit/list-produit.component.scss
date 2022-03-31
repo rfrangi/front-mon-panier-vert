@@ -1,3 +1,45 @@
-main {
-  margin-top: 65px;
+.produit {
+
+  .sous-description {
+    font-size: 14px;
+  }
+
+  .price {
+    font-weight: 500;
+  }
+
+  .title-compagnie {
+    color: #777777;
+    font-size: 14px;
+    font-style: italic;
+  }
+
+.block-action-produit-commande {
+
+  max-width: 100%;
+  max-height: 4em;
+  display: block;
+
+  button, span {
+    display: inline-block;
+  }
+
+  button {
+    width: 4em;
+  }
+
+  span {
+    width: calc(100% - 10em + 10px);
+  }
 }
+}
+@media only screen and (max-width: 750px) {
+  img {
+    max-width: 220px;
+  }
+
+}
+
+
+
+

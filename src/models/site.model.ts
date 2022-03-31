@@ -11,6 +11,9 @@ export class Site {
   creationDate!: Date;
   modificationDate!: Date;
   compagnies: Array<Compagnie> = [];
+  email!: string;
+  telephone!: string;
+  img!: string;
 
   constructor(data: any= {}) {
     Object.assign(this, data);
@@ -27,7 +30,10 @@ export class Site {
       creationDate: this.creationDate,
       modificationDate: this.modificationDate,
       compagnies: this.compagnies && this.compagnies.length > 0 ? this.compagnies.map((c: Compagnie) => c.serialize()) : null,
-      adresse: this.adresse.serialize()
+      adresse: this.adresse.serialize(),
+      email: this.email,
+      telephone: this.telephone,
+      img: this.img
     };
   }
 }

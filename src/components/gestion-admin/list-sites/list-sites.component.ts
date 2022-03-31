@@ -7,6 +7,7 @@ import {Site} from "../../../models/site.model";
 import {PopinService} from "../../../services/popin.service";
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
 import {Pagination} from "../../../models/pagination.model";
+import {LIST_SITE_STATUS} from "../../../models/site-status.model";
 
 
 @Component({
@@ -35,10 +36,14 @@ export class ListSitesComponent implements OnInit {
   public search(): void {
     const params = Object.assign({
       page: this.pagination.currentPage,
-      searchTerm: this.searchForm.value.searchTerm
+      searchTerm: this.searchForm.value.searchTerm,
+      status: [
+        LIST_SITE_STATUS.ACTIF.code,
+        LIST_SITE_STATUS.BLOQUE.code
+      ]
     });
     this.popinService.showLoader();
-    this.siteService.getAllByParams(params).subscribe({
+    this.siteService.getAllByParams(params, true).subscribe({
       next: (data: any) => {
         this.sites = data.result;
         this.pagination = data.pagination;

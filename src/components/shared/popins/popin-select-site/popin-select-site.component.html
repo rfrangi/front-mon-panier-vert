@@ -1,0 +1,35 @@
+<h2 class="text-primary text-center fs-4">
+  <span class="align-middle d-inline-block">Trouver un site</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary align-middle mt-1 ms-2">close</mat-icon>
+</h2>
+<div class="description">
+  <p>Selectionner un site proche de chez vous afin de commandez vos produits en ligne.</p>
+  <p>Chaque site propose un choix différent de produit locaux. </p>
+</div>
+<div class="d-block bg-white text-left rounded-2 overflow-auto" *ngIf="sites.length > 0" style="height: 30em">
+  <mat-card *ngFor="let site of sites" class="my-2 mx-1">
+    <mat-card-title>{{ site.name }}</mat-card-title>
+    <mat-card-subtitle class="pt-1">{{ site.adresse.adresse }} {{ site.adresse.ville }} {{ site.adresse.codePostal }} {{ site.adresse.pays.label.toUpperCase() }}</mat-card-subtitle>
+    <p>
+      <mat-icon class="align-middle me-2"
+                matSuffix
+                color="accent">phone</mat-icon>
+      <span class="align-middle">{{ site.telephone }}</span>
+    </p>
+    <p>
+      <mat-icon class="align-middle me-2"
+                matSuffix
+                color="accent">email</mat-icon>
+      <span class="align-middle">{{ site.email }}</span>
+    </p>
+    <mat-card-actions class="text-end">
+      <button mat-raised-button
+              color="primary"
+              name="btn-submit"
+              (click)="changeSite(site)"
+              class="mx-2 my-auto">SELECTIONNER</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

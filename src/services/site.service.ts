@@ -16,8 +16,10 @@ export class SiteService {
 
   constructor(private http: HttpClient) { }
 
-  public getAllByParams(params: any): Observable<any> {
-    return this.http.post(environment.urlAPI + `admin/sites/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
+  public getAllByParams(params: any, isModeAdmin = false,): Observable<any> {
+    const url = isModeAdmin ?  `admin/sites` : 'sites';
+
+    return this.http.post(environment.urlAPI + `${url}/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
           result: (response.content || []).map((p: any) => new Site(p)),
@@ -55,7 +57,6 @@ export class SiteService {
       formData.append('files', file);
     }
     formData.append('site', JSON.stringify(site));
-    console.log(formData, site)
     return this.http.put(environment.urlAPI + url, formData).pipe(map((x: any) => new Site(x)));
   }
 

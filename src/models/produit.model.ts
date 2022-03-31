@@ -5,26 +5,31 @@ export class Produit {
   public id!: string;
   public idCompagnie!: string;
   public reference!: string;
-  public nameCompagnie!: string;
+  public compagnieName!: string;
   public name!: string;
   public description!: string;
   public quantite!: string;
   public categorie!: ProduitCategorie;
   public ssCategorie!: SousCategorie;
-  public tarif!: string;
+  public tarif!: number;
   public typeTarif!: TypeTarif;
   public img!: string | undefined;
-  public nbPieceLot!: string;
+  public nbPieceLot!: number;
   public poidsMin!: string;
   public poidsMax!: string;
   public isPromo!: boolean;
   public isBio!: boolean;
+  public quantiteCommande: number = 0;
 
   constructor(data: any = {}) {
     Object.assign(this, data);
     this.categorie = data.categorie ? LIST_CATEGORIES[data.categorie] : LIST_CATEGORIES.BOUCHERIE;
-    this.ssCategorie = data.ssCategories ? LIST_SOUS_CATEGORIES[data.ssCategories] : this.categorie.ssCategories[0];
+    this.ssCategorie = data.ssCategorie ? LIST_SOUS_CATEGORIES[data.ssCategorie] : this.categorie.ssCategories[0];
     this.typeTarif = data.typeTarif ? LIST_TYPE_TARIF[data.typeTarif] : LIST_TYPE_TARIF.PIECE;
+  }
+
+  get srcImg(): string {
+    return 'http://d11mhhwvxnv6xf.cloudfront.net/' + this.img;
   }
 
   public serialize(): object {
@@ -32,7 +37,7 @@ export class Produit {
       id: this.id,
       name: this.name,
       idCompagnie: this.idCompagnie,
-      nameCompagnie: this.nameCompagnie,
+      compagnieName: this.compagnieName,
       description: this.description,
       quantite: this.quantite,
       categorie: this.categorie.code,
@@ -45,7 +50,9 @@ export class Produit {
       poidsMax: this.poidsMax,
       reference: this.reference,
       isPromo: this.isPromo,
-      isBio: this.isBio
+      isBio: this.isBio,
+      quantiteCommande: this.quantiteCommande
+
     }
   }
 }

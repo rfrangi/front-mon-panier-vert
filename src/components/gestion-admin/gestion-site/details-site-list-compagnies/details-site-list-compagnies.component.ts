@@ -96,7 +96,6 @@ export class DetailsSiteListCompagniesComponent implements OnInit {
         site: this.site,
       }
     }).subscribe((result: Array<Compagnie>) => {
-      console.log(result)
       if (result) {
         this.siteService.addCompagnies(this.idSite, result).subscribe({
           next: (site: Site) => this.site = site,

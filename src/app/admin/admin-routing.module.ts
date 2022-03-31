@@ -31,13 +31,14 @@ import {
   DetailsSiteListCommandesComponent
 } from "../../components/gestion-admin/gestion-site/details-site-list-commandes/details-site-list-commandes.component";
 import {SiteResolver} from "../../components/resolvers/site.resolver";
+import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
 
 export const routes: Routes = [
   { path: '', component: GestionAdminComponent, children: [
       { path: '', component: MenuAdminComponent },
       { path: 'utilisateurs', children: [
           { path: '', component: ListUsersComponent },
-          { path: ':id', component: DetailsProduitComponent },
+          { path: ':id', component: DetailsUsersComponent },
 
         ], },
       { path: 'compagnies', component: ListCompagniesComponent },

@@ -93,7 +93,6 @@ export class SignupComponent implements OnInit {
   }
 
   submitStep2(): void {
-    console.log(this.infoPersoForm, this.identifiantForm, this.adresseForm)
     if (this.infoPersoForm.valid) {
       this.step++;
     }
@@ -107,7 +106,6 @@ export class SignupComponent implements OnInit {
       Object.assign(data, this.identifiantForm.value);
       Object.assign(data, this.infoPersoForm.value);
       Object.assign(data.adresse, this.adresseForm.value);
-      console.log(this.identifiantForm.value, this.infoPersoForm.value, this.adresseForm.value, data);
     }
   }
 

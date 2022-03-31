@@ -32,7 +32,7 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit(): void {
-    this.route?.parent?.params.subscribe(params => {
+    this.route?.params.subscribe(params => {
       this.onParamsChange(params);
     });
   }

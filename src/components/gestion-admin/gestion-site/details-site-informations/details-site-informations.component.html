@@ -43,7 +43,7 @@
         </mat-form-field>
       </div>
 
-      <div class="text-center" *ngIf="!isCreated">
+      <div class="text-center mt-1" *ngIf="!isCreated">
         <button *ngIf="!updateInfo"
                 mat-raised-button
                 color="primary"
@@ -63,8 +63,66 @@
         </ng-container>
       </div>
     </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="step === 2 || !site.id" (opened)="step = 2" [class.mx-3]="!site.id">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="material-icons text-primary align-middle me-2 d-block mb-1">library_books</i>
+          <h3 class="my-auto">Coordonnées</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="d-flex text-start flex-column flex-md-row flex-lg-row">
+        <mat-form-field class="mat-form-field-email mx-4 flex-md-grow-1 flex-lg-grow-1">
+          <input matInput
+                 placeholder="Email"
+                 maxlength="51"
+                 minlength="6"
+                 type="text"
+                 formControlName="email"
+                 required>
+          <mat-icon matSuffix color="accent">email</mat-icon>
+          <mat-error *ngIf="hasError(siteForm, 'email', 'required')">Veuillez saisir une adresse mail</mat-error>
+          <mat-error *ngIf="hasError(siteForm, 'email', 'email')">Veuillez saisir une adresse mail valide</mat-error>
+          <mat-error *ngIf="(hasError(siteForm, 'email', 'minlength')
+            || hasError(siteForm, 'email', 'maxlength')) &&
+             !hasError(siteForm, 'email', 'email')">
+            Votre mail doit contenir entre 6  et 50 caractères
+          </mat-error>
+        </mat-form-field>
 
-    <mat-expansion-panel [expanded]="step === 1 ||!site.id" (opened)="step =1"  [class.mx-3]="!site.id">
+        <mat-form-field class="mat-form-field-telephone mx-4 flex-md-grow-1 flex-lg-grow-1" disabled>
+          <input matInput
+                 placeholder="Téléphone"
+                 maxlength="51"
+                 minlength="6"
+                 type="text"
+                 formControlName="telephone"
+                 required>
+          <mat-icon matSuffix color="accent">phone</mat-icon>
+          <mat-error *ngIf="hasError(siteForm, 'telephone', 'required')">Veuillez saisir un numéro</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="text-center mt-1" *ngIf="!isCreated">
+        <button *ngIf="!updateCoordonnee"
+                mat-raised-button
+                color="primary"
+                type="button"
+                (click)="onUpdateCoordonnee()">
+          Modifier
+        </button>
+        <ng-container *ngIf="updateCoordonnee">
+          <a class="reset-form me-3" (click)="resetForm()">
+            Annuler
+          </a>
+          <button mat-raised-button
+                  color="primary"
+                  (click)="saveCoordonnee()"
+                  type="submit">
+            Enregistrer
+          </button>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="step === 3 ||!site.id" (opened)="step =3"  [class.mx-3]="!site.id">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon class="title-icon my-auto" color="primary">map</mat-icon>

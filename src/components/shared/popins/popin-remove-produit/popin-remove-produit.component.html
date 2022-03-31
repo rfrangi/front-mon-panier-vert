@@ -1,0 +1,22 @@
+<h2 class="text-primary text-center fs-4">
+  Supprimer le produit
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary">close</mat-icon>
+</h2>
+<div class="description">
+  <p>Vous êtes sur le point de supprimer le produit suivant:</p>
+</div>
+<div class="action text-center">
+  <button mat-button
+          name="btn-back"
+          (click)="cancel()"
+          class="btn-back me-3">{{'Annuler'}}
+  </button>
+  <button mat-raised-button
+          color="primary"
+          (click)="submit()"
+          name="btn-valider"
+          type="submit">{{'Valider'}}
+  </button>
+</div>

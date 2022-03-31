@@ -10,6 +10,9 @@ import {Site} from "../../../../models/site.model";
 import {Produit} from "../../../../models/produit.model";
 import {Pagination} from "../../../../models/pagination.model";
 import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {Compagnie} from "../../../../models/compagnie.model";
+import {CompagnieService} from "../../../../services/compagnie.service";
+import {PopinConfirmComponent} from "../../../shared/popins/popin-confirm/popin-confirm.component";
 
 @Component({
   selector:  'app-details-site-produits',
@@ -27,11 +30,11 @@ export class DetailsSiteProduitsComponent implements OnInit {
               private route: ActivatedRoute,
               private siteService: SiteService,
               private produitService: ProduitService,
-              private router: Router,
-              private popinService: PopinService) {}
+              private popinService: PopinService,
+              private router: Router) {}
 
   ngOnInit(): void {
-    this.route?.parent?.params.subscribe(params => {
+    this.route?.params.subscribe(params => {
       this.onParamsChange(params);
     });
   }
@@ -62,5 +65,14 @@ export class DetailsSiteProduitsComponent implements OnInit {
       },
       error: (err: any) => this.toast.genericError(err),
     })
+  }
+
+  public goToUrl(urls: Array<string>): void {
+    this.router.navigate(urls);
+  }
+
+  public getSrc(img: string | undefined): string {
+    return 'http://d11mhhwvxnv6xf.cloudfront.net/' + img;
+
   }
 }
