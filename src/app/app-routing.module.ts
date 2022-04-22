@@ -2,9 +2,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import {HomeComponent} from '../components/home/home.component';
-import {ForgotPasswordComponent} from "../components/gestion-guest-user/forgot-password/forgot-password.component";
-import {LoginFormComponent} from "../components/gestion-guest-user/login/login-form.component";
-import {SignupComponent} from "../components/gestion-guest-user/signup/signup.component";
 import {GestionCategorieComponent} from "../components/gestion-categorie/gestion-categorie.component";
 import {MonPanierComponent} from "../components/mon-panier/mon-panier.component";
 

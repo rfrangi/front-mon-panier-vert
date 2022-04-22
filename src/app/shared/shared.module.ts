@@ -58,6 +58,9 @@ import {
   PopinRemoveProduitComponent
 } from "../../components/shared/popins/popin-remove-produit/popin-remove-produit.component";
 import {MatStepperModule} from '@angular/material/stepper';
+import {
+  PopinDetailsSiteComponent
+} from "../../components/shared/popins/popin-details-site/popin-details-site.component";
 
 const materialModules = [
   MatBadgeModule,
@@ -101,21 +104,26 @@ const materialModules = [
 const components = [
   AdresseFormComponent,
   DetailsUtilisateurComponent,
-  PopinMessageDuringComponent,
   HeaderComponent,
   MenuNavigationComponent,
-  PopinConfirmComponent,
-  PopinSelectSiteComponent,
-  PopinCategoriesProduitComponent,
-  PopinRemoveProduitComponent,
   PaginationComponent,
   UploadFileComponent,
   FilArianeComponent,
   ListProduitComponent
 ];
+
+const popins = [
+  PopinMessageDuringComponent,
+  PopinConfirmComponent,
+  PopinSelectSiteComponent,
+  PopinCategoriesProduitComponent,
+  PopinRemoveProduitComponent,
+  PopinDetailsSiteComponent,
+]
 @NgModule({
   declarations: [
-    ...components
+    ...components,
+    ...popins
   ],
   exports: [
     HttpClientModule,
@@ -123,7 +131,8 @@ const components = [
     ReactiveFormsModule,
     RouterModule,
     ...materialModules,
-    ...components
+    ...components,
+    ...popins
   ],
   imports: [
     CommonModule,

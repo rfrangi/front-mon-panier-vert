@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "../../../services/toast.service";
 import {PopinService} from "../../../services/popin.service";
@@ -21,8 +20,7 @@ export class ListEmailsComponent implements OnInit {
 
   constructor(private toast: ToastService,
               private emailService: EmailService,
-              private popinService: PopinService,
-              private router: Router) {}
+              private popinService: PopinService) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -31,7 +29,7 @@ export class ListEmailsComponent implements OnInit {
     this.search();
   }
 
-  search(): void {
+  public search(): void {
     const params = Object.assign({
       page: this.pagination.currentPage,
       searchTerm: this.searchForm.value.searchTerm
@@ -47,7 +45,7 @@ export class ListEmailsComponent implements OnInit {
     })
   }
 
-  removeEmail(id: string): void {
+  public removeEmail(id: string): void {
     this.emailService.delete(id).subscribe({
       next: () => this.toast.success(`L'email' est supprimé`),
       error: (err: any) => this.toast.genericError(err),
@@ -55,8 +53,18 @@ export class ListEmailsComponent implements OnInit {
     })
   }
 
-  testEmailText(): void {
+  public testEmailText(): void {
     this.emailService.tesMailText().subscribe({
+      next: () => {
+        this.toast.success('Email de test envoyé');
+        this.search();
+      },
+      error: (err: any) => this.toast.genericError(err)
+    })
+  }
+
+  public testEmailResetPassword(): void {
+    this.emailService.testEmailResetPassword().subscribe({
       next: () => {
         this.toast.success('Email de test envoyé');
         this.search();

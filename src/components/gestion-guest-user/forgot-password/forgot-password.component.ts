@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthUserService} from "../../../services/auth-user.service";
 
 @Component({
   selector:  'app-forgot-password',
@@ -7,9 +8,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-  passwordForm!: FormGroup;
+  public passwordForm!: FormGroup;
+  public isEmailSend: boolean = false;
+  public emailSaisie!: string;
 
-  constructor() {}
+  constructor(private authUserService: AuthUserService) {}
 
   ngOnInit(): void {
     this.passwordForm = new FormGroup({
@@ -21,7 +24,12 @@ export class ForgotPasswordComponent implements OnInit {
     return this.passwordForm.controls[controlName].hasError(errorName);
   }
 
-  submit(value: any): void {
-    console.log(this.passwordForm, value);
+  public submit(value: any): void {
+    if (this.passwordForm.valid) {
+      this.emailSaisie = value.email;
+      this.authUserService.sendEmailResetPassword(this.emailSaisie).subscribe({
+        next: () => this.isEmailSend = true
+      });
+    }
   }
 }

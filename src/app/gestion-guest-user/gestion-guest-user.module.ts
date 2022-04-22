@@ -7,6 +7,7 @@ import {ForgotPasswordComponent} from '../../components/gestion-guest-user/forgo
 import {CommonModule} from '@angular/common';
 import { HeaderGuestUserComponent } from '../../components/gestion-guest-user/header-gestion-user/header-gestion-user.component';
 import {GestionGuestUserComponent} from "../../components/gestion-guest-user/gestion-guest-user.component";
+import {ResetPasswordComponent} from "../../components/gestion-guest-user/reset-password/reset-password.component";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {GestionGuestUserComponent} from "../../components/gestion-guest-user/ges
     SignupComponent,
     HeaderGuestUserComponent,
     ForgotPasswordComponent,
-    GestionGuestUserComponent
+    GestionGuestUserComponent,
+    ResetPasswordComponent
   ],
   imports: [
     SharedModule,

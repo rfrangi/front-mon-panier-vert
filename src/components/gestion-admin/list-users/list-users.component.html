@@ -41,16 +41,28 @@
               <i class='material-icons'>more_vert
               </i>
             </button>
-            <mat-menu #menu="matMenu" class="text-center">
-              <button mat-menu-item class="text-center" (click)="goToEditUser(user)">
+            <mat-menu #menu="matMenu" class="text-start">
+              <button mat-menu-item class="text-start" (click)="goToEditUser(user)">
                 <mat-icon aria-label="Edit"
                           class="me-2 align-middle"
                           matTooltip="Modifier"
                           color="accent">
                   edit
-                </mat-icon><span class="align-middle">Modifier</span>
+                </mat-icon>
+                <span class="align-middle">Modifier</span>
               </button>
-              <button mat-menu-item class="text-center"  (click)="removeUser(user.id)">
+              <button mat-menu-item class="text-start" (click)="goTochangeStatus(user)">
+                <mat-icon aria-label="Edit"
+                          class="me-2 align-middle"
+                          matTooltip="Modifier"
+                          color="accent">
+                  {{ user.status === listStatusUser.ACTIF ? listStatusUser.DESACTIVE.icon : listStatusUser.ACTIF.icon }}
+                </mat-icon>
+                <span class="align-middle">
+                 {{ user.status === listStatusUser.ACTIF ? listStatusUser.DESACTIVE.labelAction : listStatusUser.ACTIF.labelAction }}
+                </span>
+              </button>
+              <button mat-menu-item class="text-start"  (click)="removeUser(user.id)">
                 <mat-icon aria-label="Delete"
                           class="me-2 align-middle"
                           matTooltip="Supprimer"

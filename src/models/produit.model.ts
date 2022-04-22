@@ -3,6 +3,8 @@ import {LIST_TYPE_TARIF, TypeTarif} from "./type-tarif.model";
 
 export class Produit {
   public id!: string;
+  public siteId!: string;
+  public siteName!: string;
   public idCompagnie!: string;
   public reference!: string;
   public compagnieName!: string;
@@ -29,7 +31,34 @@ export class Produit {
   }
 
   get srcImg(): string {
-    return 'http://d11mhhwvxnv6xf.cloudfront.net/' + this.img;
+    // 'http://d11mhhwvxnv6xf.cloudfront.net/'
+    return 'http://d35nr8envdpgsa.cloudfront.net/' + this.img;
+  }
+
+  public getLabelPieceLot(): string {
+    if(this.categorie === LIST_CATEGORIES.PATISSERIE && this.ssCategorie !== LIST_SOUS_CATEGORIES.MIGNARDISES) {
+      return this.nbPieceLot + ' parts'
+    }
+
+    return this.nbPieceLot + ' pièces'
+  }
+
+  public getlabelPoids(): string {
+    let result = '';
+    if (this.poidsMin && this.poidsMax) {
+      if (this.poidsMin !== this.poidsMax) {
+        result = `${this.poidsMin} à ${this.poidsMax} g`;
+      } else {
+        result = `${this.poidsMin} g`;
+      }
+    } else if (this.poidsMin) {
+      result = `${this.poidsMin} g`;
+    }
+    return result;
+  }
+
+  public getTotalPrix(): number {
+    return this.tarif * this.quantiteCommande;
   }
 
   public serialize(): object {
@@ -51,7 +80,9 @@ export class Produit {
       reference: this.reference,
       isPromo: this.isPromo,
       isBio: this.isBio,
-      quantiteCommande: this.quantiteCommande
+      quantiteCommande: this.quantiteCommande,
+      siteId: this.siteId,
+      siteName: this.siteName
 
     }
   }

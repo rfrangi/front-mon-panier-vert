@@ -14,7 +14,7 @@ export class UploadFileComponent {
 
   ngOnInit(): void {
     if(this.src) {
-      this.src = 'http://d11mhhwvxnv6xf.cloudfront.net/' + this.src;
+      this.src = 'http://d35nr8envdpgsa.cloudfront.net/' + this.src;
     }
   }
 
@@ -25,13 +25,12 @@ export class UploadFileComponent {
       reader.onload = (e: any) => {
         let image = new Image();
         image.src = e.target.result;
-        image.onload = (rs) => {
+        image.onload = () => {
           this.src = e.target.result;
         };
       };
       reader.readAsDataURL(imgFile.target.files[0]);
       this.onChange.emit(imgFile.target.files[0]);
-      console.log(imgFile.target.files[0], imgFile)
       // Reset if duplicate image uploaded again
       this.fileInput.nativeElement.value = '';
     }

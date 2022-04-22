@@ -1,19 +1,20 @@
 <div class="d-flex flex-column flex-sm-row flex-wrap text-sm-center mx-auto">
   <div *ngFor="let produit of produits" class="produit align-middle mb-2 mx-0 mx-sm-2 p-0 bg-white shadow d-flex flex-column flex-wrap">
-    <img class="mx-auto" [src]="produit.srcImg" [alt]="produit.name">
-    <div class="">
-      <div class="content m-2 px-2">
-        <p class="produit-title text-center mb-0">{{ produit.name }}</p>
-        <p class="title-compagnie text-center font-italic text-black-50">{{ produit.compagnieName }}</p>
-        <div class="description d-flex flex-row mb-2">
-              <span class="flex-grow-1 sous-description text-black-50">{{ getlabelPoids(produit) }}
-                <br/>
-                <ng-container *ngIf="produit.nbPieceLot >= 1">{{ produit.nbPieceLot }} pièces </ng-container>
-              </span>
-          <span class="price text-end fs-3 text-primary">{{ produit.tarif }} €</span>
+    <img class="mx-auto img-produit" [src]="produit.srcImg" [alt]="produit.name">
+    <div class="flex-grow-1 d-flex flex-column">
+      <div class="content m-2 px-2 flex-grow-1 d-flex flex-column">
+        <p class="produit-title text-center mb-1">{{ produit.name }}</p>
+        <p class="title-compagnie text-center font-italic text-black-50 mb-3 flex-grow-1">{{ produit.compagnieName }}</p>
+        <div class="description flex-grow-1 d-flex flex-row mb-0 ">
+            <span class="sous-description text-black-50 text-start flex-grow-1">
+              {{ produit.getlabelPoids() }}
+              <br *ngIf="produit.getlabelPoids()"/>
+              <ng-container *ngIf="produit.nbPieceLot > 1"> {{ produit.getLabelPieceLot() }}</ng-container>
+            </span>
+            <span class="price text-end fs-3 text-primary">{{ produit.tarif }} €</span>
         </div>
       </div>
-      <div class="action text-center py-2 px-2 block-action-produit-commande">
+      <div class="text-center py-2 px-2 block-action-produit-commande">
         <button *ngIf="!getIdProduitCommande().includes(produit.id)"
                 mat-raised-button
                 type="submit"
@@ -45,4 +46,7 @@
       </div>
     </div>
   </div>
+  <p *ngIf="produits.length === 0"
+       class="produit-empty text-center fs-3 text-black-50 w-100 p-4 ms-0 ms-sm-2 bg-white shadow d-block">Aucun produit
+  </p>
 </div>

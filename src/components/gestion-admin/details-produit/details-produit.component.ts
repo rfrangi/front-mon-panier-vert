@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";
-import {PopinService} from "../../../services/popin.service";
 
-import {User} from "../../../models/user.model";
 import {
   LIST_CATEGORIES,
   LIST_SOUS_CATEGORIES,
@@ -28,8 +25,8 @@ import { forkJoin } from 'rxjs';
 export class DetailsProduitComponent implements OnInit {
 
   public produitForm!: FormGroup;
-  public listCategories: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
-  public listSSCategories: Array<ProduitCategorie> = Object.values(LIST_SOUS_CATEGORIES);
+  public listCategories!: Array<ProduitCategorie>;
+  public listSSCategories!: Array<SousCategorie>;
   public listTypeTarif: Array<TypeTarif> = Object.values(LIST_TYPE_TARIF);
 
   public produit!: Produit;
@@ -40,10 +37,7 @@ export class DetailsProduitComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private compagnieService: CompagnieService,
-              private produitService: ProduitService) {
-
-  }
-
+              private produitService: ProduitService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe( paramMap => this.onParamsChange(paramMap));
@@ -54,7 +48,8 @@ export class DetailsProduitComponent implements OnInit {
       forkJoin(this.compagnieService.getById(params.id), this.produitService.getById(params.idProduit)).subscribe(
         (result: any) => {
           this.compagnie = result[0];
-          this.listCategories = this.compagnie.categories;
+          this.listCategories = this.compagnie.categories && this.compagnie.categories.length > 0 ? this.compagnie.categories : Object.values(LIST_CATEGORIES);
+          this.listSSCategories = this.listCategories.flatMap((cat: ProduitCategorie) => cat.ssCategories) || Object.values(LIST_SOUS_CATEGORIES);
           this.produit = result[1];
           this.initForm();
         },
@@ -64,7 +59,8 @@ export class DetailsProduitComponent implements OnInit {
       this.compagnieService.getById(params.id).subscribe(
         (compagnie: Compagnie) => {
           this.compagnie = compagnie;
-          this.listCategories = this.compagnie.categories;
+          this.listCategories = this.compagnie.categories && this.compagnie.categories.length > 0 ? this.compagnie.categories : Object.values(LIST_CATEGORIES);
+          this.listSSCategories = this.listCategories[0].ssCategories || Object.values(LIST_SOUS_CATEGORIES);
           this.produit = new Produit({
             idCompagnie: this.compagnie.id,
             categorie: this.listCategories[0].code,
@@ -79,7 +75,7 @@ export class DetailsProduitComponent implements OnInit {
   public initForm(): void {
     this.produitForm = new FormGroup({
       name: new FormControl({value: this.produit.name ? this.produit.name : '', disabled: false}, [
-        Validators.required, Validators.minLength(3), Validators.maxLength(100),
+        Validators.required, Validators.minLength(3), Validators.maxLength(50),
       ]),
       quantite: new FormControl({value: this.produit.quantite || '', disabled: false}, [Validators.required]),
       categorie: new FormControl({value: this.produit.categorie.code, disabled: false }, []),
@@ -90,6 +86,8 @@ export class DetailsProduitComponent implements OnInit {
       poidsMin: new FormControl({value: this.produit.poidsMin ? this.produit.poidsMin : '', disabled: false }, []),
       poidsMax: new FormControl({value: this.produit.poidsMax ? this.produit.poidsMax : '', disabled: false }, []),
       nbPieceLot: new FormControl({value: this.produit.nbPieceLot ? this.produit.nbPieceLot : 1, disabled: false }, []),
+      isBio: new FormControl({value: this.produit.isBio, disabled: false }, []),
+      isPromo: new FormControl({value: this.produit.isPromo, disabled: false }, []),
     });
 
     this.produitForm?.get('categorie')?.valueChanges.subscribe((val => {
@@ -98,6 +96,16 @@ export class DetailsProduitComponent implements OnInit {
         this.produitForm?.get("ssCategorie")?.setValue(this.listSSCategories[0].code, {emitEvent: false});
       }
     }));
+  }
+
+  public changeQuantite(event: any): void {
+    if (event.checked) {
+      this.produitForm.controls['quantite'].disable();
+      this.produitForm.controls['quantite'].patchValue(null);
+    } else {
+      this.produitForm.controls['quantite'].enable();
+    }
+
   }
 
   public submit(): void {

@@ -49,8 +49,16 @@
               Votre nom doit contenir entre 3  et 100 caractères
             </mat-error>
           </mat-form-field>
-          <div class="d-flex flex-column flex-sm-row">
-            <mat-form-field class="mat-form-field-name me-4 flex-grow-1 w-100">
+          <mat-form-field class="mat-form-field-name flex-grow-1 w-100">
+            <input matInput
+                   placeholder="Prix"
+                   type="number"
+                   formControlName="tarif"
+                   required>
+            <mat-error *ngIf="hasError(produitForm, 'tarif', 'required')">Veuillez saisir une prix</mat-error>
+          </mat-form-field>
+          <div class="d-flex flex-row align-items-center">
+            <mat-form-field class="mat-form-field-name me-4 align-middle ">
               <input matInput
                      placeholder="Quantité disponible"
                      type="number"
@@ -58,16 +66,22 @@
                      required>
               <mat-error *ngIf="hasError(produitForm, 'quantite', 'required')">Veuillez saisir une quantité</mat-error>
             </mat-form-field>
-            <mat-form-field class="mat-form-field-name flex-grow-1 w-100">
-              <input matInput
-                     placeholder="Prix"
-                     type="number"
-                     formControlName="tarif"
-                     required>
-              <mat-error *ngIf="hasError(produitForm, 'tarif', 'required')">Veuillez saisir une prix</mat-error>
-            </mat-form-field>
+            <mat-checkbox class="align-middle" (change)="changeQuantite($event)">
+              illimité
+            </mat-checkbox>
           </div>
+
           <h2 class="text-secondary mt-3">Informations sur l'article</h2>
+          <div class="d-flex flex-row align-items-center">
+            <mat-checkbox formControlName="isBio" class="mb-2 me-4">
+              <span>Bio</span>
+              <img class="logo-bio mx-2" src="assets/icons/bio.jpg" alt="bio" width="40px"/>
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="isPromo" class="mb-2 ms-4">
+              <img class="logo-promo mx-2 mb-2 align-middle" src="assets/icons/promo.png" alt="promo" width="60px"/>
+            </mat-checkbox>
+          </div>
           <div class="d-flex flex-column flex-sm-row">
             <mat-form-field class="mat-form-field-name me-0 me-sm-4 flex-grow-1">
               <input matInput

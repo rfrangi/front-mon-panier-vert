@@ -22,7 +22,7 @@
       <tbody>
       <tr *ngFor="let produit of produits">
         <td>
-          <img [src]="getSrc(produit.img)" [alt]="produit.name" class="img-produit align-middle d-inline-block mx-3"/>
+          <img [src]="produit.srcImg" [alt]="produit.name" class="img-produit align-middle d-inline-block mx-3"/>
           <span class="align-middle d-inline-block">
             <span class="fs-5">{{ produit?.name }}</span>
             <br/>

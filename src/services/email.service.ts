@@ -29,7 +29,11 @@ export class EmailService {
     return this.http.get(environment.urlAPI + `admin/emails/mailSimpleText`, HTTP_OPTIONS)
   }
 
-  delete(id: string): Observable<any> {
+  public testEmailResetPassword(): Observable<any> {
+    return this.http.get(environment.urlAPI + `admin/emails/resetMDP`, HTTP_OPTIONS)
+  }
+
+  public delete(id: string): Observable<any> {
     return this.http.delete(environment.urlAPI + `admin/emails/${id}`, HTTP_OPTIONS);
   }
 }

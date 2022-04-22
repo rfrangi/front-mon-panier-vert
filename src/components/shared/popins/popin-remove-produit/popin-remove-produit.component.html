@@ -5,7 +5,14 @@
             class="border-primary">close</mat-icon>
 </h2>
 <div class="description">
-  <p>Vous êtes sur le point de supprimer le produit suivant:</p>
+  <p class="mb-0">Vous êtes sur le point de supprimer le produit suivant:</p>
+  <div class="text-start text-black p-3">
+    <img class="mx-auto align-top d-inline-block" width="80" [src]="data?.produit?.srcImg" [alt]="data?.produit?.name">
+    <div class="d-inline-block ms-sm-3">
+      <strong class="d-block align-top fs-6">{{ data?.produit?.name }}</strong>
+      <span class="d-block text-black-50 mt-1 mt-sm-4">{{ data?.produit?.getlabelPoids() }}</span>
+    </div>
+  </div>
 </div>
 <div class="action text-center">
   <button mat-button

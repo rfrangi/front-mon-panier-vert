@@ -20,10 +20,10 @@ export class HomeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.produitService.getAllByParams({}).subscribe({
+    /*this.produitService.getAllByParams({}).subscribe({
       next: (result: any) => {
         console.log(result);
       }
-    })
+    })*/
   }
 }

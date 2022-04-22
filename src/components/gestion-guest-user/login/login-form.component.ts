@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+
 import {AuthUserService} from '../../../services/auth-user.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector:  'app-login-form',
@@ -13,53 +14,53 @@ export class LoginFormComponent implements OnInit {
 
   loginForm!: FormGroup;
   hide = true;
-  error!: string;
 
   form: any = {};
-  isLoggedIn = false;
-  isLoginFailed = false;
   errorMessage = '';
-  roles: string[] = [];
 
   constructor(private authUserService: AuthUserService,
-              private router: Router) {
-  }
-
-  logout(): void {
-    this.authUserService.signOut();
-    this.isLoggedIn = false;
-    this.router.navigate(['home']);
-  }
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit(): void {
-  /*  if (this.authUserService.getUser() && this.authUserService.getToken()){
-      this.router.navigate(['utilisateur', 'mon-compte']);
-    }*/
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+    this.route.queryParams.subscribe(params => {
+      this.onParamsChange(params);
     });
+  }
+
+  private onParamsChange(params: any): any {
+    this.loginForm = new FormGroup({
+      email: new FormControl(params.email ? params.email : '', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      memoryMe: new FormControl(true),
+    });
+  }
+
+  public logout(): void {
+    this.authUserService.signOut();
+    this.router.navigate(['home']);
   }
 
   public hasError = (controlName: string, errorName: string) => {
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
-  submit(value: any): void {
+  public submit(value: any): void {
     if (this.loginForm.valid) {
-      this.authUserService.login(value).subscribe(
-        () => {
-          this.isLoginFailed = false;
+      this.authUserService.login(value).subscribe({
+        next: () =>{
           this.router.navigate(['home']);
         },
-        err => {
-          console.log(err);
-          this.errorMessage = err.error.message;
-          this.isLoginFailed = true;
+        error: err => {
+          if (err?.error?.code === 'DISABLED_ACCOUNT') {
+            this.errorMessage = `Votre compte a été désactivé. Pour l'activer, veuillez prendre contact avec un administrateur.`;
+          } else if(err?.error?.code === 'LOCK_ACCOUNT') {
+            this.errorMessage = `Votre compte est bloqué suite à trop de tentatives de connexion en échec. Pour l'activer, veuillez changer de mot de passe.`;
+          } else {
+            this.errorMessage = 'Les informations saisies ne correspondent pas.';
+          }
         }
-      );
-    } else {
-      console.log('login invalid');
+      });
     }
   }
 }

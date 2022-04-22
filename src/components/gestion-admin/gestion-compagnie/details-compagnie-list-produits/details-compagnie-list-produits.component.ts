@@ -8,7 +8,12 @@ import {ProduitService} from "../../../../services/produit.service";
 import {Pagination} from "../../../../models/pagination.model";
 import {Produit} from "../../../../models/produit.model";
 import {Compagnie} from "../../../../models/compagnie.model";
-import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {
+  LIST_CATEGORIES,
+  LIST_SOUS_CATEGORIES,
+  ProduitCategorie,
+  SousCategorie
+} from "../../../../models/produit-categorie.model";
 import {PopinConfirmComponent} from "../../../shared/popins/popin-confirm/popin-confirm.component";
 import {PopinService} from "../../../../services/popin.service";
 
@@ -22,7 +27,6 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
   public compagnie!: Compagnie;
   public produits: Array<Produit> = [];
   public pagination!: Pagination;
-  public listCategorie: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
 
   constructor(private toast: ToastService,
               private route: ActivatedRoute,
@@ -53,9 +57,11 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
     const params = {
       searchTerm: '',
       idCompagnie: this.compagnie.id,
-      categories: this.listCategorie.map((cat: ProduitCategorie) => cat.code)
+      categories: this.compagnie.categories && this.compagnie.categories.length > 0 ? this.compagnie.categories.map((cat: ProduitCategorie) => cat.code) : Object.values(LIST_CATEGORIES),
+      ssCategories: this.compagnie.categories && this.compagnie.categories.length > 0 ? this.compagnie.categories
+        .flatMap((cat: ProduitCategorie) => cat.ssCategories)
+        .flatMap((ssCat: SousCategorie) => ssCat.code) : Object.values(LIST_SOUS_CATEGORIES)
     };
-
     this.produitService.getAllByParams(params).subscribe({
       next: (data: any) => {
         this.produits = data.result;
@@ -96,7 +102,7 @@ export class DetailsCompagnieListProduitsComponent implements OnInit {
   }
 
   public getSrc(img: string | undefined): string {
-    return 'http://d11mhhwvxnv6xf.cloudfront.net/' + img;
+    return 'http://d35nr8envdpgsa.cloudfront.net/' + img;
 
   }
 }

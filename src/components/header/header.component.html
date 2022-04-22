@@ -1,6 +1,10 @@
 <div class="toolbar" role="banner">
-  <div class="action-icon flex-fill">
-    <a [matMenuTriggerFor]="menu" (click)="checkLogin()">
+  <div class="action-icon d-flex flex-row flex-fill">
+    <div class="text-start flex-grow-1 mx-2 align-items-center" (click)="showPopinSelectedSite()">
+      <i class="material-icons align-middle">storefront</i>
+      <span class="align-middle ms-2">{{ labelSite }}</span>
+    </div>
+    <a [matMenuTriggerFor]="menu" (click)="checkLogin()" class="flex-grow-1">
       <mat-icon aria-label="Icon identity" class="align-middle me-2">perm_identity</mat-icon>
       <span class="align-middle">{{labelUsername}}</span>
     </a>
@@ -37,37 +41,57 @@
     <mat-icon>search</mat-icon>
     <span>Recherche</span>
   </div>
-
-  <form class="form-search" #formSearch>
-    <mat-form-field class="input-search" [floatLabel]="'never'">
-      <input matInput placeholder="Oeufs, Carottes, Oignons" name="input-search" [(ngModel)]="searchTerm">
+  <form class="form-search" [formGroup]="stateForm" #formSearch>
+    <mat-form-field  class="input-search" [floatLabel]="'never'" >
+      <mat-label>Oeufs, Carottes, Oignons</mat-label>
+      <input type="text"
+             matInput
+             formControlName="stateGroup"
+             (click)="checkSiteSelected()"
+             [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.categorie.label">
+          <mat-option *ngFor="let ssCat of group.sousCategories" [value]="ssCat.label" (click)="goToCategorieSelected(group.categorie, ssCat)">
+            {{ ssCat.label }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <div class="action-back-search" (click)="removeZoneSearch()">Annuler</div>
+
   </form>
+  <!--<form class="form-search" #formSearch>
+   mat-form-field class="input-search" [floatLabel]="'never'">
+     <input matInput placeholder="Oeufs, Carottes, Oignons" name="input-search" [(ngModel)]="searchTerm">
+     <mat-icon matSuffix>search</mat-icon>
+   </mat-form-field>
+   <div class="action-back-search" (click)="removeZoneSearch()">Annuler</div>
 
-  <div class="menu-list" #blockProducteurs [routerLink]="['/producteurs']">
-    <mat-icon>list</mat-icon>
-    <span class="title-menu">Producteurs</span>
-  </div>
+   </form>-->
 
-  <div class="block-panier" #blockBasket>
+   <div class="menu-list" #blockProducteurs [routerLink]="['/producteurs']">
+     <mat-icon>list</mat-icon>
+     <span class="title-menu">Producteurs</span>
+   </div>
 
-  <div *ngIf="getBadge() !== 0" [routerLink]="['/mon-panier']">
-     <span *ngIf="getBadge() !== 0"
-           class="text-white badge"
-           color="white"
-           [matBadge]="getBadge()"
-           matBadgeColor="accent"
-           matBadgePosition="after"
-           matBadgeOverlap="true">
-      <mat-icon>add_shopping_cart</mat-icon>
-    </span>
-    <span class="price" *ngIf="getBadge() !== 0">{{ panier?.montantTotal() | number:'1.0-2' }} €</span>
-  </div>
-    <ng-container *ngIf="getBadge() === 0">
-      <mat-icon>add_shopping_cart</mat-icon>
-      <span class="price"> 0.00 €</span>
-    </ng-container>
-  </div>
-</div>
+   <div class="block-panier" #blockBasket>
+
+   <div *ngIf="getBadge() !== 0" [routerLink]="['/mon-panier']">
+      <span *ngIf="getBadge() !== 0"
+            class="text-white badge"
+            color="white"
+            [matBadge]="getBadge()"
+            matBadgeColor="accent"
+            matBadgePosition="after"
+            matBadgeOverlap="true">
+       <mat-icon>add_shopping_cart</mat-icon>
+     </span>
+     <span class="price" *ngIf="getBadge() !== 0">{{ panier?.montantTotal() | number:'1.0-2' }} €</span>
+   </div>
+     <ng-container *ngIf="getBadge() === 0">
+       <mat-icon>add_shopping_cart</mat-icon>
+       <span class="price"> 0.00 €</span>
+     </ng-container>
+   </div>
+ </div>

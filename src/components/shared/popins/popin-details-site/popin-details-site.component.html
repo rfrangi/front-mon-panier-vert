@@ -1,0 +1,16 @@
+<h2 class="text-primary text-center fs-4">
+  <span class="align-middle d-inline-block">{{ data?.site?.name }}</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary align-middle mt-1 ms-2">close</mat-icon>
+</h2>
+<h2 class="tex-center">Adresse</h2>
+<div class="description text-center" style="width: 30em;">
+
+  <span class="d-block">{{ data?.site?.adresse?.adresse }}</span>
+  <span class="d-block">{{ data?.site?.adresse?.codePostal }}&nbsp;{{ data?.site?.adresse?.ville }}</span>
+</div>
+<div class="d-block bg-white text-left rounded-2 overflow-auto">
+
+
+</div>

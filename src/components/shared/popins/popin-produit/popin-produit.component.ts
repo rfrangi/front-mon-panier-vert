@@ -1,5 +1,5 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { Component,  Inject, OnInit } from '@angular/core';
+import {MAT_DIALOG_DATA,  MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup,  Validators} from "@angular/forms";
 
 import {ToastService} from "../../../../services/toast.service";
@@ -34,7 +34,6 @@ export class PopinProduitComponent  implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.data);
     this.produitForm = new FormGroup({
       name: new FormControl({value: this.data.produit.name ? this.data.produit.name : '', disabled: false}, [
         Validators.required, Validators.minLength(3), Validators.maxLength(100),

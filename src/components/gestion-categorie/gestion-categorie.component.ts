@@ -15,6 +15,7 @@ import {Produit} from "../../models/produit.model";
 import {Pagination} from "../../models/pagination.model";
 
 import { combineLatest } from 'rxjs';
+import {SiteService} from "../../services/site.service";
 
 @Component({
   selector:  'app-gestion-gestion-categorie',
@@ -31,19 +32,19 @@ export class GestionCategorieComponent implements OnInit {
 
   constructor(private authService: AuthUserService,
               private produitService: ProduitService,
+              private siteService: SiteService,
               private popinService: PopinService,
               private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit(): void {
-    combineLatest(this.route.params, this.route.queryParams).subscribe({
+    combineLatest(this.route.params, this.route.queryParams, this.siteService.siteSubject)/*.pipe(take(1))*/.subscribe({
       next: (data: any) => {
         this.categorieSelected = LIST_CATEGORIES[data[0].categorie];
         this.ssCategorieSelected = data[1].ssCat ? LIST_SOUS_CATEGORIES[data[1].ssCat] : null;
-        const val = localStorage.getItem('site-selected');
-        if (val) {
-          this.siteSelected = new Site(JSON.parse(val));
-          this.loadProduit(data[1].init);
+        if (this.siteService.site && this.siteService.site.id) {
+          this.siteSelected = this.siteService.site;
+          this.loadProduit();
         } else {
           this.popinService.openPopin(PopinSelectSiteComponent, {width: '80%'})
         }
@@ -51,22 +52,30 @@ export class GestionCategorieComponent implements OnInit {
     })
   }
 
-  private loadProduit(init?: boolean): void {
+  private loadProduit(): void {
     const params = {
       idSite: this.siteSelected.id,
       categories: [ this.categorieSelected.code ],
-      ssCategories:/* this.ssCategorieSelected ? [ this.ssCategorieSelected.code ] : */this.categorieSelected.ssCategories.map((cat: SousCategorie) => cat.code),
+      ssCategories: this.categorieSelected.ssCategories.map((cat: SousCategorie) => cat.code),
       searchTerm: ''
     };
-    this.produitService.getAllByParams(params).subscribe({
+    this.produitService.getProduitByCat(params).subscribe({
       next: (data: any) => {
         this.pagination = data.pagination;
+        data.result.map((p: Produit) => {
+          p.siteId = this.siteSelected.id;
+          p.siteName = this.siteSelected.name
+          return p;
+        });
         this.produits = this.ssCategorieSelected ? data.result.filter((p: Produit) => p.ssCategorie === this.ssCategorieSelected): data.result;
-         const arraySSCat = data.result.map((p: Produit) => p.ssCategorie);
          this.categorieSelected.ssCategories.forEach((cat: SousCategorie) => {
-           cat.nbArticle = arraySSCat.filter((ssCat: SousCategorie) => ssCat === cat).length
+           cat.nbArticle = data.nbProduitByCat[cat.code] || 0; // arraySSCat.filter((ssCat: SousCategorie) => ssCat === cat).length
          });
 
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.produits = [];
       }
     })
   }

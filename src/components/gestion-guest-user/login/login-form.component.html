@@ -1,6 +1,7 @@
  <div class="fond d-flex flex-column">
     <div class="bloc-mx-35 shadow text-center bg-white mx-auto px-2 py-4 p-sm-4 my-2 mx-auto rounded">
       <h1>Je me connecte</h1>
+      <p class="error-message text-danger" *ngIf="errorMessage">{{ errorMessage}}</p>
       <form [formGroup]="loginForm"
             autocomplete="off"
             novalidate
@@ -24,9 +25,9 @@
             </mat-icon>
           <mat-error *ngIf="hasError('password', 'required')">Veuillez saisir un mot de passe</mat-error>
         </mat-form-field>
-        <mat-checkbox class="m-2" color="accent">Se souvenir de moi</mat-checkbox>
+        <mat-checkbox class="m-2" color="accent" formControlName="memoryMe">Se souvenir de moi</mat-checkbox>
         <span class="link mb-3 mt-1 text-center italic"
-              [routerLink]="['auth/forgot-password']">Oups! J'ai oublié mon mot de passe</span>
+              [routerLink]="['/auth/forgot-password']">Oups! J'ai oublié mon mot de passe</span>
         <button
           mat-raised-button color="primary"
           name="btn-valider" type="submit">Connexion</button>

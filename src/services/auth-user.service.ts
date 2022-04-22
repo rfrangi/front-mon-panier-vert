@@ -1,9 +1,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import {BehaviorSubject, map, Observable } from 'rxjs';
 import {UserToken} from "../models/user-token.model";
-import {Compagnie} from "../models/compagnie.model";
 import {User} from "../models/user.model";
 import jwt_decode from "jwt-decode";
 
@@ -20,18 +19,28 @@ const USER_KEY = 'auth-gestion-user';
 export class AuthUserService {
 
   public userTokenSubject = new BehaviorSubject<UserToken>(new UserToken());
+  public userToken!: UserToken;
   public decodedToken!: { [key: string]: string };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    let userStorage = localStorage.getItem(USER_KEY);
+    userStorage = userStorage ? JSON.parse(userStorage) :  {};
+    this.userToken = new UserToken ({ user: userStorage, token: localStorage.getItem(TOKEN_KEY)});
+    if(!this.isValid()) {
+      this.logout();
+    } else {
+      this.userTokenSubject.next(this.userToken);
+    }
+  }
 
   public login(credentials: any): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
       username: credentials.email,
       password: credentials.password
     }, httpOptions).pipe(map((data: any) => {
-      const userToken = new UserToken({ user: data.user, token: data.token})
-      this.userTokenSubject.next(userToken);
-      this.saveInfo(data);
+      this.userToken = new UserToken({ user: data.user, token: data.token})
+      this.userTokenSubject.next(this.userToken);
+      this.saveInfo(data, credentials.memoryMe);
     }));
   }
 
@@ -47,9 +56,11 @@ export class AuthUserService {
     window.localStorage.clear();
   }
 
-  saveInfo(data: any = {}): void {
-    this.saveToken(data.token);
-    this.saveUser(data.user);
+  saveInfo(data: any = {}, memoryMe: boolean): void {
+    if(memoryMe) {
+      this.saveToken(data.token);
+      this.saveUser(data.user);
+    }
   }
 
   public saveToken(token: string): void {
@@ -58,30 +69,33 @@ export class AuthUserService {
   }
 
   public getToken(): any {
-    return localStorage.getItem(TOKEN_KEY);
+    return this.userToken.token;
   }
 
   public saveUser(user: User, emit: boolean = false): void {
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
     if(emit) {
-      this.userTokenSubject.next({token: this.getToken(), user: user})
+      this.userToken = new UserToken({token: this.userToken.token, user: user});
+      this.userTokenSubject.next(this.userToken);
     }
   }
 
   public getUser(): User {
-    const data: any = localStorage.getItem(USER_KEY);
-    const json = data ? JSON.parse(data) : {};
-    return new User(json);
+    return this.userToken.user;
   }
 
   public logout(): void {
+    this.userToken = new UserToken();
     this.signOut();
-    this.userTokenSubject.next(new UserToken());
+    this.userTokenSubject.next(this.userToken);
   }
 
   public isValid(): boolean {
-    return !!this.getUser() && !!this.getToken() && !this.isTokenExpired();
+    return this.userToken
+      && this.userToken.user
+      && !!this.userToken.user.id
+      && !!this.userToken.token && !this.isTokenExpired();
   }
 
   public decodeToken(): void {
@@ -109,5 +123,19 @@ export class AuthUserService {
     } else {
       return false;
     }
+  }
+
+  public sendEmailResetPassword(email: string): Observable<any> {
+    return this.http.post(AUTH_API + 'reset', email, httpOptions);
+  }
+
+  public getUserByToken(token: string): Observable<any> {
+    console.log(token);
+    return this.http.post(AUTH_API + 'token', token, httpOptions)
+      .pipe(map((x: any) => new User(x)));
+  }
+
+  public updatePassword(body: object): Observable<any> {
+    return this.http.post(AUTH_API + 'change-password', body, httpOptions);
   }
 }

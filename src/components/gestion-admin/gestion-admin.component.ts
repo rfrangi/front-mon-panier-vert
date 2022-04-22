@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
-import {AuthUserService} from '../../services/auth-user.service';
 
 @Component({
   selector:  'app-gestion-gestion-admin',
@@ -9,7 +7,7 @@ import {AuthUserService} from '../../services/auth-user.service';
 })
 export class GestionAdminComponent implements OnInit {
 
-  constructor(private authService: AuthUserService, private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }

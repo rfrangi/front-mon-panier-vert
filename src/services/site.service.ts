@@ -1,20 +1,40 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 import {environment} from "../environments/environment";
 import {Site} from "../models/site.model";
 import {Compagnie} from "../models/compagnie.model";
 import {Pagination} from "../models/pagination.model";
 
 const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+const KEY_STORAGE_SITE_SELECTED = 'site-selected';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SiteService {
+  public siteSubject = new BehaviorSubject<Site>(new Site({}));
+  public site!: Site;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    let siteStorage = localStorage.getItem(KEY_STORAGE_SITE_SELECTED);
+    siteStorage = siteStorage ? JSON.parse(siteStorage) :  {};
+    this.site = new Site(siteStorage);
+    this.siteSubject.next(this.site);
+  }
+
+  public updateSiteSelected(site: Site): void {
+    if(site) {
+      localStorage.setItem(KEY_STORAGE_SITE_SELECTED, JSON.stringify(site.serialize()));
+      this.site = site;
+      this.siteSubject.next(this.site);
+    } else {
+      this.site = new Site({});
+      this.siteSubject.next(this.site);
+      localStorage.removeItem(KEY_STORAGE_SITE_SELECTED);
+    }
+  }
 
   public getAllByParams(params: any, isModeAdmin = false,): Observable<any> {
     const url = isModeAdmin ?  `admin/sites` : 'sites';

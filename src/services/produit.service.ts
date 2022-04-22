@@ -27,6 +27,17 @@ export class ProduitService {
       }));
   }
 
+  getProduitByCat(params: any): Observable<any> {
+    return this.http.post(environment.urlAPI + `produit/sscat/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
+      .pipe(map((response: any) =>  {
+        return {
+          result: (response.result.content || []).map((p: any) => new Produit(p)),
+          pagination: new Pagination(response.result),
+          nbProduitByCat: response.mapNbSSCategorie
+        };
+      }));
+  }
+
   public save(produit: any, isModeAdmin = false, file?: File): Observable<Produit> {
     return produit.id ? this.update(produit, isModeAdmin, file) : this.create(produit, isModeAdmin, file);
   }

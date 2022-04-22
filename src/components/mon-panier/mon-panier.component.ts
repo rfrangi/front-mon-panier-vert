@@ -1,21 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProduitService} from "../../services/produit.service";
 import {Produit} from "../../models/produit.model";
 import {PanierService} from "../../services/panier.service";
 import {Panier} from "../../models/panier.model";
 import { Subscription } from 'rxjs';
-import {
-  PopinCategoriesProduitComponent
-} from "../shared/popins/popin-categories-produit/popin-categories-produit.component";
 import {PopinRemoveProduitComponent} from "../shared/popins/popin-remove-produit/popin-remove-produit.component";
 import {PopinService} from "../../services/popin.service";
-import {Compagnie} from "../../models/compagnie.model";
 import {Site} from "../../models/site.model";
-import {FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder } from '@angular/forms';
+import {ToastService} from "../../services/toast.service";
+import {SiteService} from "../../services/site.service";
+import {UserToken} from "../../models/user-token.model";
+import {AuthUserService} from "../../services/auth-user.service";
+import {PopinDetailsSiteComponent} from "../shared/popins/popin-details-site/popin-details-site.component";
 
 @Component({
-  selector:  'app-home',
+  selector:  'app-mon-panier',
   templateUrl: `./mon-panier.component.html`,
   styleUrls: ['./mon-panier.component.scss']
 })
@@ -24,14 +24,18 @@ export class MonPanierComponent implements OnInit, OnDestroy {
   public produits: Array<Produit> = [];
   public panier!: Panier;
   public panierSub$!: Subscription;
+  public siteSelected!: Site;
+  public siteSub$!: Subscription;
+  public todoDate: string = 'mercerdi 20 avril 2022';
+  public userToken!: UserToken;
+  private authUser$!: Subscription;
 
-  isLinear = false;
-  secondFormGroup!: FormGroup;
-
-
-  constructor(private router: Router,
+  constructor(private toast: ToastService,
+              private router: Router,
               private route: ActivatedRoute,
               private popinService: PopinService,
+              private siteService: SiteService,
+              private authUserService: AuthUserService,
               private panierService: PanierService,
               private _formBuilder: FormBuilder) {
   }
@@ -43,22 +47,34 @@ export class MonPanierComponent implements OnInit, OnDestroy {
         this.produits = Array.from(this.panier.produits.values());
       }
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
+
+    this.siteSub$ = this.siteService.siteSubject.subscribe({
+      next: (site: Site) => {
+        this.siteSelected = site;
+      }
+    });
+
+    this.authUser$ = this.authUserService.userTokenSubject.subscribe({
+      next: (userToken: UserToken) => {
+        this.userToken = userToken;
+      }
     });
   }
 
   public ngOnDestroy(): void {
     this.panierSub$.unsubscribe();
+    this.siteSub$.unsubscribe();
+    this.authUser$.unsubscribe();
+  }
+
+  public goToUrl(urls: Array<string>): void {
+    this.router.navigate(urls);
   }
 
   public getTotalPrixByProduit(produit: Produit): number {
     return produit.tarif * produit.quantiteCommande;
   }
 
-  public addBasket(produit: Produit): void {
-    this.panierService.updateProduit(produit);
-  }
 
   public addQuantiteBasket(produit: Produit): void {
     const quantite = this.getQuantiteCommade(produit);
@@ -78,29 +94,26 @@ export class MonPanierComponent implements OnInit, OnDestroy {
     return this.produits.find((p: Produit) => p.id === produit.id)?.quantiteCommande || 0;
   }
 
-  public getlabelPoids(produit: Produit): string {
-    let result = '';
-    if (produit.poidsMin && produit.poidsMax) {
-      if (produit.poidsMin !== produit.poidsMax) {
-        result = `${produit.poidsMin} à ${produit.poidsMax} g`;
-      } else {
-        result = `${produit.poidsMin} g`;
-      }
-    } else if (produit.poidsMin) {
-      result = `${produit.poidsMin} g`;
-    }
-    return result;
-  }
-
   public showPopinRemoveProduit(produit: Produit): void {
     this.popinService.openPopin(PopinRemoveProduitComponent, {
       data: {
         produit: produit
       }
     }).subscribe((data: any) => {
-      console.log(data);
       if (data.result) {
         this.panierService.updateProduit(produit, 0);
+      }
+    });
+  }
+
+  public showStatusDev(): void {
+    this.toast.info();
+  }
+
+  public showInformationSite(): void {
+    this.popinService.openPopin(PopinDetailsSiteComponent, {
+      data: {
+        site: this.siteSelected
       }
     });
   }

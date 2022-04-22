@@ -1,29 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {BehaviorSubject, map, Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
-import {environment} from "../environments/environment";
 
 import {Produit} from "../models/produit.model";
-import {Pagination} from "../models/pagination.model";
-import {UserToken} from "../models/user-token.model";
 import {Panier} from "../models/panier.model";
 
-const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+const KEY_STORAGE_PANIER = 'panier';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PanierService {
 
   public panierSubject = new BehaviorSubject<Panier>(new Panier({}));
   public panier!: Panier;
 
   constructor() {
-    let panierStorage = localStorage.getItem('panier');
+    let panierStorage = localStorage.getItem(KEY_STORAGE_PANIER);
     panierStorage = panierStorage ? JSON.parse(panierStorage) :  {};
-    console.log(panierStorage);
     this.panier = new Panier(panierStorage);
     this.panierSubject.next(this.panier);
   }
@@ -36,15 +29,13 @@ export class PanierService {
     } else {
       this.panier.produits.delete(produit.id);
     }
-    localStorage.setItem('panier', JSON.stringify(this.panier.serialize()));
+    localStorage.setItem(KEY_STORAGE_PANIER, JSON.stringify(this.panier.serialize()));
     this.panierSubject.next(this.panier);
   }
 
   public removeAll(): void {
-
-  }
-
-  public removeProduit(): void {
-
+    localStorage.removeItem(KEY_STORAGE_PANIER);
+    this.panier = new Panier({});
+    this.panierSubject.next(this.panier);
   }
 }

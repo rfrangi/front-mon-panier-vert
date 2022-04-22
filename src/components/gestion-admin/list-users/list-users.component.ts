@@ -10,6 +10,7 @@ import {User} from "../../../models/user.model";
 
 import {PopinConfirmComponent} from "../../shared/popins/popin-confirm/popin-confirm.component";
 import {Pagination} from "../../../models/pagination.model";
+import {LIST_USER_STATUS} from "../../../models/user-status.model";
 
 @Component({
   selector:  'app-list-user',
@@ -21,6 +22,7 @@ export class ListUsersComponent implements OnInit {
   public searchForm!: FormGroup;
   public users: Array<User> = [];
   public pagination: Pagination = new Pagination({});
+  public listStatusUser = LIST_USER_STATUS;
 
   constructor(private toast: ToastService,
               private userService: UserService,
@@ -79,6 +81,17 @@ export class ListUsersComponent implements OnInit {
       });
       }
     });
+  }
+
+  public goTochangeStatus(user: User): void {
+    user.status = (user.status === LIST_USER_STATUS.ACTIF) ? LIST_USER_STATUS.DESACTIVE : LIST_USER_STATUS.ACTIF;
+    this.userService.updateStatus(user).subscribe({
+      next: () => {
+        this.search();
+        this.toast.success(`L'utilisateur ${user.firstname} ${user.lastname} est ${user.status.label}`)
+      },
+      error: err => this.toast.genericError(err),
+    })
   }
 }
 

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Observable, startWith,map, Subscription } from 'rxjs';
 
 import {AuthUserService} from "../../services/auth-user.service";
 
@@ -17,6 +17,13 @@ import {SiteService} from "../../services/site.service";
 import {PanierService} from "../../services/panier.service";
 import {Panier} from "../../models/panier.model";
 import {Produit} from "../../models/produit.model";
+import {FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  LIST_CATEGORIES,
+  LIST_SOUS_CATEGORIES,
+  ProduitCategorie,
+  SousCategorie
+} from "../../models/produit-categorie.model";
 
 @Component({
   selector: 'app-header',
@@ -26,12 +33,17 @@ import {Produit} from "../../models/produit.model";
 export class HeaderComponent implements OnInit, OnDestroy {
   public searchTerm!: string;
   public labelUsername: string = 'Mon compte';
+  public labelSite: string = 'Sélectionner un site';
 
   private userToken!: UserToken;
   private authUser$!: Subscription;
 
   public panier!: Panier;
   private panier$!: Subscription;
+
+  public siteSelected!: Site;
+  private siteSelected$!: Subscription;
+
   @ViewChild('formSearch') formSearch!: ElementRef;
   @ViewChild('blockLogo') blockLogo!: ElementRef;
   @ViewChild('blockProduit') blockProduit!: ElementRef;
@@ -39,32 +51,65 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('blockProducteurs') blockProducteurs!: ElementRef;
   @ViewChild('blockBasket') blockBasket!: ElementRef;
 
+  stateGroupOptions!: Observable<CategorieGroup[]>;
+
+  stateForm: FormGroup = this._formBuilder.group({
+    stateGroup: '',
+  });
+  catGroups: CategorieGroup[] = [];
+
   constructor(private router: Router,
+              private _formBuilder: FormBuilder,
               private popinService: PopinService,
               private authUserService: AuthUserService,
               private siteService: SiteService,
               private panierService: PanierService
   ) {}
 
+
+  private _filterGroup(value: string): CategorieGroup[] {
+    if (value) {
+      return this.catGroups
+        .map(group => ({categorie: group.categorie, sousCategories: _filter(group.sousCategories, value)}))
+        .filter(group => group.sousCategories.length > 0);
+    }
+
+    return this.catGroups;
+  }
   public ngOnInit(): void {
+    this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterGroup(value)),
+    );
+
     this.authUser$ = this.authUserService.userTokenSubject.subscribe({
       next: (userToken: UserToken) => {
         this.userToken = userToken;
-        this.labelUsername = (this.authUserService.isValid() ? this.authUserService.getUser().firstname : 'Mon compte');
+        this.labelUsername = (this.authUserService.isValid() ? this.userToken.user.firstname : 'Mon compte');
       }
     });
 
     this.panier$ = this.panierService.panierSubject.subscribe({
-      next: (panier: Panier) => {
-        this.panier = panier
-        console.log('subcription panier header', panier)
+      next: (panier: Panier) => this.panier = panier
+    });
+
+    this.siteSelected$ = this.siteService.siteSubject.subscribe({
+      next: (site: Site) => {
+        this.siteSelected = site;
+        this.labelSite = this.siteSelected && this.siteSelected.id ? this.siteSelected.name : 'Sélectionner un site';
+        if (this.siteSelected?.id) {
+          this.siteService.getById(site.id).subscribe({
+            next: (site: Site) => this.loadCategorieSite(site)
+          })
+        }
       }
-    })
+    });
   }
 
   public ngOnDestroy(): void {
       this.authUser$.unsubscribe();
       this.panier$.unsubscribe();
+      this.siteSelected$.unsubscribe();
   }
 
   public displayZoneSearch(): void {
@@ -100,10 +145,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(urls);
   }
 
+  public goToCategorieSelected(cat: ProduitCategorie, ssCat: SousCategorie): void {
+    this.router.navigate([cat.code],{ queryParams: {ssCat: ssCat.code }})
+
+  }
+
+  public checkSiteSelected(): void {
+    if (!this.siteSelected?.id) {
+      this.popinService.openPopin(PopinSelectSiteComponent, {
+        width: '100%',
+      }).subscribe();
+    }
+  }
+
+  private loadCategorieSite(site: Site): void {
+    const categories = new Set(site.compagnies.flatMap((c: Compagnie) => c.categories));
+    this.catGroups = Array.from(categories).map((cat: any) => { return {
+      categorie: cat,
+      sousCategories: cat.ssCategories
+    }});
+  }
+
+  public showPopinSelectedSite(): void {
+    this.popinService.openPopin(PopinSelectSiteComponent, {width: '100%'});
+  }
+
   public initPopinCategorie(): void {
     if(!localStorage.getItem('site-selected')) {
       this.popinService.openPopin(PopinSelectSiteComponent, {
-        width: '80%',
+        width: '100%',
       }).subscribe((data: any) => {
         if (data?.result) {
           this.showPopinCategorie();
@@ -133,9 +203,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public getBadge(): number {
-    return Array.from(this.panier.produits.values()).map((p: Produit) => p.quantiteCommande).reduce((a, b) => a + b, 0);
-
-
-   // return Array.from(this.panier.produits.keys()).map((key: string) => ).length;
+    return this.panier?.produits ? Array.from(this.panier.produits.values()).map((p: Produit) => p.quantiteCommande).reduce((a, b) => a + b, 0) : 0;
   }
+
 }
+
+export interface CategorieGroup {
+  categorie: ProduitCategorie;
+  sousCategories: SousCategorie[];
+}
+
+export const _filter = (opt: SousCategorie[], value: string): SousCategorie[] => {
+  const filterValue = value.toLowerCase();
+  return opt.filter(item => item.label.toLowerCase().includes(filterValue));
+};

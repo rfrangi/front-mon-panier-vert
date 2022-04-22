@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 
 import { User } from '../models/user.model';
 import {environment} from "../environments/environment";
-import {Compagnie} from "../models/compagnie.model";
 import {Pagination} from "../models/pagination.model";
 
 const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
@@ -48,6 +47,10 @@ export class UserService {
   update(user: User, isModeAdmin = false): Observable<any> {
     const url = (isModeAdmin ?  `admin/users` : 'users') + (user.id ? ('/' + user.id) : '');
     return this.http.put(environment.urlAPI + url, user.serialize(), HTTP_OPTIONS).pipe(map((x: any) => new User(x)));
+  }
+
+  updateStatus(user: User): Observable<any> {
+    return this.http.put(environment.urlAPI + `admin/users/${user.id}/status`, user.status.code, HTTP_OPTIONS);
   }
 
   updateEmail(user: User, email: String, isModeAdmin = false): Observable<any> {

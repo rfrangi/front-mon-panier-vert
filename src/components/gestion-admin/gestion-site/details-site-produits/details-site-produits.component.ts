@@ -9,10 +9,10 @@ import {ProduitService} from "../../../../services/produit.service";
 import {Site} from "../../../../models/site.model";
 import {Produit} from "../../../../models/produit.model";
 import {Pagination} from "../../../../models/pagination.model";
-import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
-import {Compagnie} from "../../../../models/compagnie.model";
-import {CompagnieService} from "../../../../services/compagnie.service";
-import {PopinConfirmComponent} from "../../../shared/popins/popin-confirm/popin-confirm.component";
+import {
+  LIST_CATEGORIES,
+  LIST_SOUS_CATEGORIES,
+  ProduitCategorie} from "../../../../models/produit-categorie.model";
 
 @Component({
   selector:  'app-details-site-produits',
@@ -55,7 +55,8 @@ export class DetailsSiteProduitsComponent implements OnInit {
     const params = {
       searchTerm: '',
       idSite: this.site.id,
-      categories: this.listCategorie.map((cat: ProduitCategorie) => cat.code)
+      categories: this.listCategorie.map((cat: ProduitCategorie) => cat.code),
+      ssCategories: Object.values(LIST_SOUS_CATEGORIES).map((cat: any) => cat.code),
     };
 
     this.produitService.getAllByParams(params).subscribe({
@@ -72,7 +73,7 @@ export class DetailsSiteProduitsComponent implements OnInit {
   }
 
   public getSrc(img: string | undefined): string {
-    return 'http://d11mhhwvxnv6xf.cloudfront.net/' + img;
+    return 'http://d35nr8envdpgsa.cloudfront.net/' + img;
 
   }
 }
