@@ -102,6 +102,7 @@
                 class="d-inline-block"
                 mat-raised-button
                 color="primary"
+                (click)="goNextStep()"
                 type="button">
           Etape suivante
           <mat-icon>keyboard_arrow_right</mat-icon>
@@ -113,36 +114,73 @@
       <div class="d-flex flex-column" *ngIf="panier.produits.size > 0">
         <div class="d-flex flex-row align-items-center mx-2 mx-sm-4 my-0 min-height-12em first-line">
           <i class="material-icons align-items-center my-3 mx-2 mx-sm-4">storefront</i>
-          <h3 class="align-middle min-size-6em font-weight-500 m-3 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex">Mon site</h3>
+          <h3 class="align-middle min-size-6em font-weight-500 m-3 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex">Mon lieu</h3>
           <div class="d-flex flex-column align-items-start my-2 my-sm-3 mx-2 mx-sm-4 flex-grow-1">
-            <h3 class="align-middle font-weight-500 m-2 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none text-start">Mon site</h3>
+            <h3 class="align-middle font-weight-500 m-2 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none text-start">Mon lieu</h3>
             <span class="ms-2">Vous avez choisi le site:</span>
             <span class="ms-2 font-weight-600">{{ siteSelected.name }}</span>
             <span class="small-text text-black-50">
               <i class="material-icons align-items-center align-middle">chevron_right</i>
               <span class="align-middle" (click)="showInformationSite()">Voir les informations</span>
             </span>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row align-items-center mx-2 mx-sm-4 my-0 min-height-12em other-line">
-          <i class="material-icons align-items-center my-3 mx-2 mx-sm-4">event</i>
-          <h3 class="align-middle min-size-6em font-weight-500 m-3 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex text-start">Ma date</h3>
-          <div class="d-flex flex-column align-items-start my-2 my-sm-3 mx-2 mx-sm-4 flex-grow-1">
-            <h3 class="align-middle font-weight-500 m-2 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none">Ma date</h3>
-            <span class="ms-2">Vous avez choisi la date du:</span>
-            <span class="ms-2 font-weight-600">{{ todoDate }}</span>
             <button mat-raised-button
                     color="accent"
+                    (click)="changeModeRetrait()"
                     class="mx-2 my-2 text-white d-flex d-sm-none">
               Modifier
             </button>
           </div>
           <button mat-raised-button
                   color="accent"
+                  (click)="changeModeRetrait()"
+                  class="mx-2 my-2 text-white d-none d-sm-flex">
+            Modifier
+          </button>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mx-2 mx-sm-4 my-0 min-height-12em other-line" [formGroup]="retraitForm">
+          <i class="material-icons align-items-center my-3 mx-2 mx-sm-4">event</i>
+          <h3 class="align-middle min-size-6em font-weight-500 m-3 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex text-start">Ma date</h3>
+          <div class="d-flex flex-column align-items-start my-2 my-sm-3 mx-2 mx-sm-4 flex-grow-1">
+            <h3 class="align-middle font-weight-500 m-2 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none">Ma date</h3>
+            <span class="ms-2">Vous avez choisi la date du:</span>
+            <span class="ms-2 font-weight-600">{{ getDateRetrait()  | dateFR:'LUNDI DD JANVIER YYYY' }}</span>
+            <div class="d-flex flex-row">
+              <button mat-raised-button
+                    color="accent"
+                    (click)="datepicker2.open()"
+                    class="mx-2 my-2 text-white d-flex d-sm-none">
+                Modifier
+              </button>
+              <mat-form-field class="d-flex d-sm-none" style="width: 0; visibility: hidden; ">
+                <input matInput [matDatepickerFilter]="myFilterDate" [matDatepicker]="datepicker2" [min]="minDateRetrait" formControlName="dateRetraitSelected">
+                <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker2>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Annuler</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="changeDateRetrait()">Valider</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field class="d-none d-sm-flex" style="width: 0; visibility: hidden;">
+            <input matInput [matDatepickerFilter]="myFilterDate" [matDatepicker]="datepicker" [min]="minDateRetrait" formControlName="dateRetraitSelected">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Annuler</button>
+                <button mat-raised-button color="primary" matDatepickerApply (click)="changeDateRetrait()">Valider</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button
+                  color="accent"
+                  (click)="datepicker.open()"
                   class="mx-2 my-auto text-white d-none d-sm-flex">
             Modifier
           </button>
+
         </div>
 
         <div class="d-flex flex-row align-items-center mx-2 mx-sm-4 my-0 min-height-12em other-line">

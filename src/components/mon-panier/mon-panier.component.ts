@@ -7,12 +7,13 @@ import { Subscription } from 'rxjs';
 import {PopinRemoveProduitComponent} from "../shared/popins/popin-remove-produit/popin-remove-produit.component";
 import {PopinService} from "../../services/popin.service";
 import {Site} from "../../models/site.model";
-import {FormBuilder } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {ToastService} from "../../services/toast.service";
 import {SiteService} from "../../services/site.service";
 import {UserToken} from "../../models/user-token.model";
 import {AuthUserService} from "../../services/auth-user.service";
 import {PopinDetailsSiteComponent} from "../shared/popins/popin-details-site/popin-details-site.component";
+import {PopinSelectTypeRetraitComponent} from "../shared/popins/popin-select-type-retrait/popin-select-type-retrait.component";
 
 @Component({
   selector:  'app-mon-panier',
@@ -22,13 +23,21 @@ import {PopinDetailsSiteComponent} from "../shared/popins/popin-details-site/pop
 export class MonPanierComponent implements OnInit, OnDestroy {
 
   public produits: Array<Produit> = [];
+
   public panier!: Panier;
   public panierSub$!: Subscription;
+
   public siteSelected!: Site;
   public siteSub$!: Subscription;
+
   public todoDate: string = 'mercerdi 20 avril 2022';
+  public dateRetraitSelected: Date = new Date();
+  public minDateRetrait: Date = new Date();
+
   public userToken!: UserToken;
   private authUser$!: Subscription;
+
+  public retraitForm!: FormGroup;
 
   constructor(private toast: ToastService,
               private router: Router,
@@ -40,7 +49,11 @@ export class MonPanierComponent implements OnInit, OnDestroy {
               private _formBuilder: FormBuilder) {
   }
 
+
+
   public ngOnInit(): void {
+    this.initDateRetrait();
+    this.initForm();
     this.panierSub$ = this.panierService.panierSubject.subscribe({
       next: (panier: Panier) => {
         this.panier = panier;
@@ -65,6 +78,43 @@ export class MonPanierComponent implements OnInit, OnDestroy {
     this.panierSub$.unsubscribe();
     this.siteSub$.unsubscribe();
     this.authUser$.unsubscribe();
+  }
+
+  public changeModeRetrait(): void {
+    this.popinService.openPopin(PopinSelectTypeRetraitComponent, {
+      data: {}
+    }).subscribe({
+      next: (data: any) => console.log(data)
+    });
+  }
+
+  public changeDateRetrait(): void {
+    console.log(this.retraitForm.value);
+  }
+
+  public myFilterDate = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    return day !== 0 && day !== 6;
+  };
+
+  public getDateRetrait(): Date {
+    return this.retraitForm.value.dateRetraitSelected;
+  }
+
+  public initDateRetrait(): void {
+    this.minDateRetrait.setDate(this.minDateRetrait.getDate() + 1);
+    this.dateRetraitSelected = new Date();
+    this.dateRetraitSelected.setHours(0,0,0);
+    this.dateRetraitSelected.setDate(this.dateRetraitSelected.getDate() + 1);
+    while(this.dateRetraitSelected.getDay() === 6 || this.dateRetraitSelected.getDay() === 0) {
+      this.dateRetraitSelected.setDate(this.dateRetraitSelected.getDate() + 1);
+    }
+  }
+
+  public initForm(): void {
+    this.retraitForm = new FormGroup({
+      dateRetraitSelected: new FormControl(this.dateRetraitSelected),
+    });
   }
 
   public goToUrl(urls: Array<string>): void {
@@ -116,5 +166,9 @@ export class MonPanierComponent implements OnInit, OnDestroy {
         site: this.siteSelected
       }
     });
+  }
+
+  public goNextStep(): void {
+    this.dateRetraitSelected = new Date();
   }
 }

@@ -1,0 +1,31 @@
+<h2 class="text-primary text-center fs-4">
+  <span class="align-middle  d-inline-block">Mode de retrait</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary  d-inline-block align-middle">close</mat-icon>
+</h2>
+
+<div [formGroup]="typeRetraitForm" class="ms-2">
+  <mat-radio-group formControlName="type" class="my-2">
+    <mat-radio-button *ngFor="let typeRetrait of listTypeRetrait"
+                      [value]="typeRetrait.code"
+                      color="accent"
+                      class="mx-2 my-3 d-block">
+      <span class="ms-2">{{typeRetrait.label}}</span>
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+<div class="action text-center mt-4">
+  <button mat-button
+          name="btn-back"
+          (click)="cancel()"
+          class="btn-back me-3">{{'Annuler'}}
+  </button>
+  <button mat-raised-button
+          color="primary"
+          (click)="submit()"
+          name="btn-valider"
+          type="submit">{{'Valider'}}
+  </button>
+</div>
+

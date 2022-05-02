@@ -16,7 +16,7 @@ const DAY_SHORT_NAMES = [
 ];
 
 @Pipe({
-  name: 'date'
+  name: 'dateFR'
 })
 export class DatePipe implements PipeTransform {
 
@@ -41,7 +41,7 @@ export class DatePipe implements PipeTransform {
         .replace('MM', (date.getMonth() + 1).toString().replace(/^(\d)$/, '0$1'))
         .replace('M', (date.getMonth() + 1).toString())
         .replace('DD', date.getDate().toString().replace(/^(\d)$/, '0$1'))
-        .replace('D', date.getDate().toString())
+      //  .replace('D', date.getDate().toString())
 
         .replace('JANVIER', MONTH_NAMES[ date.getMonth() ])
         .replace('JAN', MONTH_SHORT_NAMES[ date.getMonth() ])

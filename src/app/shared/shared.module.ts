@@ -16,7 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
@@ -61,8 +61,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {
   PopinDetailsSiteComponent
 } from "../../components/shared/popins/popin-details-site/popin-details-site.component";
+import {PopinSelectTypeRetraitComponent} from "../../components/shared/popins/popin-select-type-retrait/popin-select-type-retrait.component";
+import {MatNativeDateModule} from '@angular/material/core';
+import {DatePipe} from "../../pipes/date.pipe";
 
 const materialModules = [
+  MatNativeDateModule,
   MatBadgeModule,
   MatDialogModule,
   MatSlideToggleModule,
@@ -109,8 +113,10 @@ const components = [
   PaginationComponent,
   UploadFileComponent,
   FilArianeComponent,
-  ListProduitComponent
+  ListProduitComponent,
 ];
+
+const pipes = [ DatePipe ];
 
 const popins = [
   PopinMessageDuringComponent,
@@ -119,11 +125,13 @@ const popins = [
   PopinCategoriesProduitComponent,
   PopinRemoveProduitComponent,
   PopinDetailsSiteComponent,
+  PopinSelectTypeRetraitComponent
 ]
 @NgModule({
   declarations: [
     ...components,
-    ...popins
+    ...popins,
+    ...pipes
   ],
   exports: [
     HttpClientModule,
@@ -132,7 +140,8 @@ const popins = [
     RouterModule,
     ...materialModules,
     ...components,
-    ...popins
+    ...popins,
+    ...pipes
   ],
   imports: [
     CommonModule,
@@ -141,6 +150,10 @@ const popins = [
     ReactiveFormsModule,
     RouterModule,
     ...materialModules,
+  ],
+  providers: [
+    MatDatepickerModule,
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
   ]
 })
 export class SharedModule { }
