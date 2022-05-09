@@ -1,0 +1,28 @@
+<h2 class="text-primary text-center fs-4">
+  <span class="align-middle d-inline-block">{{ data.title }}</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary align-middle mt-1 ms-2">close</mat-icon>
+</h2>
+
+<div>
+
+  <form [formGroup]="adresseForm" novalidate (ngSubmit)="submit()">
+    <app-adresse-form #adresseFormComponent
+                      [form]="adresseForm"
+                      [adresse]="data.adresse">
+    </app-adresse-form>
+    <div class="text-center">
+      <a class="reset-form me-3"
+         (click)="cancel()">
+        Annuler
+      </a>
+      <button mat-raised-button
+              color="primary"
+              type="submit">
+        Enregistrer
+      </button>
+    </div>
+  </form>
+
+</div>

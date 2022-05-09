@@ -71,7 +71,7 @@
             <button mat-raised-button
                     type="button"
                     class="w-100 m-2 max-width"
-                    (click)="showStatusDev()"
+                    (click)="savePanier()"
                     color="primary">
               Enregistrer mon panier
             </button>
@@ -117,12 +117,30 @@
           <h3 class="align-middle min-size-6em font-weight-500 m-3 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex">Mon lieu</h3>
           <div class="d-flex flex-column align-items-start my-2 my-sm-3 mx-2 mx-sm-4 flex-grow-1">
             <h3 class="align-middle font-weight-500 m-2 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none text-start">Mon lieu</h3>
-            <span class="ms-2">Vous avez choisi le site:</span>
-            <span class="ms-2 font-weight-600">{{ siteSelected.name }}</span>
-            <span class="small-text text-black-50">
-              <i class="material-icons align-items-center align-middle">chevron_right</i>
-              <span class="align-middle" (click)="showInformationSite()">Voir les informations</span>
-            </span>
+            <ng-container *ngIf="panier.modeRetrait === listModeRetrait.SITE">
+              <span class="ms-2">Vous avez choisi le site:</span>
+              <span class="ms-2 font-weight-600" >{{ siteSelected.name }}</span>
+              <span class="small-text text-black-50">
+                <i class="material-icons align-items-center align-middle">chevron_right</i>
+                <span class="align-middle" (click)="showInformationSite()">Voir les informations</span>
+              </span>
+
+            </ng-container>
+            <ng-container *ngIf="panier.modeRetrait === listModeRetrait.LIVRAISON">
+              <span class="ms-2 mb-2 text-start font-weight-600">Vous avez choisi la livraison à l'adresse suivante:</span>
+              <span class="text-start ms-2">{{ userToken.user.firstname }}&nbsp;{{ userToken.user.lastname }}</span>
+              <ng-container *ngIf="panier.adresseLivraison">
+                <span class="text-start ms-2">{{ panier.adresseLivraison.adresse }}</span>
+                <span class="text-start ms-2" *ngIf="panier.adresseLivraison.complement">{{ panier.adresseLivraison.complement }}</span>
+                <span class="text-start ms-2">{{ panier.adresseLivraison.codePostal }}&nbsp;{{ panier.adresseLivraison.ville }}</span>
+              </ng-container>
+              <span class="small-text text-black-50">
+                <i class="material-icons align-items-center align-middle">chevron_right</i>
+                <span class="align-middle" (click)="showChangeAdresse(false)">Modifier</span>
+              </span>
+
+            </ng-container>
+
             <button mat-raised-button
                     color="accent"
                     (click)="changeModeRetrait()"
@@ -188,16 +206,33 @@
           <h3 class="align-middle min-size-6em font-weight-500 m-3 font-weight-500 fs-5 text-secondary mx-2 mx-sm-4 d-none d-sm-flex text-start">Mon heure</h3>
           <div class="d-flex flex-column align-items-start my-2 my-sm-3 mx-2 mx-sm-4 flex-grow-1">
             <h3 class="align-middle m-2 font-weight-500 fs-5 text-secondary mx-2 mx-sm-4 d-sm-none">Mon heure</h3>
-            <span class="ms-2">Vous avez choisi le créneau de:</span>
-            <span class="ms-2 font-weight-600">{{ todoDate }}</span>
+
+            <ng-container *ngIf="changeCreneauRetrait">
+              <mat-form-field class="mat-form-field-creneau ms-2" #fieldSelectCreneau>
+                <mat-label>Creneau</mat-label>
+                <mat-select>
+                  <ng-container *ngFor="let creneau of panier.modeRetrait.creneaux">
+                    <mat-option (click)="panier.creneauRetrait = creneau; this.changeCreneauRetrait = false">
+                      {{ creneau.label }}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngIf="!changeCreneauRetrait">
+              <span class="ms-2">Vous avez choisi le créneau de:</span>
+              <span class="ms-2 font-weight-600">{{ panier.creneauRetrait ? panier.creneauRetrait.label : panier.modeRetrait.creneaux[0].label }}</span>
+            </ng-container>
             <button mat-raised-button
                     color="accent"
+                    (click)="changeCreneauRetrait = true"
                     class="mx-2 my-2 text-white d-flex d-sm-none">
               Modifier
             </button>
           </div>
           <button mat-raised-button
                   color="accent"
+                  (click)="changeCreneauRetrait = true"
                   class="mx-2 my-auto text-white d-none d-sm-flex">
             Modifier
           </button>
@@ -208,12 +243,16 @@
         <div class="d-flex flex-column text-start mt-3 flex-grow-1">
           <h3 class="text-start ms-2 ms-sm-4 font-weight-500 mb-2">Mon adresse de facturation</h3>
           <span class="text-start ms-2 ms-sm-4">{{ userToken.user.firstname }}&nbsp;{{ userToken.user.lastname }}</span>
-          <span class="text-start ms-2 ms-sm-4">{{ userToken.user.adresse.adresse }}</span>
-          <span class="text-start ms-2 ms-sm-4">{{ userToken.user.adresse.codePostal }}&nbsp;{{ userToken.user.adresse.ville }}</span>
+          <ng-container *ngIf="panier.adresseFacturation">
+            <span class="text-start ms-2 ms-sm-4">{{ panier.adresseFacturation.adresse }}</span>
+            <span class="text-start ms-2 ms-sm-4" *ngIf="panier.adresseFacturation.complement">{{ panier.adresseFacturation.complement }}</span>
+            <span class="text-start ms-2 ms-sm-4">{{ panier.adresseFacturation.codePostal }}&nbsp;{{ panier.adresseFacturation.ville }}</span>
+            </ng-container>
           <span class="small-text text-black-50 ms-1 ms-sm-3">
               <i class="material-icons align-items-center align-middle">chevron_right</i>
-              <span class="align-middle" (click)="showInformationSite()">Modifier</span>
-            </span>
+              <span class="align-middle" (click)="showChangeAdresse(true)">Modifier</span>
+          </span>
+
         </div>
 
           <div class="block-end-panier d-flex flex-row flex-sm-row mx-2 my-4 my-sm-2 flex-grow-1 align-items-center">
@@ -225,6 +264,7 @@
         <button matStepperNext
                 class="d-inline-block"
                 mat-raised-button
+                (click)="goToPaiement()"
                 color="primary"
                 type="button">
           Etape suivante
@@ -234,10 +274,48 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Paiement</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+      <h2 class="text-start ms-2 ms-sm-4">Paiement</h2>
+      <div class="d-flex flex-sm-row flex-column first-line py-sm-4 py-2 mx-sm-4 mx-2">
+        <div class="text-start d-flex flex-column flex-grow-1">
+          <h3 class="font-weight-500 ms-sm-0 ms-2">{{ panier.modeRetrait === listModeRetrait.LIVRAISON ? 'Ma livraison' : 'Mon site'}}</h3>
+          <span class="text-start ms-sm-0 ms-3">{{ userToken.user.firstname }}&nbsp;{{ userToken.user.lastname }}</span>
+          <ng-container *ngIf="panier.adresseLivraison">
+            <span class="text-start ms-sm-0 ms-3">{{ panier.adresseLivraison.adresse }}</span>
+            <span class="text-start ms-sm-0 ms-3" *ngIf="panier.adresseLivraison.complement">{{ panier.adresseLivraison.complement }}</span>
+            <span class="text-start ms-sm-0 ms-3">{{ panier.adresseLivraison.codePostal }}&nbsp;{{ panier.adresseLivraison.ville }}</span>
+          </ng-container>
+        </div>
+        <div class="other-line d-sm-none d-flex py-2 mb-3"></div>
+        <div  class="text-start d-flex flex-column flex-grow-1">
+          <h3 class="font-weight-500 ms-sm-0 ms-2">Mon adresse de facturation</h3>
+          <span class="text-start ms-sm-0 ms-3">{{ userToken.user.firstname }}&nbsp;{{ userToken.user.lastname }}</span>
+          <ng-container *ngIf="panier.adresseFacturation">
+            <span class="text-start ms-sm-0 ms-3">{{ panier.adresseFacturation.adresse }}</span>
+            <span class="text-start ms-sm-0 ms-3" *ngIf="panier.adresseFacturation.complement">{{ panier.adresseFacturation.complement }}</span>
+            <span class="text-start ms-sm-0 ms-3">{{ panier.adresseFacturation.codePostal }}&nbsp;{{ panier.adresseFacturation.ville }}</span>
+          </ng-container>
+        </div>
+        <div class="other-line d-sm-none d-flex py-2 mb-3"></div>
+        <div  class="text-start d-flex flex-row flex-grow-1">
+          <h3 class="font-weight-500 ms-sm-0 ms-2">Montant Total TTC</h3>
+          <strong class="text-danger fs-3 flex-grow-1 text-end">{{ panier.montantTotal()  | number:'1.0-2'}}&nbsp;€</strong>
+        </div>
+      </div>
+      <h2 class="text-start ms-2 ms-sm-4 my-2">Paiement par carte bancaire</h2>
+      <div class="text-start ms-2 ms-sm-4">
+        <span class="d-block my-4 w-100">TODO: Ajouter une CB</span>
+        <mat-checkbox class="mb-2 me-4" (click)="accepteTerm = !accepteTerm">
+          <span>J’ai lu et j’accepte les <a>conditions générales de vente</a> et j’ai conscience que ma commande implique une obligation de payer *</span>
+        </mat-checkbox>
+      </div>
+      <div class="actions text-end mx-2">
+        <button mat-raised-button
+                color="primary"
+                (click)="submitPanier()"
+                [disabled]="!accepteTerm"
+                type="submit">
+          Valider
+        </button>
       </div>
     </mat-step>
   </mat-stepper>

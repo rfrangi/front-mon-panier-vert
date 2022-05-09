@@ -2,16 +2,16 @@
   <span class="align-middle  d-inline-block">Mode de retrait</span>
   <mat-icon color="primary"
             (click)="cancel()"
-            class="border-primary  d-inline-block align-middle">close</mat-icon>
+            class="border-primary d-inline-block align-middle float-end">close</mat-icon>
 </h2>
 
 <div [formGroup]="typeRetraitForm" class="ms-2">
   <mat-radio-group formControlName="type" class="my-2">
     <mat-radio-button *ngFor="let typeRetrait of listTypeRetrait"
-                      [value]="typeRetrait.code"
+                      [value]="typeRetrait"
                       color="accent"
                       class="mx-2 my-3 d-block">
-      <span class="ms-2">{{typeRetrait.label}}</span>
+      <span class="ms-2">{{ typeRetrait.label }} <ng-container *ngIf="typeRetrait.code === 'SITE'">{{ data.site.adresse.ville }}</ng-container></span>
     </mat-radio-button>
   </mat-radio-group>
 </div>

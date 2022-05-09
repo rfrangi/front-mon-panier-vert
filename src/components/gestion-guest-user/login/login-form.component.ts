@@ -12,11 +12,12 @@ import {AuthUserService} from '../../../services/auth-user.service';
 })
 export class LoginFormComponent implements OnInit {
 
-  loginForm!: FormGroup;
-  hide = true;
+  public loginForm!: FormGroup;
+  public hide: boolean = true;
 
-  form: any = {};
-  errorMessage = '';
+  public form: any = {};
+  public errorMessage: string = '';
+  public pastURL!: string;
 
   constructor(private authUserService: AuthUserService,
               private route: ActivatedRoute,
@@ -29,6 +30,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   private onParamsChange(params: any): any {
+    this.pastURL = params.pastURL ? params.pastURL : null;
     this.loginForm = new FormGroup({
       email: new FormControl(params.email ? params.email : '', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -49,7 +51,7 @@ export class LoginFormComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authUserService.login(value).subscribe({
         next: () =>{
-          this.router.navigate(['home']);
+          this.router.navigate([this.pastURL ? this.pastURL : 'home']);
         },
         error: err => {
           if (err?.error?.code === 'DISABLED_ACCOUNT') {

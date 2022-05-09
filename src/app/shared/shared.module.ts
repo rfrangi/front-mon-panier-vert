@@ -64,6 +64,9 @@ import {
 import {PopinSelectTypeRetraitComponent} from "../../components/shared/popins/popin-select-type-retrait/popin-select-type-retrait.component";
 import {MatNativeDateModule} from '@angular/material/core';
 import {DatePipe} from "../../pipes/date.pipe";
+import {
+  PopinChangeAdresseComponent
+} from "../../components/shared/popins/popin-change-adresse/popin-change-adresse.component";
 
 const materialModules = [
   MatNativeDateModule,
@@ -125,7 +128,8 @@ const popins = [
   PopinCategoriesProduitComponent,
   PopinRemoveProduitComponent,
   PopinDetailsSiteComponent,
-  PopinSelectTypeRetraitComponent
+  PopinSelectTypeRetraitComponent,
+  PopinChangeAdresseComponent
 ]
 @NgModule({
   declarations: [

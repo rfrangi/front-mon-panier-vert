@@ -149,6 +149,7 @@
           <mat-radio-group formControlName="civilite" [disabled]="!isUpdateInfoPerso">
             <ng-container *ngFor="let civ of listCivilite">
               <mat-radio-button [value]="civ.code" color="primary">{{ civ.label }}</mat-radio-button>
+              <mat-radio-button [value]="civ.code" color="primary">{{ civ.label }}</mat-radio-button>
             </ng-container>
             <mat-error *ngIf="hasError(infoPersoForm, 'civilite', 'required')">
               Veuillez sélectionner votre civilité

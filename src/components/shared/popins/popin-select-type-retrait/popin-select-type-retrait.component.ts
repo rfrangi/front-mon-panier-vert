@@ -3,8 +3,13 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 
 import {LIST_TYPE_RETRAIT, TypeRetrait} from "../../../../models/type-retrait.model";
 import {FormControl, FormGroup, Validators } from '@angular/forms';
+import {Site} from "../../../../models/site.model";
 
-export interface DialogData { typeSelected: TypeRetrait }
+export interface DialogData {
+  typeSelected: TypeRetrait,
+  site: Site
+}
+
 @Component({
   selector:  'app-popin-select-type-retrait',
   templateUrl: `./popin-select-type-retrait.component.html`,
@@ -23,7 +28,7 @@ export class PopinSelectTypeRetraitComponent {
 
   ngOnInit(): void {
     this.typeRetraitForm = new FormGroup({
-      type: new FormControl({value: this.data.typeSelected || LIST_TYPE_RETRAIT.SITE.code, disabled: false}, [ Validators.required ]),
+      type: new FormControl({value: this.data.typeSelected || LIST_TYPE_RETRAIT.LIVRAISON, disabled: false}, [ Validators.required ]),
     });
   }
 
@@ -33,7 +38,8 @@ export class PopinSelectTypeRetraitComponent {
 
   public submit(): void {
     this.dialogRef.close({
-      result: true
+      result: true,
+      modeSelected: this.typeRetraitForm.value.type
     });
   }
 }
