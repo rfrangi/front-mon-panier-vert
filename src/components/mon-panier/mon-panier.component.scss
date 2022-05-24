@@ -9,6 +9,10 @@ main {
     max-width: 15em;
   }
 
+  .btn-valider-panier {
+    width: 10em;
+  }
+
   .font-weight-600 {
     font-weight: 600;
   }
@@ -33,6 +37,12 @@ main {
   .other-line,
   .block-action {
     border-bottom: solid 1px lightgrey;
+  }
+
+  .label-accept-term {
+    word-wrap: break-word;
+    overflow: hidden;
+    display: inline-flex;
   }
 }
 

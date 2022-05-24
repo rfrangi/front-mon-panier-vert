@@ -10,6 +10,7 @@ export class UploadFileComponent {
   @ViewChild('fileInput') public fileInput!: ElementRef;
 
   @Input() public src!: any;
+  @Input() public disabled: boolean = false;
   @Output() public onChange: EventEmitter<void> = new EventEmitter();
 
   ngOnInit(): void {

@@ -88,5 +88,35 @@ export class GestionCategorieComponent implements OnInit {
     this.router.navigate([this.categorieSelected.code]);
 
   }
+
+  public afficherPlus(): void {
+    console.log(this.produits.length);
+    const page = this.pagination.currentPage + 1;
+    if (page >= 1 && page <= this.pagination.nbPages) {
+      this.pagination.currentPage = page;
+      const params = {
+        idSite: this.siteSelected.id,
+        categories: [ this.categorieSelected.code ],
+        ssCategories: this.categorieSelected.ssCategories.map((cat: SousCategorie) => cat.code),
+        searchTerm: '',
+        page: this.pagination.currentPage
+      }
+      this.popinService.showLoader();
+      this.produitService.getProduitByCat(params).subscribe({
+      next: (data) => {
+        this.pagination = data.pagination;
+        data.result.map((p: Produit) => {
+          p.siteId = this.siteSelected.id;
+          p.siteName = this.siteSelected.name
+          return p;
+        });
+        const newListProduit = this.ssCategorieSelected ? data.result.filter((p: Produit) => p.ssCategorie === this.ssCategorieSelected) : data.result;
+        this.produits = this.produits.concat(newListProduit);
+      },
+      error: () => {},
+      complete: () => this.popinService.closeLoader()
+    });
+    }
+  }
 }
 

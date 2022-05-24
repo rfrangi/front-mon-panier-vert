@@ -4,18 +4,18 @@ import {LIST_CATEGORIES, ProduitCategorie} from "./produit-categorie.model";
 
 export class Compagnie {
 
-  id!: string;
-  name!: string;
-  img!: string;
-  siret!: string;
-  email!: string;
-  telephone!: string;
-  status!: CompagnieStatus;
-  type!: TypeCompagnie;
-  adresse!: Adresse;
-  creationDate!: Date;
-  modificationDate!: Date;
-  categories: Array<ProduitCategorie> = [];
+  public id!: string;
+  public name!: string;
+  public img!: string;
+  public  siret!: string;
+  public  email!: string;
+  public telephone!: string;
+  public status!: CompagnieStatus;
+  public type!: TypeCompagnie;
+  public adresse!: Adresse;
+  public  creationDate!: Date;
+  public modificationDate!: Date;
+  public categories: Array<ProduitCategorie> = [];
 
   constructor(data: any= {}) {
     Object.assign(this, data);

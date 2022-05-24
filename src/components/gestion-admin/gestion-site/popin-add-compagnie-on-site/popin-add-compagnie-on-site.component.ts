@@ -80,5 +80,6 @@ export class PopinAddCompagnieOnSiteComponent {
   public check(compagnie: Compagnie): boolean {
     return this.compagnieSite.map((c: Compagnie) => c.id).includes(compagnie.id);
   }
+
 }
 

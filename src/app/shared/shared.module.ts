@@ -67,6 +67,7 @@ import {DatePipe} from "../../pipes/date.pipe";
 import {
   PopinChangeAdresseComponent
 } from "../../components/shared/popins/popin-change-adresse/popin-change-adresse.component";
+import {ListCommandeComponent} from "../../components/shared/list-commandes/list-commande.component";
 
 const materialModules = [
   MatNativeDateModule,
@@ -117,6 +118,7 @@ const components = [
   UploadFileComponent,
   FilArianeComponent,
   ListProduitComponent,
+  ListCommandeComponent
 ];
 
 const pipes = [ DatePipe ];

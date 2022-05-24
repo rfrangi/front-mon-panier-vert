@@ -46,6 +46,17 @@
       </div>
     </div>
   </div>
+  <div class="actions text-center w-100">
+    <button
+      *ngIf="produits.length > 0"
+      mat-raised-button
+      type="button"
+      class="w-75 btn-afficher-plus"
+      color="accent"
+      (click)="afficherPlus()">
+      Afficher plus
+    </button>
+  </div>
   <p *ngIf="produits.length === 0"
        class="produit-empty text-center fs-3 text-black-50 w-100 p-4 ms-0 ms-sm-2 bg-white shadow d-block">Aucun produit
   </p>

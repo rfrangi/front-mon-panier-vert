@@ -65,7 +65,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-slide-toggle class="mt-2 mb-4" color="accent">Recevoir les offres de MonPanierVert</mat-slide-toggle>
+      <mat-slide-toggle class="mt-2 mb-4" color="accent" formControlName="recevoirOffre">Recevoir les offres de MonPanierVert</mat-slide-toggle>
       <button mat-raised-button color="primary" type="submit">Suivant</button>
     </form>
   </div>
@@ -200,7 +200,7 @@
         <mat-label>Pays</mat-label>
         <mat-select formControlName="pays">
           <ng-container *ngFor="let pays of listPays">
-            <mat-option [value]="pays">{{ pays.label }}</mat-option>
+            <mat-option [value]="pays.code">{{ pays.label }}</mat-option>
           </ng-container>
         </mat-select>
       </mat-form-field>

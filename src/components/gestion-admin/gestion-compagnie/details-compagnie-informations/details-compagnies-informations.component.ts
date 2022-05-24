@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FormControl, FormGroup, Validators, FormArray} from "@angular/forms";
+
 import {ToastService} from "../../../../services/toast.service";
 import {CompagnieService} from "../../../../services/compagnie.service";
 import {Compagnie} from "../../../../models/compagnie.model";
 
-import {FormControl, FormGroup, Validators, FormArray} from "@angular/forms";
-import {LIST_PAYS, Pays} from "../../../../models/pays.model";
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "../../../../models/compagnie-status.model";
 import {PopinService} from "../../../../services/popin.service";
 import {AdresseFormComponent} from "../../../shared/adresse/adresse-form/adresse-form.component";
 import {Adresse} from "../../../../models/adresse.model";
 import {LIST_CATEGORIES, ProduitCategorie} from "../../../../models/produit-categorie.model";
+import {User} from "../../../../models/user.model";
 
 @Component({
   selector:  'app-details-compagnies-informations',
@@ -21,7 +22,8 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
 
   public compagnie!: Compagnie;
   public compagnieForm!: FormGroup;
-  public listPays: Array<Pays> = Object.values(LIST_PAYS);
+
+
   public listStatus: Array<CompagnieStatus> = Object.values(LIST_COMPAGNIE_STATUS);
   public listCategories: Array<ProduitCategorie> = Object.values(LIST_CATEGORIES);
 
@@ -32,9 +34,12 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
   public updateCategories: boolean = false;
   public updateCoordonnee: boolean = false;
   public updateAdresse: boolean = false;
+  public updateAdmin: boolean = false;
 
   @ViewChild('adresseFormComponent')
   public adresseFormComponent!: AdresseFormComponent;
+
+  private file!: File;
 
   constructor(private toast: ToastService,
               private route: ActivatedRoute,
@@ -70,6 +75,10 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     }
   }
 
+  public changeImg($event: any): void {
+    this.file = $event;
+  }
+
 
   public onUpdateInfo(): void {
     this.updateInfo = !this.updateInfo;
@@ -84,10 +93,9 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     this.compagnie.name = this.compagnieForm.value.name;
     this.compagnie.siret = this.compagnieForm.value.siret;
     this.compagnie.status = LIST_COMPAGNIE_STATUS[this.compagnieForm.value.status];
-    this.compagnieService.save(this.compagnie.serialize(), true).subscribe({
-      next: (compagnie: Compagnie) => {
+    this.compagnieService.save(this.compagnie.serialize(), true, this.file).subscribe({
+      next: () => {
         this.toast.success('Les informations sont à jours');
-        this.compagnie = compagnie;
         this.resetForm();
       },
       error: (err: any) =>  this.toast.genericError(err),
@@ -144,7 +152,7 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
 
   public onUpdateCoordonnee(): void {
     this.updateCoordonnee = !this.updateCoordonnee;
-    this.initForm()
+    this.initForm();
   }
   public resetFormAdresse(): void {
     this.updateAdresse = false;
@@ -156,6 +164,18 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
   public onUpdateAdresse(): void {
     this.updateAdresse = !this.updateAdresse;
     this.adresseFormComponent.initForm(!this.updateAdresse);
+  }
+
+  public onUpdateAdmin(): void {
+    this.updateAdmin = !this.updateAdmin;
+    this.initForm();
+  }
+
+  public resetFormAdmin(): void {
+    this.updateAdmin = false;
+    this.updateAdresse = false;
+    this.updateInfo = false;
+    this.initForm();
   }
 
   initForm(): void {
@@ -220,7 +240,7 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
     const data = this.compagnieForm.value;
     Object.assign(data, {id: this.compagnie.id ? this.compagnie.id : undefined })
     this.popinService.showLoader();
-    this.compagnieService.save(data, true).subscribe({
+    this.compagnieService.save(data, true, this.file).subscribe({
       next: (compagnie: Compagnie) => {
         this.toast.success(this.compagnie.id ? 'Les informations sont à jours' : `Votre entreprise est ajoutée`);
         this.compagnie = compagnie;
@@ -241,6 +261,10 @@ export class DetailsCompagniesInformationsComponent implements OnInit {
 
   public goToListCompagnie(): void {
     this.router.navigate(['administration', 'compagnies'])
+  }
+
+  public saveAdmin(): void {
+
   }
 }
 

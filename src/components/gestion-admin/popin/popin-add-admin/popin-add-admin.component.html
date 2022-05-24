@@ -1,0 +1,61 @@
+<h2 class="text-primary text-center fs-4">
+  <span class="align-middle d-inline-block">Ajouter un administrateur</span>
+  <mat-icon color="primary"
+            (click)="cancel()"
+            class="border-primary align-middle mt-1 ms-2">close</mat-icon>
+</h2>
+
+<div class="block-search m-2 d-block bg-white pt-2 text-center rounded-2">
+  <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
+    <mat-form-field class="flex-grow-1 mx-4" disabled>
+      <input matInput
+             placeholder="Tapez un mot"
+             type="text"
+             formControlName="searchTerm">
+      <mat-icon matSuffix color="primary">search</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            name="btn-submit"
+            class="mx-2 my-auto"
+            type="submit">
+      Rechercher
+    </button>
+  </form>
+</div>
+<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto p-2" *ngIf="users.length > 0">
+  <h2 class="mx-2 my-2 text-start"><span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false">Utilisateurs</span></h2>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        <mat-checkbox class="px-2"
+                                (change)="changeListSelected($event, user)"
+                                [checked]="check(user)">
+        </mat-checkbox>
+
+      </td>
+      <td>{{ user?.email }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="actions mt-3">
+    <a class="reset-form me-3"
+       (click)="cancel()">
+      Annuler
+    </a>
+    <button mat-raised-button
+            color="primary"
+            (click)="saveAdmin()"
+            type="submit">
+        Ajouter
+    </button>
+  </div>
+</div>

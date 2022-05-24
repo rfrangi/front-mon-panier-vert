@@ -16,7 +16,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllByParams(params: any): Observable<any> {
+  public getAllByParams(params: any): Observable<any> {
     return this.http.post(environment.urlAPI + `admin/users/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
@@ -26,17 +26,17 @@ export class UserService {
       }));
   }
 
-  save(user: any, isModeAdmin = false): Observable<User> {
+  public save(user: any, isModeAdmin = false): Observable<User> {
     return user.id ? this.update(user, isModeAdmin) : this.create(user, isModeAdmin);
   }
 
-  create(user: any, isModeAdmin = false): Observable<User> {
+  public create(user: any, isModeAdmin = false): Observable<User> {
     const url = isModeAdmin ?  `admin/users` : 'users';
     return this.http.post<User>(environment.urlAPI + url, user, HTTP_OPTIONS)
       .pipe(map((x: any) => new User(x)));
   }
 
-  saveLogo(user: User, file: File): Observable<User> {
+  public saveLogo(user: User, file: File): Observable<User> {
     const formData = new FormData();
     formData.append('files', file);
     const url = `users/${user.id}/logo`;
@@ -44,30 +44,30 @@ export class UserService {
       .pipe(map(x => new User(x)));
   }
 
-  update(user: User, isModeAdmin = false): Observable<any> {
+  public update(user: User, isModeAdmin = false): Observable<any> {
     const url = (isModeAdmin ?  `admin/users` : 'users') + (user.id ? ('/' + user.id) : '');
     return this.http.put(environment.urlAPI + url, user.serialize(), HTTP_OPTIONS).pipe(map((x: any) => new User(x)));
   }
 
-  updateStatus(user: User): Observable<any> {
+  public updateStatus(user: User): Observable<any> {
     return this.http.put(environment.urlAPI + `admin/users/${user.id}/status`, user.status.code, HTTP_OPTIONS);
   }
 
-  updateEmail(user: User, email: String, isModeAdmin = false): Observable<any> {
+  public updateEmail(user: User, email: String, isModeAdmin = false): Observable<any> {
     const url = (isModeAdmin ?  `admin/users/${user.id}/email/${email}` : `users/emails/${user.id}/email/${email}`);
     return this.http.put(environment.urlAPI + url, user.serialize(), HTTP_OPTIONS).pipe(map((x: any) => new User(x)));
   }
 
-  updatePassword(user: User,oldPassword: string, newPassword: string, isModeAdmin = false): Observable<any> {
+  public updatePassword(user: User,oldPassword: string, newPassword: string, isModeAdmin = false): Observable<any> {
     const url = (isModeAdmin ?  `admin/users` : 'users') + (user.id ? ('/' + user.id) : '');
     return this.http.put(environment.urlAPI + url, user.serialize(), HTTP_OPTIONS).pipe(map((x: any) => new User(x)));
   }
 
-  delete(id: string): Observable<any> {
+  public delete(id: string): Observable<any> {
     return this.http.delete(environment.urlAPI + `admin/users/${id}`, HTTP_OPTIONS);
   }
 
-  getAll(params: any): Observable<any> {
+  public getAll(params: any): Observable<any> {
     return this.http.post(environment.urlAPI + `admin/users/paginated`, params, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {
         return {
@@ -77,22 +77,22 @@ export class UserService {
       }));
   }
 
-  changePassword(id: string, password: string, isAdmin = false): Observable<any> {
+  public changePassword(id: string, password: string, isAdmin = false): Observable<any> {
     return this.http.get(environment.urlAPI + (isAdmin ? `admin/users/${id}/` : `users/`) + `password/${password}`, HTTP_OPTIONS);
   }
 
 
-  getById(id: any): Observable<any>  {
+  public getById(id: any): Observable<any>  {
     return this.http.get(environment.urlAPI + `admin/users/${id}`, HTTP_OPTIONS)
       .pipe(map((response: any) => new User(response)));
   }
 
-  signup(user: any): Observable<User> {
-    return this.http.post(environment.urlAPI + `signup`, user, HTTP_OPTIONS)
+  public signup(user: any): Observable<User> {
+    return this.http.post(environment.urlAPI + `auth/signup`, user, HTTP_OPTIONS)
       .pipe(map((response: any) => new User(response)));
   }
 
-  count(): Observable<any>  {
+  public count(): Observable<any>  {
     return this.http.get(environment.urlAPI + `admin/users/count`, HTTP_OPTIONS);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 import {Produit} from "../../../models/produit.model";
 import {PanierService} from "../../../services/panier.service";
@@ -18,6 +18,8 @@ export class ListProduitComponent implements OnInit {
   @Input() produits: Array<Produit> = [];
   public produitsCommande: Array<Produit> = [];
 
+  @Output() onClickAfficherPlus: EventEmitter<void> = new EventEmitter();
+
   constructor(private panierService: PanierService, private popinService: PopinService) {
   }
 
@@ -28,6 +30,10 @@ export class ListProduitComponent implements OnInit {
         this.produitsCommande = Array.from(this.panier.produits.values());
       }
     });
+  }
+
+  public afficherPlus(): void {
+    this.onClickAfficherPlus.emit();
   }
 
   public getIdProduitCommande(): Array<string> {

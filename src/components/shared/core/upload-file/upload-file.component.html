@@ -1,4 +1,5 @@
-<input
+<div class="d-flex">
+  <input
   type="file"
   #fileInput
   id="uploadFile"
@@ -12,5 +13,6 @@
      src="{{ !src ? 'assets/add-photo.jpg' : src}}"
      alt="add_photo"
      matTooltip="Ajouter une photo"
-     class="img-add-photo"
-     (click)="showPopinUplad()"/>
+     class="img-add-photo mx-auto rounded shadow"
+     (click)="disabled && showPopinUplad()"/>
+</div>

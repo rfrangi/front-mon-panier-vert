@@ -8,8 +8,12 @@
             <h3 class="my-auto align-middle d-inline-block">Informations</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="d-flex text-start flex-column flex-md-row flex-lg-row">
-          <mat-form-field class="mat-form-field-name mx-3 flex-md-grow-1 flex-lg-grow-1">
+        <div class="d-flex flex-row align-items-center justify-content-center">
+        <app-upload-file class="align-top m-3"
+                         [disabled]="updateInfo"
+                         [src]="compagnie.img" (onChange)="changeImg($event)"></app-upload-file>
+        <div class="d-flex text-start flex-column flex-grow-1 align-items-start justify-content-start mx-3">
+          <mat-form-field class="mat-form-field-name w-100">
           <input matInput
                  placeholder="name"
                  maxlength="51"
@@ -23,7 +27,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mat-form-field-siret w-auto d-block mx-3">
+        <mat-form-field class="mat-form-field-siret d-block w-100">
           <input matInput
                  placeholder="siret"
                  maxlength="51"
@@ -37,7 +41,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mat-form-field-status w-auto d-block mx-3">
+        <mat-form-field class="mat-form-field-status d-block w-100">
           <mat-label>Statut</mat-label>
           <mat-select formControlName="status" [disabled]="!updateInfo">
             <ng-container *ngFor="let status of listStatus">
@@ -46,6 +50,7 @@
           </mat-select>
         </mat-form-field>
       </div>
+        </div>
       <div class="text-center" *ngIf="!isCreated">
         <button *ngIf="!updateInfo"
                 mat-raised-button
@@ -201,6 +206,17 @@
             </button>
           </ng-container>
         </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="step === 3 || !compagnie.id"
+                           (opened)="step = 3"
+                           [class.mx-3]="!compagnie.id">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i class="material-icons text-primary align-middle me-2 d-block mb-1">location_on</i>
+            <h3 class="my-auto"> Administrateur</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-details-admin *ngIf="!isCreated" [id]="compagnie.id" [type]="'COMPAGNIE'"></app-details-admin>
       </mat-expansion-panel>
     </mat-accordion>
     <div class="actions m-0 d-block bg-white p-3 position-fixed bottom-0 w-100 text-end start-0" *ngIf="isCreated">

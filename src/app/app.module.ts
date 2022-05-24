@@ -10,7 +10,7 @@ import {SharedModule} from './shared/shared.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule} from '@angular/common';
-import {AuthInterceptor} from "../interceptors/auth.interceptor";
+import {AuthInterceptor, authInterceptorProviders} from "../interceptors/auth.interceptor";
 import {GestionCategorieComponent} from "../components/gestion-categorie/gestion-categorie.component";
 import {MonPanierComponent} from "../components/mon-panier/mon-panier.component";
 
@@ -30,7 +30,7 @@ import {MonPanierComponent} from "../components/mon-panier/mon-panier.component"
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
-  providers: [ AuthInterceptor ],
+  providers: [ authInterceptorProviders ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

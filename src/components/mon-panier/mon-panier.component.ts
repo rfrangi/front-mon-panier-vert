@@ -29,10 +29,8 @@ export class MonPanierComponent implements OnInit, OnDestroy {
   public produits: Array<Produit> = [];
 
   public panier!: Panier;
-  public panierSub$!: Subscription;
 
   public siteSelected!: Site;
-  public siteSub$!: Subscription;
 
   public dateRetraitSelected: Date = new Date();
   public minDateRetrait: Date = new Date();
@@ -75,6 +73,7 @@ export class MonPanierComponent implements OnInit, OnDestroy {
         this.panier = data.panier;
         this.panier.dateRetrait = this.dateRetraitSelected;
         this.panier.userId = this.userToken.user.id;
+        this.panier.siteId = this.siteSelected.id;
         this.produits = Array.from(this.panier.produits.values());
       }
     });
@@ -134,11 +133,6 @@ export class MonPanierComponent implements OnInit, OnDestroy {
   public goToUrl(urls: Array<string>): void {
     this.router.navigate(urls);
   }
-
-  public getTotalPrixByProduit(produit: Produit): number {
-    return produit.tarif * produit.quantiteCommande;
-  }
-
 
   public addQuantiteBasket(produit: Produit): void {
     const quantite = this.getQuantiteCommade(produit);
@@ -213,10 +207,11 @@ export class MonPanierComponent implements OnInit, OnDestroy {
 
   public submitPanier(): void {
     console.log(this.panier);
-    this.commandeService.save(this.panier.serialize()).subscribe({
-      next: (data) => {
-        console.log(data);
+    this.commandeService.save(this.panier).subscribe({
+      next: () => {
         this.toast.info('Votre commande est en cours de préparation.')
+        this.panierService.removeAll();
+        this.goToUrl(['home']);
       },
       error: (err: any) => this.toast.genericError(err)
     })

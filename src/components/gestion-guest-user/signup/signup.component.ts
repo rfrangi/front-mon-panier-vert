@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthUserService} from '../../../services/auth-user.service';
+import { Router } from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+
 import {LIST_PAYS, Pays} from '../../../models/pays.model';
 import {Civilite, LIST_CIVILITE} from "../../../models/civilite.model";
+
+import {UserService} from "../../../services/user.service";
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector:  'app-signup',
@@ -22,27 +26,30 @@ export class SignupComponent implements OnInit {
   public listPays: Array<Pays> = Object.values(LIST_PAYS);
   public listCivilite: Array<Civilite> = Object.values(LIST_CIVILITE);
 
-  constructor(private authService: AuthUserService) { }
+  constructor(private userService: UserService,
+              private toast: ToastService,
+              private router: Router) { }
 
   ngOnInit(): void  {
     this.step = 1;
 
     this.identifiantForm = new FormGroup({
-      email: new FormControl('test@test.com', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         Validators.minLength(6),
         Validators.maxLength(50)
       ]),
-      password: new FormControl('oijoijoijoguyiytfuyfy', [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(50)
-      ])
+      ]),
+      recevoirOffre: new FormControl(false)
     });
 
     this.infoPersoForm = new FormGroup({
-      civilite: new FormControl('MONSIEUR', [
+      civilite: new FormControl(LIST_CIVILITE.MONSIEUR.code, [
         Validators.required,
       ]),
       lastname: new FormControl('', [
@@ -76,7 +83,7 @@ export class SignupComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(40)
       ]),
-      pays: new FormControl(LIST_PAYS.FRANCE, [
+      pays: new FormControl(LIST_PAYS.FRANCE.code, [
         Validators.required,
         Validators.maxLength(30)
       ]),
@@ -86,19 +93,19 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  submitStep1(): void {
+  public submitStep1(): void {
     if (this.identifiantForm.valid) {
       this.step++;
     }
   }
 
-  submitStep2(): void {
+  public submitStep2(): void {
     if (this.infoPersoForm.valid) {
       this.step++;
     }
   }
 
-  submitStep3(): void {
+  public submitStep3(): void {
     if (this.adresseForm.valid) {
       const data = {
         adresse: {}
@@ -106,10 +113,26 @@ export class SignupComponent implements OnInit {
       Object.assign(data, this.identifiantForm.value);
       Object.assign(data, this.infoPersoForm.value);
       Object.assign(data.adresse, this.adresseForm.value);
+
+
+      this.userService.signup(data).subscribe({
+        next: () => {
+          this.toast.success('Votre compte est créé.');
+          this.router.navigate(['home']);
+        },
+        error: (err: any) => {
+          if(err.error.code === 'EMAIL_EXISTING') {
+            this.toast.error(`Cette adresse mail est déjà utilisée.`)
+            this.step = 1;
+          } else {
+            this.toast.genericError(err)
+          }
+        }
+      })
     }
   }
 
-  changeStep(stepForm: number): void {
+  public changeStep(stepForm: number): void {
     if (this.step >= stepForm) {
       this.step = stepForm;
     }

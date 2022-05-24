@@ -37,7 +37,7 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let compagnie of compagnies">
+        <tr *ngFor="let compagnie of compagnies" (click)="goToEditCompagnie(compagnie)">
           <td>{{ compagnie?.name }}</td>
           <td>
             <i class='material-icons text-{{compagnie.status.color}}'

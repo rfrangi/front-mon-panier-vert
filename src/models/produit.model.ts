@@ -22,6 +22,8 @@ export class Produit {
   public isPromo!: boolean;
   public isBio!: boolean;
   public quantiteCommande: number = 0;
+  public creationDate!: Date;
+  public modificationDate!: Date;
 
   constructor(data: any = {}) {
     Object.assign(this, data);
@@ -82,8 +84,31 @@ export class Produit {
       isBio: this.isBio,
       quantiteCommande: this.quantiteCommande,
       siteId: this.siteId,
-      siteName: this.siteName
+      siteName: this.siteName,
+      creationDate: this.creationDate,
+      modificationDate: this.modificationDate
 
+    }
+  }
+
+  public transformCmd(): object {
+    return {
+      idProduit: this.id,
+      img: this.img,
+      name: this.name,
+      categorie: this.categorie.code,
+      ssCategorie: this.ssCategorie.code,
+      quantiteCommande: this.quantiteCommande,
+      isPromo: this.isPromo,
+      isBio: this.isBio,
+      reference: this.reference,
+      poidsMin: this.poidsMin,
+      poidsMax: this.poidsMax,
+      nbPieceLot: this.nbPieceLot,
+      idCompagnie: this.idCompagnie,
+      tarif: this.tarif,
+      siteName: this.siteName,
+      compagnieName: this.compagnieName
     }
   }
 }

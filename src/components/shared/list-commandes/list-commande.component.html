@@ -1,0 +1,71 @@
+<div class="shadow mb-2 d-block bg-white text-center rounded-2 overflow-auto p-2" *ngIf="commandes.length > 0">
+  <h2 class="mx-2 my-2 text-start prim" >
+    <span class="material-icons text-primary me-2 align-middle">folder</span>
+    <span matBadge="{{pagination.nbItems}}" matBadgeOverlap="false" class="align-middle">{{ title }}</span> </h2>
+  <p *ngIf="commandes.length === 0"
+     class="produit-empty text-center fs-3 text-black-50 w-100 p-4 ms-0 ms-sm-2 bg-white shadow d-block">Aucune commandes est en cours
+  </p>
+  <mat-accordion class="example-headers-align">
+    <ng-container *ngFor="let cmd of commandes;let index = index;">
+      <mat-expansion-panel [expanded]="step === index"
+                           (opened)="step = index"
+                           [class.active]="step === index"
+                           class="mb-2 card-cmd  mx-4">
+        <mat-expansion-panel-header (click)="showDetailsCommande(cmd.id)">
+          <mat-panel-title class="d-flex flex-row text-start">
+            <h4 class="align-middle flex-grow-1 mb-0 text-black-50">Commande du {{cmd.creationDate | dateFR:'LUNDI DD JANVIER YYYY' }}</h4>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="cmdSelected" class="text-start">
+          <ul class="mt-2 list-unstyled">
+            <li class="mb-1">
+              <label>N° de commande </label>
+              <span class="text-black font-weight-500">&nbsp;{{ cmdSelected.id}}</span>
+            </li>
+            <li class="mb-1">
+              <label>Statut </label>
+              <span class="text-primary font-weight-500"> &nbsp;{{ cmdSelected.status.label}}</span>
+            </li>
+            <li class="mb-1">
+              <label>Mode de paiement </label>
+              <span class="text-black font-weight-500">&nbsp;Paiement par carte bancaire</span>
+            </li>
+          </ul>
+
+          <p class="title-retrait-cmd text-center py-3">
+            {{ cmdSelected.modeRetrait.code === 'LIVRAISON' ? 'Livraison prévue le' : 'Commande à retirer le'}}
+            {{cmdSelected.dateRetrait | dateFR:'LUNDI DD JANVIER YYYY à partir de HH' }} Heure
+          </p>
+          <h3>Détail de ma commande</h3>
+          <table>
+            <thead>
+            <tr>
+              <th scope="col">Article</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let produit of cmdSelected.getProduits()">
+              <td class="text-start">
+                <img class="mx-auto align-top d-inline-block" width="80" [src]="produit.srcImg" [alt]="produit?.name">
+                <div class="d-inline-block ms-sm-3">
+                  <strong class="d-block align-top fs-6">{{ produit?.name }}</strong>
+                  <span class="d-block">{{ produit.compagnieName }}</span>
+                  <span class="d-block text-black-50 mt-1 mt-sm-2">{{ produit.getlabelPoids() }}</span>
+                </div>
+              </td>
+              <td>{{ produit?.tarif}} €</td>
+              <td>
+                <span class="d-lg-inline-block d-sm-block w-25 text-center mx-auto">{{ produit.quantiteCommande }}</span>
+              </td>
+              <td class="text-danger fs-6"><strong class="mx-0 mx-lg-3 mx-2">{{ produit.getTotalPrix() | number:'1.0-2' }}&nbsp;€</strong></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</div>

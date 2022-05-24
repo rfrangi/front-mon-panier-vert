@@ -1,0 +1,25 @@
+.card-cmd {
+  // border: 2px solid darkgray;
+  border-radius: 10px;
+
+
+  .icon-show-details {
+    cursor: pointer;
+  }
+
+  &:hover {
+    // background: rgba(211, 211, 211, 0.33);
+  }
+}
+
+.mat-expansion-indicator::after {
+  color: green!important;
+}
+
+.title-retrait-cmd {
+  background: rgba(211, 211, 211, 0.33);
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}

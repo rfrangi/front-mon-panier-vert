@@ -35,6 +35,8 @@ import {
 } from "../../components/gestion-admin/gestion-site/popin-add-compagnie-on-site/popin-add-compagnie-on-site.component";
 import {PopinProduitComponent} from "../../components/shared/popins/popin-produit/popin-produit.component";
 import {DetailsUsersComponent} from "../../components/gestion-admin/details-user/details-users.component";
+import {DetailsAdminComponent} from "../../components/gestion-admin/details-admin/details-admin.component";
+import {PopinAddAdminComponent} from "../../components/gestion-admin/popin/popin-add-admin/popin-add-admin.component";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,10 @@ import {DetailsUsersComponent} from "../../components/gestion-admin/details-user
     DetailsCompagnieListCommandesComponent,
 
     PopinProduitComponent,
-    DetailsUsersComponent
+    DetailsUsersComponent,
+    DetailsAdminComponent,
+
+    PopinAddAdminComponent
   ],
   imports: [
     CommonModule,

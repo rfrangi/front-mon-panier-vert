@@ -14,6 +14,7 @@ export class User {
   status!: UserStatus;
   adresse!: Adresse;
   roles: Array<RoleEnum> = [];
+  role!: RoleEnum;
   recevoirOffre!: boolean;
   creationDate!: Date;
   modificationDate!: Date;
@@ -34,6 +35,7 @@ export class User {
       civilite: this.civilite.code,
       adresse: this.adresse.serialize(),
       roles: this.roles,
+      role: this.role,
       recevoirOffre: this.recevoirOffre,
       status: this.status.code,
       creationDate: this.creationDate,
@@ -43,5 +45,15 @@ export class User {
 
   public isAdmin(): boolean {
     return this.roles.includes(RoleEnum.ADMIN);
+  }
+
+  public isAdminCompagnie(): boolean {
+    return this.roles.includes(RoleEnum.ADMIN)
+      || this.roles.includes(RoleEnum.ADMIN_COMPAGNIE);
+  }
+
+  public isAdminSite(): boolean {
+    return this.roles.includes(RoleEnum.ADMIN)
+      || this.roles.includes(RoleEnum.ADMIN_SITE);
   }
 }

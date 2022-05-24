@@ -1,0 +1,47 @@
+<div class="m-2 d-block bg-white text-center rounded-2 overflow-auto p-2" >
+  <div>
+    <button mat-raised-button
+            color="primary"
+            (click)="showPopinAddAdmin()"
+            type="submit">
+      Ajouter un admin
+    </button>
+  </div>
+  <table *ngIf="users.length > 0">
+    <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prenom</th>
+      <th scope="col">Email</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user?.lastname }}</td>
+      <td>{{ user?.firstname }}</td>
+      <td>{{ user?.email }}</td>
+      <td>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <i class='material-icons'>more_vert
+          </i>
+        </button>
+        <mat-menu #menu="matMenu" class="text-start">
+          <button mat-menu-item class="text-start"  (click)="removeAdmin(user.id)">
+            <mat-icon aria-label="Delete"
+                      class="me-2 align-middle"
+                      matTooltip="Supprimer"
+                      color="accent">
+              delete
+            </mat-icon><span class="align-middle">Supprimer</span>
+          </button>
+        </mat-menu>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <p *ngIf="users.length === 0"
+     class="produit-empty text-center fs-3 text-black-50 p-4 ms-0 ms-sm-2 bg-white d-block">Aucun administrateur
+  </p>
+</div>
+

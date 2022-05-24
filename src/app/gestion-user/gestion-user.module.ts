@@ -6,14 +6,14 @@ import {SharedModule} from '../shared/shared.module';
 
 import {MyAccountComponent} from '../../components/gestion-user/my-account/my-account.component';
 import {GestionUserComponent} from '../../components/gestion-user/gestion-user.component';
-import { ListCommandesComponent } from "../../components/gestion-user/mes-commandes/list-commandes.component";
+import { AccountListCommandesComponent } from "../../components/gestion-user/mes-commandes/account-list-commandes.component";
 import { ListFacturesComponent} from "../../components/gestion-user/list-factures/list-factures.component";
 
 @NgModule({
   declarations: [
     MyAccountComponent,
     GestionUserComponent,
-    ListCommandesComponent,
+    AccountListCommandesComponent,
     ListFacturesComponent
   ],
   imports: [

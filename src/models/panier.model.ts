@@ -12,6 +12,7 @@ export class Panier {
   public adresseLivraison!: Adresse | null;
   public adresseFacturation!: Adresse | null;
   public userId!: string;
+  public siteId!: string;
 
   constructor(data: any= {}) {
     //Object.assign(this, data); A ne pas faire ici
@@ -22,11 +23,12 @@ export class Panier {
         this.produits.set(produit.id, produit);
       });
     }
-    this.modeRetrait = data.modeRetrait ? LIST_TYPE_RETRAIT[data.modeRetrait] : LIST_TYPE_RETRAIT.SITE;
+    this.modeRetrait = data.modeRetrait ? LIST_TYPE_RETRAIT[data.modeRetrait] : LIST_TYPE_RETRAIT.LIVRAISON;
     this.adresseLivraison = data.adresseLivraison ? new Adresse(data.adresseLivraison) : null;
     this.adresseFacturation = data.adresseFacturation ? new Adresse(data.adresseFacturation) : null;
     this.creneauRetrait = data.creneauRetrait ? LIST_CRENEAU[data.creneauRetrait] : this.modeRetrait.creneaux[0];
     this.userId = data.userId;
+    this.siteId = data.siteId;
   }
 
   public serialize(): object {
@@ -38,7 +40,8 @@ export class Panier {
       dateRetrait: this.dateRetrait,
       creneauRetrait: this.creneauRetrait.code,
       adresseLivraison: this.adresseLivraison ? this.adresseLivraison.serialize() : null,
-      userId: this.userId
+      userId: this.userId,
+      siteId: this.siteId,
     }
   }
 

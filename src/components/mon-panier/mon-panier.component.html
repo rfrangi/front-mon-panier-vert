@@ -29,6 +29,7 @@
                 <img class="mx-auto align-top d-inline-block" width="80" [src]="produit.srcImg" [alt]="produit?.name">
                 <div class="d-inline-block ms-sm-3">
                   <strong class="d-block align-top fs-6">{{ produit?.name }}</strong>
+                  <span class="d-block">{{ produit.compagnieName }}</span>
                   <span class="d-block text-black-50 mt-1 mt-sm-4">{{ produit.getlabelPoids() }}</span>
                 </div>
               </td>
@@ -37,7 +38,7 @@
                 <button
                   mat-raised-button
                   type="submit"
-                  class="d-md-inline-block d-block text-white"
+                  class="d-md-inline-block d-block text-white mx-auto"
                   (click)="removeQuantiteBasket(produit)"
                   color="accent">
                   -
@@ -46,7 +47,7 @@
                 <button
                   mat-raised-button
                   type="submit"
-                  class="d-md-inline-block d-block text-white"
+                  class="d-md-inline-block d-block text-white mx-auto"
                   (click)="addQuantiteBasket(produit)"
                   color="accent">
                   +
@@ -143,6 +144,7 @@
 
             <button mat-raised-button
                     color="accent"
+                    disabled
                     (click)="changeModeRetrait()"
                     class="mx-2 my-2 text-white d-flex d-sm-none">
               Modifier
@@ -150,6 +152,7 @@
           </div>
           <button mat-raised-button
                   color="accent"
+                  disabled
                   (click)="changeModeRetrait()"
                   class="mx-2 my-2 text-white d-none d-sm-flex">
             Modifier
@@ -305,13 +308,14 @@
       <div class="text-start ms-2 ms-sm-4">
         <span class="d-block my-4 w-100">TODO: Ajouter une CB</span>
         <mat-checkbox class="mb-2 me-4" (click)="accepteTerm = !accepteTerm">
-          <span>J’ai lu et j’accepte les <a>conditions générales de vente</a> et j’ai conscience que ma commande implique une obligation de payer *</span>
+          <span class="label-accept-term">J’ai lu et j’accepte les <a>conditions générales de vente</a> et j’ai conscience que ma commande implique une obligation de payer *</span>
         </mat-checkbox>
       </div>
       <div class="actions text-end mx-2">
         <button mat-raised-button
                 color="primary"
                 (click)="submitPanier()"
+                class="btn-valider-panier"
                 [disabled]="!accepteTerm"
                 type="submit">
           Valider

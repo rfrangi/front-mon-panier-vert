@@ -7,9 +7,11 @@ import {SiteService} from "../../../../services/site.service";
 import {CommandeService} from "../../../../services/commande.service";
 
 import {Site} from "../../../../models/site.model";
-import {Compagnie} from "../../../../models/compagnie.model";
-import {Commande} from "../../../../models/commande.model";
+
+import {CommandeClient} from "../../../../models/commande-client.model";
 import {Pagination} from "../../../../models/pagination.model";
+
+import {LIST_COMMANDE_STATUS} from "../../../../models/commande-status.model";
 
 
 @Component({
@@ -19,48 +21,65 @@ import {Pagination} from "../../../../models/pagination.model";
 })
 export class DetailsSiteListCommandesComponent implements OnInit {
   public site!: Site;
-  public commandes: Array<Commande> = [];
+
+  public commandes: Array<CommandeClient> = [];
   public pagination!: Pagination;
 
-  constructor(private toast: ToastService,
-              private route: ActivatedRoute,
+  public step!: number;
+
+  constructor(private popinService: PopinService,
               private siteService: SiteService,
+              private route: ActivatedRoute,
               private commandeService: CommandeService,
-              private router: Router,
-              private popinService: PopinService) {}
+              private toast: ToastService) {}
 
   ngOnInit(): void {
-    this.route?.parent?.params.subscribe(params => {
-      this.onParamsChange(params);
-    });
+    if (this.route.parent) {
+      this.route.parent.params.subscribe(params => {
+        this.onParamsChange(params);
+      });
+    }
   }
 
-  private onParamsChange(params: any): any {
+  onParamsChange(params: any): any {
     if (params.id) {
-      this.siteService.getById(params.id).subscribe(
-        (site: Site) => {
+      this.siteService.getById(params.id).subscribe({
+        next: (site: Site) => {
           this.site = site;
           this.search();
         },
-        err => this.toast.genericError(err)
-      );
+        error: (err: any) => this.toast.genericError(err)
+      });
     }
   }
 
   public search(): void {
-    const params = {
-      searchTerm: '',
-      idSite: this.site.id,
-    };
 
-    this.commandeService.getAllByParams(params).subscribe({
+    const params = Object.assign({
+      page: this.pagination?.currentPage || 1,
+      siteId: this.site.id,
+      status: [
+        LIST_COMMANDE_STATUS.VALIDE.code,
+        LIST_COMMANDE_STATUS.EN_PREPARATION.code,
+        LIST_COMMANDE_STATUS.EN_COURS_LIVRAISON.code,
+        /* LIST_COMMANDE_STATUS.LIVRE.code,
+
+         LIST_COMMANDE_STATUS.ANNULE.code,
+         LIST_COMMANDE_STATUS.SUPPRIMER.code,
+         LIST_COMMANDE_STATUS.BLOQUE.code,
+         LIST_COMMANDE_STATUS.ERREUR.code,*/
+      ]
+    });
+    this.popinService.showLoader();
+    this.commandeService.getAllByParams(params, true, false).subscribe({
       next: (data: any) => {
         this.commandes = data.result;
         this.pagination = data.pagination;
       },
       error: (err: any) => this.toast.genericError(err),
+      complete: () => this.popinService.closeLoader()
     })
   }
-
 }
+
 
