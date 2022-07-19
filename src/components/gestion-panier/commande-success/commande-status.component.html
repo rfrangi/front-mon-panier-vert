@@ -1,0 +1,25 @@
+<app-header></app-header>
+<main class="text-center pt-3" *ngIf="cmd">
+  <section>
+    <h3 class="text-primary fs-1 mt-3">Commande n° {{ cmd.ref}} validée !</h3>
+    <img class="w-50 py-3" src="assets/icons/cmd_success/panier-legumes-bio.jpg" alt="img_produit"/>
+
+    <section class="fs-4 p-3 text-black-50 txt mx-2">
+      Vous allez recevoir un email de confirmation de votre commande.
+      Si vous avez une question vous pouvez contacter notre teams MVP <a class="fs-5">ICI</a>.
+    </section>
+
+    <section class="py-2 txt">
+        <span *ngIf="cmd?.modeRetrait === modesRetrait.SITE" class="d-block fs-3 text-secondary">Votre rendez-vous de retrait</span>
+        <span *ngIf="cmd?.modeRetrait === modesRetrait.LIVRAISON" class="fs-3 text-secondary">Votre livraison est prévue</span>
+        <span class="d-block fs-4 pt-2 bold">{{ cmd.dateRetrait | dateFR:'LUNDI DD JANVIER YYYY' }}</span>
+        <span  class="d-block fs-3"> à partir de {{ cmd.dateRetrait | dateFR:'HHhmm' }}</span>
+    </section>
+
+    <section class="py-2 txt fs-5" *ngIf="cmd?.adresseLivraison">
+      <span class="d-block">{{ cmd.adresseLivraison?.adresse }}</span>
+      <span class="d-block">{{ cmd.adresseLivraison?.complement }}</span>
+      <span class="d-block">{{ cmd.adresseLivraison?.codePostal }} {{ cmd.adresseLivraison?.ville }}</span>
+    </section>
+  </section>
+</main>

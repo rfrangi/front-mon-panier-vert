@@ -30,6 +30,7 @@ export class AccountListCommandesComponent {
     const params = Object.assign({
       page: this.pagination?.currentPage || 1,
       status: [
+        LIST_COMMANDE_STATUS.EN_PREPARATION.code,
         LIST_COMMANDE_STATUS.EN_COURS_LIVRAISON.code,
       ]
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router} from '@angular/router';
 import {AuthUserService} from "../../../services/auth-user.service";
 
@@ -7,10 +7,18 @@ import {AuthUserService} from "../../../services/auth-user.service";
   templateUrl: `./fil-ariane.component.html`,
   styleUrls: ['./fil-ariane.component.scss']
 })
-export class FilArianeComponent implements OnInit {
+export class FilArianeComponent {
 
-  constructor(private authService: AuthUserService, private router: Router) {}
+  @Input() breadcrumbItems: Array<{ label: string, urls: Array<string>, queryParams: {} }> = [];
 
-  ngOnInit(): void {}
+  public linkAccueil = {label: 'Accueil', urls: [''], queryParams: {}} as any;
+
+  constructor(private authService: AuthUserService,
+              private router: Router) {}
+
+  public goToUrls(breadcrumbItem :{ label: string, urls: Array<string>, queryParams: {} }): void {
+    console.log(breadcrumbItem);
+    this.router.navigate(breadcrumbItem.urls, { queryParams: breadcrumbItem.queryParams });
+  }
 }
 

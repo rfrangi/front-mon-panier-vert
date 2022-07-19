@@ -25,6 +25,16 @@ export class CompagnieService {
       }));
   }
 
+  getAllByLimit(params: any): Observable<any> {
+    return this.http.post(environment.urlAPI + `compagnies/paginated?page=${(params.page > 0 ? params.page - 1 : 0)}`, params, HTTP_OPTIONS)
+      .pipe(map((response: any) =>  {
+        return {
+          result: (response.content || []).map((p: any) => new Compagnie(p)),
+          pagination: new Pagination(response)
+        };
+      }));
+  }
+
   save(compagnie: any, isModeAdmin = false, file?: File): Observable<Compagnie> {
     return compagnie.id ? this.update(compagnie, isModeAdmin, file) : this.create(compagnie, isModeAdmin, file);
   }

@@ -1,13 +1,14 @@
-<h2 class="text-primary text-center fs-4">
-  <span class="align-middle d-inline-block">Ajouter un administrateur</span>
+<h2 class="text-primary text-center fs-4 d-flex flex-row">
+  <span class="align-middle flex-grow-1">Ajouter un administrateur</span>
   <mat-icon color="primary"
             (click)="cancel()"
+            role="button"
             class="border-primary align-middle mt-1 ms-2">close</mat-icon>
 </h2>
 
 <div class="block-search m-2 d-block bg-white pt-2 text-center rounded-2">
   <form [formGroup]="searchForm" novalidate  (ngSubmit)="search()" class="d-flex flex-row">
-    <mat-form-field class="flex-grow-1 mx-4" disabled>
+    <mat-form-field class="flex-grow-1 mx-4">
       <input matInput
              placeholder="Tapez un mot"
              type="text"

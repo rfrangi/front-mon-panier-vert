@@ -1,0 +1,38 @@
+.list {
+  overflow-y: hidden;
+}
+
+
+.div-scroll {
+  z-index: 1;
+  top: 32%;
+}
+
+.container {
+  width: 100%;
+}
+
+@media only screen and (min-width: 951px) {
+
+  .container {
+    width: 88%;
+    margin-left: 4em;
+  }
+
+  .list {
+    overflow-x: hidden;
+  }
+}
+
+.div-scroll-left {
+  margin-right: 1em;
+}
+
+i {
+
+
+  &:hover {
+    border-radius: 20px;
+    background: rgba(124, 179, 66, 0.14);
+  }
+}

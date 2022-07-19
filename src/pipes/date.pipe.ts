@@ -30,7 +30,7 @@ export class DatePipe implements PipeTransform {
         .replace('HH', date.getHours().toString().replace(/^(\d)$/, '0$1'))
         .replace('H', date.getHours().toString())
         .replace('hh', ((date.getHours() % 12) || 12).toString().replace(/^(\d)$/, '0$1'))
-        .replace('h', ((date.getHours() % 12) || 12).toString())
+        .replace('ho', ((date.getHours() % 12) || 12).toString())
         .replace('mm', date.getMinutes().toString().replace(/^(\d)$/, '0$1'))
         .replace('m', date.getMinutes().toString())
         .replace('ss', date.getSeconds().toString().replace(/^(\d)$/, '0$1'))

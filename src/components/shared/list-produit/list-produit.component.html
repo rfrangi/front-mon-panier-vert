@@ -1,6 +1,6 @@
 <div class="d-flex flex-column flex-sm-row justify-content-center flex-wrap text-sm-center mx-auto">
   <div *ngFor="let produit of produits" class="produit align-middle mb-2 mx-0 mx-sm-2 p-0 bg-white shadow d-flex flex-column flex-wrap">
-    <img class="mx-auto img-produit" [src]="produit.srcImg" [alt]="produit.name">
+    <img class="mx-auto img-produit" [src]="produit.srcImg" [alt]="produit.name" (click)="goToProduitSelected(produit)">
     <div class="flex-grow-1 d-flex flex-column">
       <div class="content m-2 px-2 flex-grow-1 d-flex flex-column">
         <p class="produit-title text-center mb-1">{{ produit.name }}</p>
@@ -49,9 +49,9 @@
   <div class="actions text-center w-100">
     <button
       *ngIf="produits.length > 0"
-      mat-raised-button
+      mat-stroked-button
       type="button"
-      class="w-75 btn-afficher-plus"
+      class="w-100 my-2"
       color="accent"
       (click)="afficherPlus()">
       Afficher plus

@@ -1,0 +1,37 @@
+ ul {
+    list-style: none;
+
+    li {
+      border: 1px solid lightgrey;
+      cursor: pointer;
+
+      &:hover {
+        color: #388e3c;
+      }
+
+      &.name-cat {
+        color: #2a2121;
+        font-style: italic;
+        font-weight: 700;
+        background: #f3f3f3;
+      }
+
+      span.name-ss-cat {
+        font-style: italic;
+        font-weight: 700;
+        color: #777;
+      }
+
+      .nb-article-by-ss-cat {
+        color: #777777;
+      }
+    }
+  }
+
+ a {
+   width: 13em;
+   margin-bottom: 1em;
+   img {
+     width: auto;
+   }
+ }

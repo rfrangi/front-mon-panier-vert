@@ -2,6 +2,8 @@
 
 
 <main class="content p-3">
+  <app-fil-ariane [breadcrumbItems]="breadcrumbItems"></app-fil-ariane>
+
   <ul class="bg-white m-0 p-0 rounded shadow align-top d-inline-block block-categorie">
     <li class="name-cat fs-3 text-black py-4 text-center" (click)="initCat()">{{categorieSelected.label}}</li>
     <li class="py-4 fs-6 text-start" *ngFor="let ssCat of categorieSelected.ssCategories" (click)="filterBySSCategorie(ssCat)">

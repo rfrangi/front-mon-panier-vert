@@ -72,4 +72,16 @@ export class ProduitService {
       map((data:any) => new Produit(data))
     );
   }
+
+  public getByRef(ref: string): Observable<Produit> {
+    return this.http.get(environment.urlAPI + `produit/reference/${ref}`, HTTP_OPTIONS).pipe(
+      map((data:any) => new Produit(data))
+    );
+  }
+
+  public search(val: string, idSite: string): Observable<Array<Produit>> {
+    const url = `produit/search`;
+    return this.http.post<Array<Produit>>(environment.urlAPI + url, { searchTerm: val, idSite: idSite })
+      .pipe(map((x: any) => x.map((val: any) => new Produit(val))));
+  }
 }

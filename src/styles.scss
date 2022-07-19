@@ -4,19 +4,13 @@
 @import "scss/title";
 @import "scss/menu";
 @import "scss/form";
-/* import only the necessary Bootstrap files */
-$primary: #388e3c;
-$secondary:#7cb342;
-$danger: #d6180b;
-$success: lime;
-$warning: orange;
-$info: darkgray;
-$dark: #2b3336;
+@import "scss/popin";
+@import "scss/card";
+@import "scss/colors";
 
-$body-bg: #f3f3f0;
 
 @import "bootstrap";
-html, body { height: 100%; background: #e9ebf1;}
+html, body { height: 100%; background: white}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html:not([data-scroll='0']) {
@@ -38,3 +32,19 @@ main {
   width: calc(100% - 2em);
   max-width: 35em;
 }
+
+
+mat-optgroup span.mat-optgroup-label {
+  color: $primary;
+  background: $bg-light-grey;
+}
+
+.bold {
+  font-weight: 600;
+}
+/*
+div.cdk-overlay-connected-position-bounding-box{
+  right: 0!important;
+  left: unset!important;
+  width: 13em!important;
+}*/

@@ -187,6 +187,19 @@ span {
     width: 22%;
   }
 }
+
+.produit-search-result {
+  font-size: 0.9em;
+
+  .lbl-compagnie-name {
+    color: grey;
+    font-size: 0.8em;
+    float: right;
+  }
+}
+
+
+
 @media only screen and (max-width: 950px) {
 
 }

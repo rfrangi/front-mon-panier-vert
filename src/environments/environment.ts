@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlAPI: 'http://localhost:8888/api/'
+  urlAPI: 'http://localhost:8888/api/',
+  urlS3: 'http://d35nr8envdpgsa.cloudfront.net/',
 };
 
 /*

@@ -1,0 +1,22 @@
+
+<div class="position-relative">
+  <div (click)="scrollLeft()"
+       class="d-none btn d-md-block position-absolute left-0 div-scroll div-scroll-left">
+    <i class="material-icons p-2 rounded-circle text-primary">arrow_back_ios</i>
+  </div>
+  <div #widgetsContent class="d-flex flex-row list mb-0 container align-items-top ps-0">
+    <ng-container *ngFor="let compagnie of compagnies;let index = index;let isFirst = first; let isOdd = odd;">
+
+      <a class="my-3 btn carte">
+        <img [src]="compagnie.getSrcImg()" [alt]="compagnie.name">
+        <div class="bg-white text-center mt-2 mx-2 flex-fill">
+          <span class="name d-block text-primary"><strong>{{ compagnie.name}}</strong></span>
+          <span class="ville d-block text-secondary">{{ compagnie.adresse.ville.toUpperCase()}}</span>
+        </div>
+      </a>
+    </ng-container>
+  </div>
+  <div (click)="scrollRight()" class="d-none btn d-md-block position-absolute end-0 div-scroll div-scroll-right pe-0">
+    <i class="material-icons p-2 rounded-circle text-primary">arrow_forward_ios</i>
+  </div>
+</div>

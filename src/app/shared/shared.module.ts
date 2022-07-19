@@ -68,6 +68,8 @@ import {
   PopinChangeAdresseComponent
 } from "../../components/shared/popins/popin-change-adresse/popin-change-adresse.component";
 import {ListCommandeComponent} from "../../components/shared/list-commandes/list-commande.component";
+import {LineCompagniesComponent} from "../../components/shared/line-compagnies/line-compagnies.component";
+import {FooterComponent} from "../../components/footer/footer.component";
 
 const materialModules = [
   MatNativeDateModule,
@@ -113,12 +115,14 @@ const components = [
   AdresseFormComponent,
   DetailsUtilisateurComponent,
   HeaderComponent,
+  FooterComponent,
   MenuNavigationComponent,
   PaginationComponent,
   UploadFileComponent,
   FilArianeComponent,
   ListProduitComponent,
-  ListCommandeComponent
+  ListCommandeComponent,
+  LineCompagniesComponent
 ];
 
 const pipes = [ DatePipe ];

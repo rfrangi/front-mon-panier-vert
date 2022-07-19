@@ -50,13 +50,10 @@ export class PopinProduitComponent  implements OnInit {
     });
 
     this.produitForm?.get('categorie')?.valueChanges.subscribe((val => {
-      console.log(val, LIST_CATEGORIES[val]);
       this.listSSCategories = LIST_CATEGORIES[val].ssCategories;
       if (this.listSSCategories.length > 0) {
         this.produitForm?.get("ssCategorie")?.setValue(this.listSSCategories[0].code, {emitEvent: false});
       }
-
-      console.log(this.listSSCategories);
     }));
   }
 

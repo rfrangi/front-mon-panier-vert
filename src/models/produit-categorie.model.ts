@@ -1,3 +1,5 @@
+import {Produit} from "./produit.model";
+
 export class ProduitCategorie {
 
   code!: string;
@@ -15,6 +17,7 @@ export class SousCategorie {
   img!: string;
   label!: string;
   nbArticle: number = 0;
+  produits!: Array<Produit>;
 
   constructor(data: any = {}) {
     Object.assign(this, data);

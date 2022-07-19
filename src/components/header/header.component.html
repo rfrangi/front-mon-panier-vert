@@ -50,26 +50,37 @@
              (click)="checkSiteSelected()"
              [matAutocomplete]="autoGroup">
       <mat-autocomplete #autoGroup="matAutocomplete">
-        <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.categorie.label">
-          <mat-option *ngFor="let ssCat of group.sousCategories" [value]="ssCat.label" (click)="goToCategorieSelected(group.categorie, ssCat)">
-            {{ ssCat.label }}
-          </mat-option>
+        <mat-optgroup *ngFor="let group of stateGroupOptions | async"
+                      [label]="group.categorie.label">
+
+          <ng-container *ngFor="let ssCat of group.sousCategories">
+            <mat-option (click)="goToCategorieSelected(group.categorie, ssCat)" class="text-secondary">
+              {{ ssCat.label }}
+            </mat-option>
+            <ng-container *ngFor="let p of ssCat.produits">
+              <mat-option (click)="goToProduitSelected(p)">
+                <span class="ms-3 produit-search-result w-100">
+                  {{ p.name}}
+                  <span class="lbl-compagnie-name" [matTooltip]="p.compagnieName">{{ p.compagnieName }}</span>
+                </span>
+              </mat-option>
+            </ng-container>
+          </ng-container>
         </mat-optgroup>
+
       </mat-autocomplete>
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+       <!-- <input type="text" placeholder="Start Typing..." matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>-->
     <div class="action-back-search" (click)="removeZoneSearch()">Annuler</div>
 
   </form>
-  <!--<form class="form-search" #formSearch>
-   mat-form-field class="input-search" [floatLabel]="'never'">
-     <input matInput placeholder="Oeufs, Carottes, Oignons" name="input-search" [(ngModel)]="searchTerm">
-     <mat-icon matSuffix>search</mat-icon>
-   </mat-form-field>
-   <div class="action-back-search" (click)="removeZoneSearch()">Annuler</div>
-
-   </form>-->
-
    <div class="menu-list" #blockProducteurs [routerLink]="['/producteurs']">
      <mat-icon>list</mat-icon>
      <span class="title-menu">Producteurs</span>

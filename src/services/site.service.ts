@@ -48,6 +48,14 @@ export class SiteService {
       }));
   }
 
+  public getSiteActif(): Observable<any> {
+    const url = 'sites/actif';
+    return this.http.get(environment.urlAPI + `${url}`, HTTP_OPTIONS)
+      .pipe(map((response: any) =>  {
+        return  (response || []).map((p: any) => new Site(p));
+      }));
+  }
+
   public getCompagnies(idSite: string): Observable<Compagnie[]> {
     return this.http.get(environment.urlAPI + `admin/sites/${idSite}/compagnies`, HTTP_OPTIONS)
       .pipe(map((response: any) =>  {

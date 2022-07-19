@@ -1,8 +1,11 @@
-<h2 class="text-primary text-center fs-4 mx-4">
-  <span class="align-middle">Ajouter des compagnies</span>
+<h2 class="text-primary text-center fs-4 mx-4 d-flex flex-row">
+  <span class="align-middle flex-grow-1">Ajouter des compagnies</span>
   <mat-icon color="primary"
             (click)="cancel()"
-            class=" ps-4 border-primary align-middle">close</mat-icon>
+            role="button"
+            class=" ps-4 border-primary align-middle">
+    close
+  </mat-icon>
 </h2>
 
 <div class="m-4 d-block bg-white text-center rounded-2 overflow-auto" *ngIf="compagniesSearch.length > 0" style="height: 30em">

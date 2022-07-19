@@ -6,6 +6,7 @@ import {Panier} from "../../../models/panier.model";
 
 import {PopinRemoveProduitComponent} from "../popins/popin-remove-produit/popin-remove-produit.component";
 import {PopinService} from "../../../services/popin.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector:  'app-list-produit',
@@ -20,7 +21,9 @@ export class ListProduitComponent implements OnInit {
 
   @Output() onClickAfficherPlus: EventEmitter<void> = new EventEmitter();
 
-  constructor(private panierService: PanierService, private popinService: PopinService) {
+  constructor(private panierService: PanierService,
+              private popinService: PopinService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -72,5 +75,9 @@ export class ListProduitComponent implements OnInit {
         this.panierService.updateProduit(produit, 0);
       }
     });
+  }
+
+  public goToProduitSelected(produit: Produit): void {
+    this.router.navigate(['produits', produit.reference]);
   }
 }

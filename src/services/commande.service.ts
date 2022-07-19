@@ -16,6 +16,8 @@ const HTTP_OPTIONS = {headers: new HttpHeaders({ 'Content-Type': 'application/js
 @Injectable({ providedIn: 'root' })
 export class CommandeService {
 
+  public cmdSuccess!: CommandeClient;
+
   constructor(private http: HttpClient) { }
 
   getAllByParams(params: any, sitePage: boolean = false, compagniePage: boolean = false): Observable<any> {
@@ -38,7 +40,6 @@ export class CommandeService {
   }
 
   save(panier: Panier, isModeAdmin = false): Observable<CommandeClient> {
-
     panier.dateRetrait.setHours(panier.creneauRetrait.start);
     const data = {
       status: LIST_COMMANDE_STATUS.EN_PREPARATION.code,

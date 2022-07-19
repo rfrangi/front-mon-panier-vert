@@ -5,6 +5,7 @@ import {PopinService} from "../../../services/popin.service";
 import {EntiteAdminService} from "../../../services/EntiteAdmin.service";
 
 import {PopinAddAdminComponent} from "../popin/popin-add-admin/popin-add-admin.component";
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector:  'app-details-admin',
@@ -18,6 +19,7 @@ export class DetailsAdminComponent implements OnInit {
   @Input() public id!: string;
 
   constructor(private popinService: PopinService,
+              private toast: ToastService,
               private entiteAdminService: EntiteAdminService,
   ) {}
 
@@ -28,6 +30,10 @@ export class DetailsAdminComponent implements OnInit {
     });
   }
 
+  public removeAdmin(user: any): void {
+
+  }
+
   public showPopinAddAdmin(): void {
     this.popinService.openPopin(PopinAddAdminComponent, {
       data: {
@@ -35,10 +41,21 @@ export class DetailsAdminComponent implements OnInit {
       }
     }).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data.result) {
-          this.entiteAdminService.create(data.usersSelected.map(((user: User) => user.id), this.id, this.type))
-            .subscribe()
+
+          const body = data.userSelected.map((user: User) => {
+            return {
+              userId: user.id,
+              entiteId: this.id,
+              type: this.type
+            }
+          });
+          this.entiteAdminService.create(body).subscribe({
+            next: () => {
+              this.toast.success('Les administeurs sont ajoutés.');
+              this.ngOnInit();
+            }
+          })
         }
       }
     });

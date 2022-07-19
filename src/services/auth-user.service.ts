@@ -26,7 +26,7 @@ export class AuthUserService {
     let userStorage = localStorage.getItem(USER_KEY);
     userStorage = userStorage ? JSON.parse(userStorage) :  {};
     this.userToken = new UserToken ({ user: userStorage, token: localStorage.getItem(TOKEN_KEY)});
-    if(!this.isValid()) {
+    if(this.userToken.token && !this.isValid()) {
       this.logout();
     } else {
       this.userTokenSubject.next(this.userToken);
@@ -53,7 +53,8 @@ export class AuthUserService {
   }
 
   signOut(): void {
-    window.localStorage.clear();
+    window.localStorage.removeItem(USER_KEY);
+    window.localStorage.removeItem(TOKEN_KEY);
   }
 
   saveInfo(data: any = {}, memoryMe: boolean): void {
@@ -130,7 +131,6 @@ export class AuthUserService {
   }
 
   public getUserByToken(token: string): Observable<any> {
-    console.log(token);
     return this.http.post(AUTH_API + 'token', token, httpOptions)
       .pipe(map((x: any) => new User(x)));
   }

@@ -30,6 +30,8 @@ export class GestionCategorieComponent implements OnInit {
   public produits: Array<Produit> = [];
   public pagination!: Pagination;
 
+  public breadcrumbItems: Array<{label: string, urls: Array<string>, queryParams: {}}> = [];
+
   constructor(private authService: AuthUserService,
               private produitService: ProduitService,
               private siteService: SiteService,
@@ -45,6 +47,10 @@ export class GestionCategorieComponent implements OnInit {
         if (this.siteService.site && this.siteService.site.id) {
           this.siteSelected = this.siteService.site;
           this.loadProduit();
+          this.breadcrumbItems = [];
+          this.breadcrumbItems.push({ label: this.categorieSelected.label, urls: [this.categorieSelected.code], queryParams: {}});
+          this.breadcrumbItems.push({ label: this.ssCategorieSelected.label, urls: [this.categorieSelected.code], queryParams: {ssCat: this.ssCategorieSelected.code}});
+
         } else {
           this.popinService.openPopin(PopinSelectSiteComponent, {width: '80%'})
         }
@@ -90,7 +96,6 @@ export class GestionCategorieComponent implements OnInit {
   }
 
   public afficherPlus(): void {
-    console.log(this.produits.length);
     const page = this.pagination.currentPage + 1;
     if (page >= 1 && page <= this.pagination.nbPages) {
       this.pagination.currentPage = page;

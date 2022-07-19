@@ -1,0 +1,20 @@
+  <app-fil-ariane [breadcrumbItems]="breadcrumbItems"></app-fil-ariane>
+  <div class="d-flex flex-row align-items-start">
+    <ul class="bg-white  p-0 rounded shadow align-top d-inline-block block-categorie mx-3" *ngIf="sites.length > 0">
+      <li class="name-cat fs-3 text-black py-4 text-center px-4" >Sites</li>
+      <li class="py-4 fs-6 text-start" *ngFor="let site of sites" (click)="showCompagnieToSite(site)">
+        <span class="px-4 mx-2 name-ville-site">{{ site.adresse.ville.toLowerCase() }}</span>
+      </li>
+    </ul>
+    <div class="d-flex flex-column flex-sm-row justify-content-center flex-wrap text-sm-center mx-auto">
+      <div *ngFor="let compagnie of compagnies" class="align-middle mb-2 mx-0 mx-sm-2 p-0  d-flex flex-column flex-wrap">
+        <a class="m-0 btn carte p-0 shadow mb-3 pb-3">
+          <img [src]="compagnie.getSrcImg()" [alt]="compagnie.name">
+          <div class="bg-white text-center mt-2 mx-2 flex-fill">
+            <span class="name d-block text-primary"><strong>{{ compagnie.name}}</strong></span>
+            <span class="ville d-block text-secondary">{{ compagnie.adresse.ville.toUpperCase()}}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>

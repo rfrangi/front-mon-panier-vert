@@ -21,11 +21,11 @@ export class EntiteAdminService {
   getAdminForEntite(id: string, type: string): Observable<Array<User>> {
     let url = environment.urlAPI +  `admin/administrateur/entite/user/${id}/type/${type}`;
     return this.http.get(url, HTTP_OPTIONS)
-      .pipe(map((response: any) => response.map((val: any) => new User())));
+      .pipe(map((response: any) => response.map((val: any) => new User(val))));
   }
 
-  create(obj: any): Observable<User> {
-    return this.http.post(environment.urlAPI +  ``, {}, HTTP_OPTIONS)
+  create(body: any): Observable<User> {
+    return this.http.post(environment.urlAPI +  `admin/administrateur/entite`, body, HTTP_OPTIONS)
       .pipe(map((response: any) =>  response.map((val: any) => new User(val))))
   }
 

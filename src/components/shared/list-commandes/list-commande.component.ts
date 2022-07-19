@@ -35,7 +35,6 @@ export class ListCommandeComponent {
     this.popinService.showLoader();
     this.commandeService.getById(idCmd).subscribe({
       next: (cmdClient: CommandeClient) => {
-        console.log(cmdClient);
         this.cmdSelected = cmdClient;
       },
       error: (err: any) => this.toast.genericError(err),

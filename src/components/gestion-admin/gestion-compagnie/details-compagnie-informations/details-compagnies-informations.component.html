@@ -8,11 +8,11 @@
             <h3 class="my-auto align-middle d-inline-block">Informations</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="d-flex flex-row align-items-center justify-content-center">
+        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center">
         <app-upload-file class="align-top m-3"
                          [disabled]="updateInfo"
                          [src]="compagnie.img" (onChange)="changeImg($event)"></app-upload-file>
-        <div class="d-flex text-start flex-column flex-grow-1 align-items-start justify-content-start mx-3">
+        <div class="w-100 d-flex text-start flex-column flex-grow-1 align-items-start justify-content-start mx-0 mx-sm-3">
           <mat-form-field class="mat-form-field-name w-100">
           <input matInput
                  placeholder="name"
@@ -207,13 +207,13 @@
           </ng-container>
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step === 3 || !compagnie.id"
-                           (opened)="step = 3"
+      <mat-expansion-panel [expanded]="step === 4 || !compagnie.id"
+                           (opened)="step = 4"
                            [class.mx-3]="!compagnie.id">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <i class="material-icons text-primary align-middle me-2 d-block mb-1">location_on</i>
-            <h3 class="my-auto"> Administrateur</h3>
+            <h3 class="my-auto"> Administrateur(s)</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <app-details-admin *ngIf="!isCreated" [id]="compagnie.id" [type]="'COMPAGNIE'"></app-details-admin>

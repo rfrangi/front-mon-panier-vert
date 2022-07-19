@@ -1,7 +1,7 @@
 <app-header></app-header>
-<main class="font-weight-500 bg-white h-100 d-flex flex-column">
-  <h1 class="text-center p-4 mx-3 fs-2">Le marché de vos producteurs, artisants et commerçants locaux</h1>
-  <div class="mx-4 d-flex flex-column flex-md-row">
+  <main class="font-weight-500 bg-white h-100 d-flex flex-column">
+  <h1 class="text-center p-sm-4 px-0 mx-sm-3 mx-0 mt-2 fs-2 fs-sm-4">Le marché de vos producteurs, artisants et commerçants locaux</h1>
+  <div class="mx-0 mx-sm-4 d-flex flex-column flex-md-row">
 
     <div class="col col-md-6 mx-0 mx-md-4">
       <img src="assets/icons/home/produit-locaux.jpg"
@@ -22,29 +22,10 @@
     </div>
   </div>
 
-  <div class="m-4 ps-4">
-    <h2 class="text-start fs-4 text-primary mt-2 mt-md-0">Artisants</h2>
-
+  <div class="m-sm-4 m-2 ps-sm-4 ps-0">
+    <h2 class="text-start fs-4 text-primary ps-sm-4 ps-0 ps-md-2 mt-2 mb-0 mt-md-0">Artisants</h2>
+    <app-line-compagnies [compagnies]="compagnies"></app-line-compagnies>
   </div>
 </main>
-<!--
 
-<main class="d-flex flex-column flex-lg-row w-100">
-  <div class="bloc-image flex-grow-1">
-    <img src="assets/produits-locaux.jpg" alt="produits-locaux" class="w-100 h-100"/>
-  </div>
-  <div class="text-center text-secondary w-100 bg-white d-flex flex-column flex-grow-1">
-    <div class="description-farm-store my-auto p-3">
-      Découvrez <strong>les produits locaux</strong> de vos fermiers, éleveurs et artisants,
-      <br/>pour votre intérêt, celui du producteur et de notre chère planète !
-      <br/><br/>Comparez, évaluez pour que chacun puisse consommer mieux et moins chère !
-    </div>
-    <div class="bandeau-bienvenue bg-primary text-white p-3">
-      <span class="title-offre h2 mb-1 d-inline-block"><strong>5€ offerts dès 50€ d'achats</strong></span><br/>
-      <span class="description-offre">Sur votre première commade avec le code </span>
-      <span class="code-offre rounded bg-white text-primary px-2 py-1 mt-3">Bienvenue</span>
-    </div>
-  </div>
 
-  <div class="m-2 shadow"></div>
-</main>-->

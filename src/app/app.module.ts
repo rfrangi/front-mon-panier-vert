@@ -12,7 +12,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule} from '@angular/common';
 import {AuthInterceptor, authInterceptorProviders} from "../interceptors/auth.interceptor";
 import {GestionCategorieComponent} from "../components/gestion-categorie/gestion-categorie.component";
-import {MonPanierComponent} from "../components/mon-panier/mon-panier.component";
 
 
 @NgModule({
@@ -20,7 +19,6 @@ import {MonPanierComponent} from "../components/mon-panier/mon-panier.component"
     AppComponent,
     HomeComponent,
     GestionCategorieComponent,
-    MonPanierComponent
   ],
   imports: [
     SharedModule,

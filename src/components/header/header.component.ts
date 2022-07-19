@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import {Observable, startWith,map, Subscription } from 'rxjs';
+import {Observable, startWith,map, Subscription, debounceTime, distinctUntilChanged, switchMap, mergeMap } from 'rxjs';
 
 import {AuthUserService} from "../../services/auth-user.service";
 
@@ -19,11 +19,10 @@ import {Panier} from "../../models/panier.model";
 import {Produit} from "../../models/produit.model";
 import {FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
-  LIST_CATEGORIES,
-  LIST_SOUS_CATEGORIES,
   ProduitCategorie,
   SousCategorie
 } from "../../models/produit-categorie.model";
+import {ProduitService} from "../../services/produit.service";
 
 @Component({
   selector: 'app-header',
@@ -63,23 +62,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private popinService: PopinService,
               private authUserService: AuthUserService,
               private siteService: SiteService,
+              private produitService: ProduitService,
               private panierService: PanierService
   ) {}
 
 
-  private _filterGroup(value: string): CategorieGroup[] {
-    if (value) {
-      return this.catGroups
-        .map(group => ({categorie: group.categorie, sousCategories: _filter(group.sousCategories, value)}))
-        .filter(group => group.sousCategories.length > 0);
-    }
-
-    return this.catGroups;
+  private _filterGroup(value: string): Observable<any> {
+     return this.produitService.search(value, this.siteSelected.id).pipe(
+       map((produits: Array<Produit>) =>{
+         return this.catGroups
+           .map(group => ({
+               categorie: group.categorie,
+               sousCategories: _filter(group.sousCategories, value, produits),
+             })
+           )
+           .filter(group => group.sousCategories.length > 0);
+         }
+       ));
   }
+
   public ngOnInit(): void {
     this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterGroup(value)),
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap((val: string) => {
+        return this._filterGroup(val)
+      })
     );
 
     this.authUser$ = this.authUserService.userTokenSubject.subscribe({
@@ -107,9 +116,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-      this.authUser$.unsubscribe();
-      this.panier$.unsubscribe();
-      this.siteSelected$.unsubscribe();
+    if (this.authUser$) { this.authUser$.unsubscribe(); }
+    if (this.panier$) {  this.panier$.unsubscribe(); }
+    if (this.siteSelected$) { this.siteSelected$.unsubscribe(); }
   }
 
   public displayZoneSearch(): void {
@@ -147,7 +156,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public goToCategorieSelected(cat: ProduitCategorie, ssCat: SousCategorie): void {
     this.router.navigate([cat.code],{ queryParams: {ssCat: ssCat.code }})
+  }
 
+  public goToProduitSelected(produit: Produit): void {
+    this.router.navigate(['produits', produit.reference]);
   }
 
   public checkSiteSelected(): void {
@@ -205,7 +217,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public getBadge(): number {
     return this.panier?.produits ? Array.from(this.panier.produits.values()).map((p: Produit) => p.quantiteCommande).reduce((a, b) => a + b, 0) : 0;
   }
-
 }
 
 export interface CategorieGroup {
@@ -213,7 +224,10 @@ export interface CategorieGroup {
   sousCategories: SousCategorie[];
 }
 
-export const _filter = (opt: SousCategorie[], value: string): SousCategorie[] => {
-  const filterValue = value.toLowerCase();
-  return opt.filter(item => item.label.toLowerCase().includes(filterValue));
+export const _filter = (opt: SousCategorie[], value: string, produits: Array<Produit>): SousCategorie[] => {
+  const filterValue = (value || '').toLowerCase();
+  return opt.map(item => {
+    item.produits = produits.filter(p => p.ssCategorie === item);
+    return item;
+  }).filter(item => item.label.toLowerCase().includes(filterValue) || item.produits?.length > 0);
 };

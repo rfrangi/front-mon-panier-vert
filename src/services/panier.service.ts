@@ -36,6 +36,11 @@ export class PanierService {
     this.panierSubject.next(this.panier);
   }
 
+  public getQuantite(produit: Produit): number {
+    const produitPanier = this.panier.produits.get(produit.id);
+    return produitPanier ? produitPanier.quantiteCommande : 0;
+  }
+
   public removeAll(): void {
     localStorage.removeItem(KEY_STORAGE_PANIER);
     this.panier = new Panier({});

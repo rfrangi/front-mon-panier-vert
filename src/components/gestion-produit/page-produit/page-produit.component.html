@@ -1,0 +1,53 @@
+<app-header></app-header>
+<main class="text-center pt-3" *ngIf="produit">
+<app-fil-ariane [breadcrumbItems]="breadcrumbItems"></app-fil-ariane>
+
+
+  <div class="d-flex flex-column flex-sm-row text-start p-0 p-sm-4 align-items-sm-start align-items-center align-items-start justify-content-center">
+    <div class="details-produit px-sm-4 px-2 w-100 text-center">
+      <h2>{{ produit.name }}</h2>
+      <img [src]="produit.srcImg" [alt]="produit.name" class="shadow"/>
+    </div>
+
+    <div class="add-panier px-4 flex-grow-1 p-0 px-sm-4 w-100 mt-4">
+      <span class=" d-block fs-1 text-primary bold mb-2">{{ produit.tarif }} €</span>
+      <span class="sous-description text-black-50 text-start flex-grow-1 py-2">
+              {{ produit.getlabelPoids() }}
+        <br *ngIf="produit.getlabelPoids()"/>
+              <ng-container *ngIf="produit.nbPieceLot > 1"> {{ produit.getLabelPieceLot() }}</ng-container>
+            </span>
+
+      <div class="d-block">
+        <span>Vendu par <span class="bold">{{produit.compagnieName }}</span></span>
+      </div>
+      <hr/>
+
+      <form [formGroup]="produitForm" class="d-flex flex-row">
+        <mat-form-field class="w-25 me-4 flex-grow-1">
+          <mat-select formControlName="quantite">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="6">6</mat-option>
+            <mat-option value="7">7</mat-option>
+            <mat-option value="8">8</mat-option>
+            <mat-option value="9">9</mat-option>
+            <mat-option value="10">10</mat-option>
+            <mat-option value="11">11</mat-option>
+            <mat-option value="12">12</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button
+                color="primary"
+                type="submit"
+                (click)="addPanier()"
+                class="me-2 flex-grow-1">
+        Ajouter au panier
+      </button>
+      </form>
+      <hr/>
+    </div>
+  </div>
+</main>

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import {CanActivate, Router } from "@angular/router";
 import {AuthUserService} from "../services/auth-user.service";
 
 @Injectable({
@@ -8,7 +8,7 @@ import {AuthUserService} from "../services/auth-user.service";
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthUserService, private router: Router) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate() {
     if(!this.authService.isValid()) {
       this.router.navigateByUrl('/auth/login?pastURL=mon-panier');
     }

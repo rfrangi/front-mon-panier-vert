@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProduitService} from "../../services/produit.service";
-import {Produit} from "../../models/produit.model";
+import {CompagnieService} from "../../services/compagnie.service";
+import {Compagnie} from "../../models/compagnie.model";
+import {Pagination} from "../../models/pagination.model";
 
 @Component({
   selector:  'app-home',
@@ -10,20 +11,31 @@ import {Produit} from "../../models/produit.model";
 })
 export class HomeComponent implements OnInit {
 
-  public produits: Array<Produit> = [];
+  public compagnies: Array<Compagnie> = [];
+  public pagination!: Pagination;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private produitService: ProduitService) {
+              private compagnieService: CompagnieService) {
     this.router = router;
     this.route = route;
   }
 
   public ngOnInit(): void {
-    /*this.produitService.getAllByParams({}).subscribe({
-      next: (result: any) => {
-        console.log(result);
+    const params = Object.assign({
+      page: this.pagination?.currentPage || 1
+    });
+
+    this.compagnieService.getAllByLimit(params).subscribe({
+      next: (data: any) => {
+        this.compagnies = data.result;
+        this.pagination = data.pagination;
+      },
+      error: (err) => {
+        console.error(err);
       }
-    })*/
+    })
   }
+
 }
+

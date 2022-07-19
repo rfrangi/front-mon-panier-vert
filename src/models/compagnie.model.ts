@@ -1,14 +1,15 @@
 import {Adresse} from './adresse.model';
 import {CompagnieStatus, LIST_COMPAGNIE_STATUS} from "./compagnie-status.model";
 import {LIST_CATEGORIES, ProduitCategorie} from "./produit-categorie.model";
+import {environment} from "../environments/environment";
 
 export class Compagnie {
 
   public id!: string;
   public name!: string;
   public img!: string;
-  public  siret!: string;
-  public  email!: string;
+  public siret!: string;
+  public email!: string;
   public telephone!: string;
   public status!: CompagnieStatus;
   public type!: TypeCompagnie;
@@ -22,6 +23,11 @@ export class Compagnie {
     this.adresse = data.adresse ? new Adresse(data.adresse) : new Adresse();
     this.status = data.status != undefined ? LIST_COMPAGNIE_STATUS[data.status] : LIST_COMPAGNIE_STATUS.EN_ATTENTE_VALIDATION;
     this.categories = data.categories ? data.categories.map((cat: string) => LIST_CATEGORIES[cat]) : [];
+  }
+
+  public getSrcImg(): string {
+    return environment.urlS3 + this.img;
+
   }
 
   serialize(): any {

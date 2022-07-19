@@ -1,0 +1,15 @@
+ul {
+  overflow: hidden;
+  li {
+    cursor: pointer;
+    &:hover {
+
+      color: #7cb342;
+      font-weight: 500;
+    }
+  }
+
+  i {
+    font-size: 10px;
+  }
+}

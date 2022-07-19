@@ -1,3 +1,11 @@
-<ul class="d-block">
-  <li class="d-inline-block">Accueil</li>
+<ul class="d-flex flex-row list-unstyled mx-sm-3 mx-1 align-items-center justify-content-start">
+  <li class="text-primary" (click)="goToUrls(linkAccueil.urls)"> {{ linkAccueil.label}}</li>
+
+  <li *ngFor="let lien of breadcrumbItems;let index = index;let isFirst = first;"
+        (click)="goToUrls(lien)"
+        class="text-primary d-flex align-items-center justify-content-start">
+      <i class='material-icons align-middle px-2'>brightness_1</i>
+      <span>{{ lien.label }}</span>
+    </li>
 </ul>
+
